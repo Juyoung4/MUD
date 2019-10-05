@@ -2,7 +2,8 @@
 
 ## 뉴스 미디어 모바일 장악
 
-이미지1/이미지1-2
+![1_뉴스미디어장악](https://user-images.githubusercontent.com/47167335/66258297-8f090600-e7de-11e9-9075-3fe7c2381dda.PNG)
+![1-2_뉴스미디어장악](https://user-images.githubusercontent.com/47167335/66258290-7d276300-e7de-11e9-805a-ef9e6ec60b52.PNG)
 
 (http://mediaus.co.kr/news/articleView.html?idxno=141439)
 (https://newsmapping.com/news-from-data)
@@ -12,7 +13,7 @@
 
 ## 뉴스 이용률 연령별 현황
 
-이미지2
+![2_모바일뉴스연령별](https://user-images.githubusercontent.com/47167335/66258309-b65fd300-e7de-11e9-8f4f-f59ee81912aa.PNG)
 
 (http://www.koreanclick.com/insights/newsletter_view.html?code=topic&id=417&page=1)
 
@@ -20,13 +21,14 @@
 
 ## 20대의 모바일 뉴스 비중
 
-이미지3
+![3_20대모바일뉴스](https://user-images.githubusercontent.com/47167335/66258311-bfe93b00-e7de-11e9-9030-aff3926ba764.PNG)
 
 (https://newsmapping.com/news-from-data)
 
-:point_right: PC보다 모바일을 통한 뉴스 이용 비중이 높습니다. PC,모바일을 통한 뉴스 이용시간은 모두 20대는 2위를 차지하고 있습니다.
+:point_right: PC보다 모바일을 통한 뉴스 이용 비중이 높습니다. PC,모바일을 통한 뉴스 이용시간은 모두 20대는 2위를 차지하고 있습니다. 뉴스 이용률 연령별에서 20대의 뉴스 이용률은 떨어지지만 현재 모바일을 이용한 뉴스 이용률은 다른 세대에 비해 높은 것을 알 수 있습니다.
 
 # 진출 전략
-##
+## 경쟁사 파악
+
 
 # 수익모델
