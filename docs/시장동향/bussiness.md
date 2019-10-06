@@ -14,7 +14,7 @@
 
 ## 뉴스 이용률 연령별 현황
 
-![2_모바일뉴스연령별](https://user-images.githubusercontent.com/47167335/66258309-b65fd300-e7de-11e9-8f4f-f59ee81912aa.PNG)
+![2_모바일뉴스연령별_1](https://user-images.githubusercontent.com/47167335/66268493-d04df400-e878-11e9-81b8-42b19abf9a6c.PNG)
 
 (http://www.koreanclick.com/insights/newsletter_view.html?code=topic&id=417&page=1)
 
@@ -22,7 +22,7 @@
 
 ## 20대의 모바일 뉴스 비중
 
-![3_20대모바일뉴스](https://user-images.githubusercontent.com/47167335/66258311-bfe93b00-e7de-11e9-9030-aff3926ba764.PNG)
+![3_20대모바일뉴스_1](https://user-images.githubusercontent.com/47167335/66268494-d2b04e00-e878-11e9-8ca5-8c6be6fe7b56.PNG)
 
 (https://newsmapping.com/news-from-data)
 
