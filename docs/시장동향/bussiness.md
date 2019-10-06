@@ -30,7 +30,7 @@
 
 # 진출 전략
 ## 경쟁사 파악
-경쟁사 | ![경쟁사_뉴닉](https://user-images.githubusercontent.com/47167335/66270919-96d6b200-e893-11e9-866d-40cb948c7fae.PNG)| ![텐뉴스](https://user-images.githubusercontent.com/47167335/66270921-96d6b200-e893-11e9-8e2a-cfdd12eb3076.PNG)| ![썰리](https://user-images.githubusercontent.com/47167335/66270920-96d6b200-e893-11e9-83ec-6183d8fca1c6.PNG)
+경쟁사 | ![경쟁사_뉴닉](https://user-images.githubusercontent.com/47167335/66270919-96d6b200-e893-11e9-866d-40cb948c7fae.PNG)| ![텐뉴스](https://user-images.githubusercontent.com/47167335/66270921-96d6b200-e893-11e9-8e2a-cfdd12eb3076.PNG)| ![썰리2](https://user-images.githubusercontent.com/47167335/66271001-3136f580-e894-11e9-8082-6a7cf577c453.PNG)
 ------|------|------|------
 경쟁사 | 뉴닉 | 텐 뉴스 | 썰리
 제공 방법 | 뉴스 레터|2|3
