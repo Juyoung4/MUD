@@ -30,8 +30,8 @@
 
 # 진출 전략
 ## 경쟁사 파악
-경쟁사 | ![경쟁사_뉴닉](https://user-images.githubusercontent.com/47167335/66268884-c6c68b00-e87c-11e9-9cae-32bc565eb32c.PNG)|![텐뉴스](https://user-images.githubusercontent.com/47167335/66268880-c3330400-e87c-11e9-8bbf-75ee07e4abc6.PNG)|![썸리](https://user-images.githubusercontent.com/47167335/66268894-e8277700-e87c-11e9-86d6-406a21dd55bf.PNG)
-------|------|------|------|------
+경쟁사 | ![경쟁사_뉴닉](https://user-images.githubusercontent.com/47167335/66270919-96d6b200-e893-11e9-866d-40cb948c7fae.PNG)| ![텐뉴스](https://user-images.githubusercontent.com/47167335/66270921-96d6b200-e893-11e9-8e2a-cfdd12eb3076.PNG)| ![썰리](https://user-images.githubusercontent.com/47167335/66270920-96d6b200-e893-11e9-83ec-6183d8fca1c6.PNG)
+------|------|------|------
 경쟁사 | 뉴닉 | 텐 뉴스 | 썰리
 제공 방법 | 뉴스 레터|2|3
 구독자 수 | 36,000명|3|4
