@@ -30,7 +30,7 @@
 
 # 진출 전략
 ## 경쟁사 파악
-경쟁사 | 그림1|그림2|그림3|그림4
+경쟁사 | ![경쟁사_뉴닉](https://user-images.githubusercontent.com/47167335/66268884-c6c68b00-e87c-11e9-9cae-32bc565eb32c.PNG)|![뉴스퀘어](https://user-images.githubusercontent.com/47167335/66268881-c4fcc780-e87c-11e9-9a0c-cc093fa3380a.PNG)|![텐뉴스](https://user-images.githubusercontent.com/47167335/66268880-c3330400-e87c-11e9-8bbf-75ee07e4abc6.PNG)|![썸리](https://user-images.githubusercontent.com/47167335/66268894-e8277700-e87c-11e9-86d6-406a21dd55bf.PNG)
 ------|------|------|------|------
 경쟁사 | 뉴닉 | 뉴스퀘어 | 텐 뉴스 | 썸리
 제공 방법 | 뉴스 레터|2|3|4
