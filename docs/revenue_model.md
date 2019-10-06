@@ -1,2 +1,2 @@
 # 수익 모델
-![image]()
+![image](./image/model.png)
