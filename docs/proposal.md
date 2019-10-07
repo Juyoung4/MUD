@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # `Today New` 사업계획서 2
 #### AI summary news application
 <br>
@@ -161,4 +162,6 @@ Content  | 추출적 요약 |
 [20대 모바일 뉴스]:https://newsmapping.com/news-from-data
 ["밀레니얼 잡아라"]:http://biz.chosun.com/site/data/html_dir/2019/08/13/2019081302370.html
 ["썰리 브랜드로 새 비즈니스 시동 건다"]:http://www.editw.or.kr/news/articleView.html?idxno=391
+=======
+>>>>>>> 2f4e637b7b4f4759d46f72b5bf4b65e71b516937
 
