@@ -245,6 +245,10 @@ Content  | 추출적 요약 |
 김혜원|비정형 클러스터링, 앱 개발| k-means 클러스터링에 대한 이해와 구현 및 앱 개발을 위한 플러터 학습 및 구현
 이산가 비두사|앱 개발, 추천 알고리즘| 앱 개발을 위한 플러터 학습 및 구현과 추천 알고리즘을 위한 Collaborative Filtering 학습 및 최적의 알고리즘 선별
 홍승환|비정형 클러스터링, 추천 알고리즘|k-means 클러스터링에 대한 이해와 구현 및 추천 알고리즘을 위한 Collaborative Filtering 학습 및 최적의 알고리즘 선별
+
+### 개발 계획표
+![KakaoTalk_20191007_213047633](https://user-images.githubusercontent.com/47167335/66314003-4bcda500-e94e-11e9-90c8-9e60904880d3.png)
+
 <!-- 출처 자료 사이트 모음집-->
 [뉴스 미디어 장악1]:http://mediaus.co.kr/news/articleView.html?idxno=141439
 [뉴스 미디어 장악2]:https://newsmapping.com/news-from-data
@@ -252,7 +256,3 @@ Content  | 추출적 요약 |
 [20대 모바일 뉴스]:https://newsmapping.com/news-from-data
 ["밀레니얼 잡아라"]:http://biz.chosun.com/site/data/html_dir/2019/08/13/2019081302370.html
 ["썰리 브랜드로 새 비즈니스 시동 건다"]:http://www.editw.or.kr/news/articleView.html?idxno=391
-
-![KakaoTalk_20191007_213047633](https://user-images.githubusercontent.com/47167335/66314003-4bcda500-e94e-11e9-90c8-9e60904880d3.png)
-
-
