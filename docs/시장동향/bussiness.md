@@ -2,9 +2,8 @@
 
 ## 1. 뉴스 미디어 모바일 장악
 
-![1_뉴스미디어장악1](https://user-images.githubusercontent.com/47167335/66268452-79481f00-e878-11e9-8152-448d78bf3630.PNG)
-
-![1-2_뉴스미디어장악_1](https://user-images.githubusercontent.com/47167335/66268451-777e5b80-e878-11e9-83c9-c8790e2c8bdf.PNG)
+![1_뉴스미디어장악1](https://user-images.githubusercontent.com/47167335/66268452-79481f00-e878-11e9-8152-448d78bf3630.PNG)|![3_20대모바일뉴스_1](https://user-images.githubusercontent.com/47167335/66286342-f7093a80-e90b-11e9-815b-c778e8440814.PNG)
+------|------
 
 (http://mediaus.co.kr/news/articleView.html?idxno=141439)
 (https://newsmapping.com/news-from-data)
