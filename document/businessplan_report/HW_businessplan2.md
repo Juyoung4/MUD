@@ -39,7 +39,7 @@
 -------------------------------------------------------------
 # 2. 제품 기획 및 배경
 
-***
+-------------------------------------------------------------
 # 3. 제품 소개
 ### -사용자 측면
 `Today News?` 어플리케이션을 통해 그날의 **주요 뉴스 주제를 Headline**으로, 주제에 따른 뉴스기사 내용들의 **요약본을 content**로 나타냄.
@@ -57,13 +57,12 @@
 
 
 <img src="./image/3.작품소개_IT카테고리선택화면.PNG" width="34%"><img src="./image/3.작품소개_MORE누른화면.PNG" width="60%">
+<br>
 
-</br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **⑤** 카테고리를 선택 시, **Headline과 content(기사들 내용 요약)형식**으로 뉴스내용을 알 수 있다.</br></br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **⑥** 각 Headline의 MORE버튼을 누르면 위젯형식으로 **언론사 별 관련 뉴스제목**이 볼 수 있고,</br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  뉴스제목은 해당 뉴스 웹페이지와 하이퍼링크 되어 있어 클릭 시 **실제 기사**를 볼 수 있다.
- 
-<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  뉴스제목은 해당 뉴스 웹페이지와 하이퍼링크 되어 있어 클릭 시 **실제 기사**를 볼 수 있다.</br>
+
 
 ### -기술 측면
 
