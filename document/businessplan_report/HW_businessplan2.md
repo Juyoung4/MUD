@@ -57,7 +57,7 @@
 >>④카테고리를 클릭하면 오늘의 주요 뉴스 TOP20, 정치,경제,IT,세계 카테고리가 있다.
 
 <br>
-<img src="./image/3.작품소개_IT카테고리선택화면.PNG" width="34%"><img src="./image/3.작품소개_MORE누른화면.PNG" width="65%">
+<img src="./image/3.작품소개_IT카테고리선택화면.PNG" width="34%"><img src="./image/3.작품소개_MORE누른화면.PNG" width="60%">
 <br>
 >>	④카테고리를 선택 시, Headline과 content(기사들 내용 요약)형식으로 뉴스내용을 알 수 있다.</br>
   (뉴스기사들을 직접 읽어야 하는 것이 아니다!)</br>
