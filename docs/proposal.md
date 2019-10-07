@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+<!--<<<<<<< HEAD-->
 # `Today New` 사업계획서 2
 #### AI summary news application
 <br>
