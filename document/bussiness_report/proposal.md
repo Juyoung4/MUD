@@ -144,7 +144,7 @@ Headline, <br>Content 추출 | 실제 뉴스 기사를 직접 읽게 하지 않�
 <br>새로운 데이터를 입력 받았을 때 가장 가까이 있는 것이 무엇이냐를 중심으로 새로운 데이터의 종류를 정해주는 분류 알고리즘 입니다. 
 
     
-    <img width="458" alt="KakaoTalk_20191008_145746166" src="https://user-images.githubusercontent.com/47167335/66370923-c47b4280-e9dc-11e9-9205-f207fe0b27b4.png"><br>
+    <img width="700" alt="KakaoTalk_20191008_145746166" src="https://user-images.githubusercontent.com/47167335/66370923-c47b4280-e9dc-11e9-9205-f207fe0b27b4.png"><br>
     
     |||
     | :------: | -------- |
