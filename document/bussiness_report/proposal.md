@@ -114,7 +114,7 @@ Headline, <br>Content 추출 | 실제 뉴스 기사를 직접 읽게 하지 않�
   - 군집화(Clustering) : 레이블이 없는 데이터를 비슷한 군집으로 묶는 것.
 
   - 어떤 데이터 셋(set)이 있고 N개의 클러스터로 분류하겠다고 가정하면, 그 데이터 셋에는 N개의 중심(centroid)이 존재한다. 각 데이터들은 유클리디안 거리를 기반으로 가까운 중심에 할당되고, 같은 중심에 모인 데이터 그룹이 하나의 클러스터가 된다.
-  <img src="./image/3.작품소개_Kmean.PNG" width="38%">
+  <img width="376" alt="KakaoTalk_20191008_140212346" src="https://user-images.githubusercontent.com/47167335/66368753-7a8e5e80-e9d4-11e9-921d-111f13c8da55.png">
   
   ~~~
   크롤링한 카테고리 별 오늘의 뉴스 기사들의 내용을 K-mean 클러스터링의 DATA Set으로 하여 비슷한 토픽으로 군집화
