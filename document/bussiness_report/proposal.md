@@ -204,7 +204,7 @@ Headline, <br>Content 추출 | 실제 뉴스 기사를 직접 읽게 하지 않�
 **인앱 광고를 통한 수익 창출**
 
   (1)모바일 광고 시장의 성장<br>
-    ![market](./image/mobile_ad_market.png)
+    ![KakaoTalk_20191008_140327909](https://user-images.githubusercontent.com/47167335/66368809-b1fd0b00-e9d4-11e9-9123-f113cae21234.png)
 
     - 전통적인 4대 매체의 비중은 감소하지만, 뉴미디어의 광고 비중은 지속 성장중이다.
     - 모바일 광고 시장 역시 계속 성장중이며, 2020년에는 온라인 광고 시장의 61%를 차지할 전망이다.
