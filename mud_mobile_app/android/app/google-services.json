@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "60637833533",
+    "firebase_url": "https://news-app-mud.firebaseio.com",
+    "project_id": "news-app-mud",
+    "storage_bucket": "news-app-mud.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:60637833533:android:5dcb248250a01345b7bd54",
+        "android_client_info": {
+          "package_name": "com.example.mudMobileApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "60637833533-51uhqcl6t8oi64f136ee04e21jvulqog.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxWDSb-xeRlZf3iIscMJ6U40OJYiYVE1Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "60637833533-51uhqcl6t8oi64f136ee04e21jvulqog.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "60637833533-cm9tnb7ctl95ds512p903nn1astp856k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.mudMobileApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

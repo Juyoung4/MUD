@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mud_mobile_app/services/auth_service.dart';
 import 'package:mud_mobile_app/utilities/constants.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -34,9 +35,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         _passwordValidate = false;
         _nameValidate = false;
       });
-      print(_emailText.text);
-      print(_passwordText.text);
-      print(_nameText.text);
+      AuthService.signUpUser(context, _nameText.text, _emailText.text, _passwordText.text);
     }
   }
 
