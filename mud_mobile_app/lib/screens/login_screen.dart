@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
         _emailValidate = false;
         _passwordValidate = false;
       });
-      AuthService.login(_emailText.text, _passwordText.text);
+      AuthService.login(context, _emailText.text, _passwordText.text);
     }
   }
 

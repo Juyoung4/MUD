@@ -33,12 +33,13 @@ class AuthService {
     Navigator.pushReplacementNamed(context, LoginScreen.id);
   }
 
-  static void login(String email, String password) async {
+  static void login(BuildContext context, String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+      Navigator.pushReplacementNamed(context, HomeScreen.id);
     } catch (e) {
       print(e);
     }
