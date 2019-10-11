@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mud_mobile_app/pages/home_page.dart';
-import 'package:mud_mobile_app/pages/login_page.dart';
+import 'package:mud_mobile_app/screens/signup_screen.dart';
+import 'screens/login_screen.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,7 +12,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(),
+      home: LoginScreen(),
+      routes: {
+        LoginScreen.id: (context) => LoginScreen(),
+        SignUpScreen.id: (context) => SignUpScreen(),
+      },
     );
   }
 }
