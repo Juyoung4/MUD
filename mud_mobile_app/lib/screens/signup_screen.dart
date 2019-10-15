@@ -19,8 +19,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _emailValidate = false;
   bool _passwordValidate = false;
   bool _nameValidate = false;
+  String _error = '';
 
-  void _onSignUpPressed(){
+  void _onSignUpPressed() {
     if (_emailText.text.isEmpty || _passwordText.text.isEmpty || !_emailText.text.contains('@') || _nameText.text.trim().isEmpty) {
       setState(() {
         _emailText.text.isEmpty ? _emailValidate = true : _emailValidate = false;
@@ -36,6 +37,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         _nameValidate = false;
       });
       AuthService.signUpUser(context, _nameText.text, _emailText.text, _passwordText.text);
+      print(AuthService.getError());
     }
   }
 
@@ -190,7 +192,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
         color: Colors.white,
         child: Text(
-          'SignUp',
+          'SIGNUP',
           style: TextStyle(
             color: Color(0xFF527DAA),
             letterSpacing: 1.5,
@@ -233,6 +235,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void dispose() {
+    _nameText.dispose();
     _emailText.dispose();
     _passwordText.dispose();
     super.dispose();
@@ -270,19 +273,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   physics: AlwaysScrollableScrollPhysics(),
                   padding: EdgeInsets.symmetric(
                     horizontal: 40.0,
-                    vertical: 120.0,
+                    vertical: 80.0,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
                         'News App',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'OpenSans',
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: kTitleStyle
                       ),
                       SizedBox(height: 10.0),
                       Text(

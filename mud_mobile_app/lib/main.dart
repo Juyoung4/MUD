@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mud_mobile_app/screens/error_page.dart';
 import 'package:mud_mobile_app/screens/home_screen.dart';
 import 'package:mud_mobile_app/screens/signup_screen.dart';
 import 'screens/login_screen.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         LoginScreen.id: (context) => LoginScreen(),
         SignUpScreen.id: (context) => SignUpScreen(),
         HomeScreen.id: (context) => HomeScreen(),
+        ErrorScreen.id: (context) => ErrorScreen(),
       },
     );
   }

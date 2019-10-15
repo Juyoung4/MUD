@@ -19,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _emailValidate = false;
   bool _passwordValidate = false;
 
-  void _onLoginPressed(){
+  void _onLoginPressed() async {
     if (_emailText.text.isEmpty || _passwordText.text.isEmpty || !_emailText.text.contains('@')) {
       setState(() {
         _emailText.text.isEmpty ? _emailValidate = true : _emailValidate = false;
@@ -234,12 +234,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: <Widget>[
                       Text(
                         'News App',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'OpenSans',
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: kTitleStyle
                       ),
                       SizedBox(height: 10.0),
                       Text(

@@ -1,14 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mud_mobile_app/screens/error_page.dart';
 import 'package:mud_mobile_app/screens/home_screen.dart';
 import 'package:mud_mobile_app/screens/login_screen.dart';
 
 class AuthService {
   static final _auth = FirebaseAuth.instance;
   static final _firestore = Firestore.instance;
+  static String _signUpError = '';
 
-  static Future signUpUser(BuildContext context, String name, String email, String password) async {
+  static void signUpUser(BuildContext context, String name, String email, String password) async {
     try {
       AuthResult authResult = await _auth.createUserWithEmailAndPassword(
         email:  email,
@@ -24,7 +26,8 @@ class AuthService {
         Navigator.pushReplacementNamed(context, HomeScreen.id);
       }
     } catch (e) {
-      print(e);
+        _signUpError = e.message;
+        Navigator.pushReplacementNamed(context, ErrorScreen.id);
     }
   }
 
@@ -40,8 +43,14 @@ class AuthService {
         password: password,
       );
       Navigator.pushReplacementNamed(context, HomeScreen.id);
-    } catch (e) {
-      print(e);
+    } catch (error) {
+      _signUpError = error.message;
+      Navigator.pushReplacementNamed(context, ErrorScreen.id);
     }
   }
+
+  static String getError(){
+    return _signUpError;
+  }
+
 }
