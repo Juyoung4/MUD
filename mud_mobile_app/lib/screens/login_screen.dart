@@ -42,12 +42,12 @@ class _LoginScreenState extends State<LoginScreen> {
       children: <Widget>[
         Text(
           'Email',
-          style: kLabelStyle,
+          style: myLabelStyle,
         ),
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
+          decoration: myBoxDecorationStyle,
           height: 60.0,
           child: TextField(
             controller: _emailText,
@@ -64,13 +64,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: Colors.white,
               ),
               hintText: 'Enter your Email',
-              hintStyle: kHintTextStyle,
+              hintStyle: myHintTextStyle,
             ),
           ),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 4.0),
-          child: Text(_emailValidate ? "Please Enter a Valid Emaill" : " ", style: kHintTextStyle,),
+          child: Text(_emailValidate ? "Please Enter a Valid Emaill" : " ", style: myHintTextStyle,),
         )
       ],
     );
@@ -82,12 +82,12 @@ class _LoginScreenState extends State<LoginScreen> {
       children: <Widget>[
         Text(
           'Password',
-          style: kLabelStyle,
+          style: myLabelStyle,
         ),
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
+          decoration: myBoxDecorationStyle,
           height: 60.0,
           child: TextField(
             controller: _passwordText,
@@ -104,13 +104,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: Colors.white,
               ),
               hintText: 'Enter your Password',
-              hintStyle: kHintTextStyle,
+              hintStyle: myHintTextStyle,
             ),
           ),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 4.0),
-          child: Text(_passwordValidate ? "Password Can'\t Be Empty" : " ", style: kHintTextStyle,),
+          child: Text(_passwordValidate ? "Password Can'\t Be Empty" : " ", style: myHintTextStyle,),
         )
       ],
     );
@@ -126,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
         padding: EdgeInsets.only(right: 0.0),
         child: Text(
           'Forgot Password?',
-          style: kLabelStyle,
+          style: myLabelStyle,
         ),
       ),
     );
@@ -234,7 +234,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: <Widget>[
                       Text(
                         'News App',
-                        style: kTitleStyle
+                        style: myTitleStyle
                       ),
                       SizedBox(height: 10.0),
                       Text(

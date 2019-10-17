@@ -19,7 +19,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _emailValidate = false;
   bool _passwordValidate = false;
   bool _nameValidate = false;
-  String _error = '';
 
   void _onSignUpPressed() {
     if (_emailText.text.isEmpty || _passwordText.text.isEmpty || !_emailText.text.contains('@') || _nameText.text.trim().isEmpty) {
@@ -47,12 +46,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
       children: <Widget>[
         Text(
           'Name',
-          style: kLabelStyle,
+          style: myLabelStyle,
         ),
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
+          decoration: myBoxDecorationStyle,
           height: 60.0,
           child: TextField(
             controller: _nameText,
@@ -69,13 +68,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 color: Colors.white,
               ),
               hintText: 'Enter your Name',
-              hintStyle: kHintTextStyle,
+              hintStyle: myHintTextStyle,
             ),
           ),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 4.0),
-          child: Text(_nameValidate ? "Please Enter a Valid Name" : " ", style: kHintTextStyle,),
+          child: Text(_nameValidate ? "Please Enter a Valid Name" : " ", style: myHintTextStyle,),
         )
       ],
     );
@@ -87,12 +86,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
       children: <Widget>[
         Text(
           'Email',
-          style: kLabelStyle,
+          style: myLabelStyle,
         ),
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
+          decoration: myBoxDecorationStyle,
           height: 60.0,
           child: TextField(
             controller: _emailText,
@@ -109,13 +108,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 color: Colors.white,
               ),
               hintText: 'Enter your Email',
-              hintStyle: kHintTextStyle,
+              hintStyle: myHintTextStyle,
             ),
           ),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 4.0),
-          child: Text(_emailValidate ? "Please Enter a Valid Emaill" : " ", style: kHintTextStyle,),
+          child: Text(_emailValidate ? "Please Enter a Valid Emaill" : " ", style: myHintTextStyle,),
         )
       ],
     );
@@ -127,12 +126,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
       children: <Widget>[
         Text(
           'Password',
-          style: kLabelStyle,
+          style: myLabelStyle,
         ),
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
+          decoration: myBoxDecorationStyle,
           height: 60.0,
           child: TextField(
             controller: _passwordText,
@@ -149,31 +148,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 color: Colors.white,
               ),
               hintText: 'Enter your Password',
-              hintStyle: kHintTextStyle,
+              hintStyle: myHintTextStyle,
             ),
           ),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 4.0),
-          child: Text(_passwordValidate ? "Password Can'\t Be Empty" : " ", style: kHintTextStyle,),
+          child: Text(_passwordValidate ? "Password Can'\t Be Empty" : " ", style: myHintTextStyle,),
         )
       ],
-    );
-  }
-
-  Widget _buildForgotPasswordBtn() {
-    return Container(
-      alignment: Alignment.centerRight,
-      child: FlatButton(
-        onPressed: () {
-          print("Forgot Password Pressed!");
-        },
-        padding: EdgeInsets.only(right: 0.0),
-        child: Text(
-          'Forgot Password?',
-          style: kLabelStyle,
-        ),
-      ),
     );
   }
 
@@ -273,14 +256,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   physics: AlwaysScrollableScrollPhysics(),
                   padding: EdgeInsets.symmetric(
                     horizontal: 40.0,
-                    vertical: 80.0,
+                    vertical: 100.0,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
                         'News App',
-                        style: kTitleStyle
+                        style: myTitleStyle
                       ),
                       SizedBox(height: 10.0),
                       Text(
@@ -302,7 +285,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         height: 10.0,
                       ),
                       _buildPasswordTF(),
-                      _buildForgotPasswordBtn(),
                       _buildSignUpBtn(),
                       _buildLoginBtn(),
                     ],

@@ -80,7 +80,7 @@ class _ErrorScreenState extends State<ErrorScreen> {
                     children: <Widget>[
                       Text(
                         'News App',
-                        style: kTitleStyle
+                        style: myTitleStyle
                       ),
                       SizedBox(height: 20.0),
                       Text(
