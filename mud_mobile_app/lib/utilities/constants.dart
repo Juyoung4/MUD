@@ -25,6 +25,27 @@ final myTitleStyle = TextStyle(
   fontSize: 46,
 );
 
+final myTextStyle = TextStyle(
+  color: Colors.white,
+  fontFamily: 'OpenSans',
+  fontSize: 20.0,
+  fontWeight: FontWeight.bold,
+);
+
+final myTextStyleDark = TextStyle(
+  color: Color(0xFF398AE5),
+  fontFamily: 'OpenSans',
+  fontSize: 30.0,
+  fontWeight: FontWeight.bold,
+  shadows: <Shadow>[
+    Shadow(
+      offset: Offset.zero,
+      blurRadius: 5.0,
+      color: Colors.black45
+    ),
+  ], 
+);
+
 final myBoxDecorationStyle = BoxDecoration(
   color: Color(0xFF6CA8F1),
   borderRadius: BorderRadius.circular(10.0),
