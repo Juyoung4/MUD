@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mud_mobile_app/screens/login_screen.dart';
+import 'package:mud_mobile_app/screens/signup_screen.dart';
 import 'package:mud_mobile_app/services/auth_service.dart';
 import 'package:mud_mobile_app/utilities/constants.dart';
 
@@ -17,7 +18,11 @@ Widget _buildBackBtn(context) {
       child: RaisedButton(
         elevation: 5.0,
         onPressed: () {
-          Navigator.pushReplacementNamed(context, LoginScreen.id);
+          if (AuthService.getAuthRoutes() == 'signUp') {
+            Navigator.pushReplacementNamed(context, SignUpScreen.id);
+          } else {
+            Navigator.pushReplacementNamed(context, LoginScreen.id);
+          }
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
@@ -79,7 +84,7 @@ class _ErrorScreenState extends State<ErrorScreen> {
                       ),
                       SizedBox(height: 20.0),
                       Text(
-                        'You Got an ERROR',
+                        'You Got an Error!',
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'OpenSans',
@@ -101,7 +106,7 @@ class _ErrorScreenState extends State<ErrorScreen> {
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'OpenSans',
-                          fontSize: 30.0,
+                          fontSize: 18.0,
                           fontWeight: FontWeight.bold,
                         ),
                         textAlign: TextAlign.center,

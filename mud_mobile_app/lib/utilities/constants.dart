@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 final myHintTextStyle = TextStyle(
@@ -23,12 +24,27 @@ final myTitleStyle = TextStyle(
   fontWeight: FontWeight.bold,
   fontFamily: 'Pacifico',
   fontSize: 46,
+  shadows: <Shadow>[
+    Shadow(
+      offset: Offset.zero,
+      blurRadius: 5.0,
+      color: Color(0xFF398AE5)
+    ),
+  ], 
 );
 
 final myTextStyle = TextStyle(
   color: Colors.white,
   fontFamily: 'OpenSans',
   fontSize: 20.0,
+  fontWeight: FontWeight.bold,
+);
+
+final myProfileTextStyle = TextStyle(
+  color: Colors.black45,
+  fontFamily: 'OpenSans',
+  fontSize: 20.0,
+  letterSpacing: 1.5,
   fontWeight: FontWeight.bold,
 );
 
@@ -57,3 +73,7 @@ final myBoxDecorationStyle = BoxDecoration(
     ),
   ],
 );
+
+final _firestore = Firestore.instance;
+
+final usersRef = _firestore.collection('users');

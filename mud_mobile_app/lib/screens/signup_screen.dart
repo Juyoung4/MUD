@@ -154,7 +154,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
         Padding(
           padding: const EdgeInsets.only(top: 4.0),
-          child: Text(_passwordValidate ? "Password Can'\t Be Empty" : " ", style: myHintTextStyle,),
+          child: Text(_passwordValidate ? "Password Can\'t Be Empty" : " ", style: myHintTextStyle,),
         )
       ],
     );
@@ -251,7 +251,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   physics: AlwaysScrollableScrollPhysics(),
                   padding: EdgeInsets.symmetric(
                     horizontal: 40.0,
-                    vertical: 100.0,
+                    vertical: 80.0,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

@@ -8,9 +8,11 @@ import 'package:mud_mobile_app/screens/login_screen.dart';
 class AuthService {
   static final _auth = FirebaseAuth.instance;
   static final _firestore = Firestore.instance;
-  static String _signUpError = '';
+  static String _error = '';
+  static String _authRoutes = '';
 
   static void signUpUser(BuildContext context, String name, String email, String password) async {
+    _authRoutes = 'signUp';
     try {
       AuthResult authResult = await _auth.createUserWithEmailAndPassword(
         email:  email,
@@ -25,8 +27,8 @@ class AuthService {
         });
         Navigator.pushReplacementNamed(context, HomeScreen.id);
       }
-    } catch (e) {
-        _signUpError = e.message;
+    } catch (error) {
+        _error = error.message;
         Navigator.pushReplacementNamed(context, ErrorScreen.id);
     }
   }
@@ -37,6 +39,7 @@ class AuthService {
   }
 
   static void login(BuildContext context, String email, String password) async {
+    _authRoutes = 'login';
     try {
       await _auth.signInWithEmailAndPassword(
         email: email,
@@ -44,13 +47,17 @@ class AuthService {
       );
       Navigator.pushReplacementNamed(context, HomeScreen.id);
     } catch (error) {
-      _signUpError = error.message;
+      _error = error.message;
       Navigator.pushReplacementNamed(context, ErrorScreen.id);
     }
   }
 
   static String getError(){
-    return _signUpError;
+    return _error;
+  }
+
+  static String getAuthRoutes() {
+    return _authRoutes;
   }
 
 }
