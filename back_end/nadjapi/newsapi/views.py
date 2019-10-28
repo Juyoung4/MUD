@@ -1,29 +1,39 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework import viewsets
-from .models import Articles
-from .serializer import ArticlesSerializer
+from .models import Articles, ArticlesFromApi
+from .serializer import ArticlesSerializer, ArticlesFromApiSerializer
+import requests
+import json
+import random
 # Create your views here.
 
 def index(request):
     return HttpResponse("Success")
 
 class ArticlesAPI(viewsets.ModelViewSet):
-    queryset = Articles.objects.all()
-    serializer_class = ArticlesSerializer
+    queryset = ArticlesFromApi.objects.all()
+    serializer_class = ArticlesFromApiSerializer
 
 def latest(request):
     try:
-        articles = Articles()
-        articles.author = "Test Data"
-        articles.title = "Test Data"
-        articles.description = "Test Data"
-        articles.url = "Test Data"
-        articles.urlToImage = "Test Data"
-        articles.publishedAt = "Test Data"
-        articles.content = "Test Data"
+        URL = 'https://newsapi.org/v2/top-headlines?country=kr&apiKey=e12b2ee6e72c4abbb34d3462f8f00120'
+        content = requests.get(URL).content
+        dataset = json.loads(content)
 
-        articles.save()
-        return HttpResponse("Data Fetched")
-    except:
-        return HttpResponse("Data Not Fetched")
+        articles = dataset['articles']
+        counter = 0
+        for article in articles:
+            counter += 1
+            articles = ArticlesFromApi()
+            articles.id = (random.randint(100,999) * 100000) + counter
+            articles.articles_author = article['author']
+            articles.articles_title = article['title']
+            articles.articles_description = article['description']
+            articles.articles_url = article['url']
+            articles.save()
+            
+        
+        return HttpResponse(f"Data Fetched Successfully. {counter} Articles")
+    except Exception as e:
+        return HttpResponse(f"Data Not Fetched {e}")
