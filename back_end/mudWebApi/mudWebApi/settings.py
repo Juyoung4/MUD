@@ -25,7 +25,7 @@ SECRET_KEY = 'c_upm##9ckgsk240$s4mc!h$!!t2-fg513^+6+*9g3ntf2v&=i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['34.84.147.192']
 
 
 # Application definition
