@@ -17,6 +17,8 @@ class ArticlesAPI(viewsets.ModelViewSet):
 
 def latest(request):
     try:
+        # To Do 
+        # Crawling and Summarization
         URL = 'https://newsapi.org/v2/top-headlines?country=kr&apiKey=e12b2ee6e72c4abbb34d3462f8f00120'
         content = requests.get(URL).content
         dataset = json.loads(content)

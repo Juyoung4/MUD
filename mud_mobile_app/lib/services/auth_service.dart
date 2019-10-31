@@ -60,4 +60,9 @@ class AuthService {
     return _authRoutes;
   }
 
+  static Future<FirebaseUser> getCurrentUser() async {
+    FirebaseUser user = await _auth.currentUser();
+    return user;
+  }
+
 }

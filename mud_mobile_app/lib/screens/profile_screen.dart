@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mud_mobile_app/models/user_model.dart';
@@ -14,8 +15,9 @@ class ProfileScreen extends StatefulWidget {
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-  Future<DocumentSnapshot> _getUserData(userId) async {
-    return Firestore.instance.collection('users').document(userId).get();
+  Future<DocumentSnapshot> _getUserData() async {
+    FirebaseUser user = await AuthService.getCurrentUser();
+    return await Firestore.instance.collection('users').document(user.uid).get();
   }
 
 Widget _buildLogOutBtn(context) {
@@ -78,82 +80,114 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.dark,
-        child: CustomScrollView(
-          primary: true,
-          slivers: <Widget>[
-            SliverAppBar(
-              expandedHeight: 80.0,
-              elevation: 0.0,
-              floating: false,
-              pinned: true,
-              backgroundColor: Color(0xFFFAFAFA),
-              flexibleSpace: FlexibleSpaceBar(
-                centerTitle: false,
-                titlePadding: EdgeInsets.only(left: 16.0, bottom: 8.0),
-                title: Text('My Profile', style: myTextStyleDark),
+      body: CustomScrollView(
+        primary: true,
+        slivers: <Widget>[
+          SliverAppBar(
+            brightness: Brightness.light,
+            expandedHeight: 80.0,
+            elevation: 0.0,
+            floating: false,
+            pinned: true,
+            backgroundColor: Color(0xFFFAFAFA),
+            flexibleSpace: FlexibleSpaceBar(
+              centerTitle: false,
+              titlePadding: EdgeInsets.only(left: 16.0, bottom: 8.0),
+              title: Text(
+                'My Profile',
+                style: TextStyle(
+                  color: Color(0xFF398AE5),
+                  fontFamily: 'OpenSans',
+                  fontSize: 30.0,
+                  fontWeight: FontWeight.bold,
+                  shadows: <Shadow>[
+                    Shadow(
+                      offset: Offset.zero,
+                      blurRadius: 5.0,
+                      color: Colors.black45
+                    ),
+                  ], 
+                )
               ),
             ),
-            SliverFillRemaining(
-              child: FutureBuilder(
-                future: _getUserData(widget.userId),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (!snapshot.hasData) {
-                    return Padding(
-                      padding: const EdgeInsets.all(50.0),
+          ),
+          SliverFillRemaining(
+            child: FutureBuilder(
+              future: _getUserData(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.data == null) {
+
+                  return Padding(
+                    padding: const EdgeInsets.all(50.0),
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+                User user = User.fromDoc(snapshot.data);
+                return Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(top: 60),
                       child: Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                  }
-                  User user = User.fromDoc(snapshot.data);
-                  return Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(top: 60),
-                        child: Center(
-                          child: Container(
-                            child: CircleAvatar(
-                              backgroundImage: NetworkImage('https://bukiya.lk/upload/photos/2018/04/Ra8foNy1ki56SDiH4Oux_19_defe1f0b9a8471a31b17036dd1009bce_avatar_full.jpg'),
-                            ),
-                            width: 100,
-                            height: 100,
-                            padding: EdgeInsets.all(2.0),
-                            decoration: BoxDecoration(
-                              color: Color(0xFF73AEF5),
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black12,
-                                  blurRadius: 6.0,
-                                  offset: Offset(0, 2),
-                                ),
-                              ],
-                            ),
+                        child: Container(
+                          child: CircleAvatar(
+                            backgroundImage: NetworkImage('https://bukiya.lk/upload/photos/2018/04/Ra8foNy1ki56SDiH4Oux_19_defe1f0b9a8471a31b17036dd1009bce_avatar_full.jpg'),
+                          ),
+                          width: 100,
+                          height: 100,
+                          padding: EdgeInsets.all(2.0),
+                          decoration: BoxDecoration(
+                            color: Color(0xFF73AEF5),
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 6.0,
+                                offset: Offset(0, 2),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                      Container(
-                        padding: EdgeInsets.fromLTRB(4.0, 16.0, 4.0, 4.0),
-                        child: Text(user.name, style: myProfileTextStyle,)
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(4.0),
-                        child: Text(user.email, style: myProfileTextStyle,)
-                      ),
-                      SizedBox(
-                        height: 100.0,
-                      ),
-                      _buildProfileEditBtn(),
-                      _buildLogOutBtn(context),
-                    ],
-                  );
-                }
-              )
-            ),
-          ],
-        ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(4.0, 16.0, 4.0, 4.0),
+                      child: Text(
+                        user.name,
+                        style: TextStyle(
+                          color: Colors.black45,
+                          fontFamily: 'OpenSans',
+                          fontSize: 20.0,
+                          letterSpacing: 1.5,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(4.0),
+                      child: Text(
+                        user.email,
+                        style: TextStyle(
+                          color: Colors.black45,
+                          fontFamily: 'OpenSans',
+                          fontSize: 20.0,
+                          letterSpacing: 1.5,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    ),
+                    SizedBox(
+                      height: 100.0,
+                    ),
+                    _buildProfileEditBtn(),
+                    _buildLogOutBtn(context),
+                  ],
+                );
+              }
+            )
+          ),
+        ],
       ),
     );
   }

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:mud_mobile_app/screens/category_screen.dart';
 import 'package:mud_mobile_app/screens/profile_screen.dart';
 import 'package:mud_mobile_app/screens/timeline_screen.dart';
@@ -10,6 +9,7 @@ class HomeScreen extends StatefulWidget {
   final String userId;
 
   HomeScreen({this.userId});
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -28,21 +28,18 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.dark,
-        child: PageView(
-          controller: _pageController,
-          children: <Widget>[
-            TimelineScreen(),
-            CategoryScreen(),
-            ProfileScreen(userId: widget.userId,),
-          ],
-          onPageChanged: (int index) {
-            setState(() {
-              _currentTab = index;
-            });
-          },
-        ),
+      body: PageView(
+        controller: _pageController,
+        children: <Widget>[
+          TimelineScreen(),
+          CategoryScreen(),
+          ProfileScreen(userId: widget.userId,),
+        ],
+        onPageChanged: (int index) {
+          setState(() {
+            _currentTab = index;
+          });
+        },
       ),
       bottomNavigationBar: CupertinoTabBar(
         currentIndex: _currentTab,

@@ -46,12 +46,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
       children: <Widget>[
         Text(
           'Name',
-          style: myLabelStyle,
+          style: kLabelStyle,
         ),
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
-          decoration: myBoxDecorationStyle,
+          decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
             controller: _nameText,
@@ -68,13 +68,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 color: Colors.white,
               ),
               hintText: 'Enter your Name',
-              hintStyle: myHintTextStyle,
+              hintStyle: kHintTextStyle,
             ),
           ),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 4.0),
-          child: Text(_nameValidate ? "Please Enter a Valid Name" : " ", style: myHintTextStyle,),
+          child: Text(_nameValidate ? "Please Enter a Valid Name" : " ", style: kHintTextStyle,),
         )
       ],
     );
@@ -86,12 +86,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
       children: <Widget>[
         Text(
           'Email',
-          style: myLabelStyle,
+          style: kLabelStyle,
         ),
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
-          decoration: myBoxDecorationStyle,
+          decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
             controller: _emailText,
@@ -108,13 +108,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 color: Colors.white,
               ),
               hintText: 'Enter your Email',
-              hintStyle: myHintTextStyle,
+              hintStyle: kHintTextStyle,
             ),
           ),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 4.0),
-          child: Text(_emailValidate ? "Please Enter a Valid Emaill" : " ", style: myHintTextStyle,),
+          child: Text(_emailValidate ? "Please Enter a Valid Emaill" : " ", style: kHintTextStyle,),
         )
       ],
     );
@@ -126,12 +126,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
       children: <Widget>[
         Text(
           'Password',
-          style: myLabelStyle,
+          style: kLabelStyle,
         ),
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
-          decoration: myBoxDecorationStyle,
+          decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
             controller: _passwordText,
@@ -148,13 +148,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 color: Colors.white,
               ),
               hintText: 'Enter your Password',
-              hintStyle: myHintTextStyle,
+              hintStyle: kHintTextStyle,
             ),
           ),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 4.0),
-          child: Text(_passwordValidate ? "Password Can\'t Be Empty" : " ", style: myHintTextStyle,),
+          child: Text(_passwordValidate ? "Password Can\'t Be Empty" : " ", style: kHintTextStyle,),
         )
       ],
     );
@@ -258,7 +258,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     children: <Widget>[
                       Text(
                         'News App',
-                        style: myTitleStyle
+                        style: kTitleStyle
                       ),
                       SizedBox(height: 10.0),
                       Text(
