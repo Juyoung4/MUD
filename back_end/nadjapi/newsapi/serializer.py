@@ -11,3 +11,4 @@ class ArticlesFromApiSerializer(serializers.ModelSerializer):
     class Meta:
         model = ArticlesFromApi
         fields = ('__all__')
+

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mud_mobile_app/services/auth_service.dart';
 import 'package:mud_mobile_app/utilities/constants.dart';
+import 'package:mud_mobile_app/utilities/fade_in_animation.dart';
 
 class SignUpScreen extends StatefulWidget {
 
@@ -256,32 +257,38 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text(
-                        'News App',
-                        style: kTitleStyle
+                      FadeIn(
+                        1.0,
+                        Text(
+                          'News App',
+                          style: kTitleStyle
+                        ),
                       ),
                       SizedBox(height: 10.0),
-                      Text(
-                        'Sign Up',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'OpenSans',
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
+                      FadeIn(
+                        1.3,
+                        Text(
+                          'Sign Up',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'OpenSans',
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       SizedBox(height: 30.0),
-                      _buildNameTF(),
+                      FadeIn(1.6, _buildNameTF()),
                       SizedBox(
                         height: 10.0,
                       ),
-                      _buildEmailTF(),
+                      FadeIn(1.9, _buildEmailTF()),
                       SizedBox(
                         height: 10.0,
                       ),
-                      _buildPasswordTF(),
-                      _buildSignUpBtn(),
-                      _buildLoginBtn(),
+                      FadeIn(2.2, _buildPasswordTF()),
+                      FadeIn(2.5, _buildSignUpBtn()),
+                      FadeIn(2.8, _buildLoginBtn()),
                     ],
                   ),
                 ),

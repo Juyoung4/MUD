@@ -32,6 +32,14 @@ final kTitleStyle = TextStyle(
   ], 
 );
 
+final kTopBarTitleStyle = TextStyle(
+  color: Colors.black87,
+  fontWeight: FontWeight.bold,
+  fontFamily: 'OpenSans',
+  fontSize: 38,
+  letterSpacing: 1.5
+);
+
 final kBoxDecorationStyle = BoxDecoration(
   color: Color(0xFF6CA8F1),
   borderRadius: BorderRadius.circular(10.0),

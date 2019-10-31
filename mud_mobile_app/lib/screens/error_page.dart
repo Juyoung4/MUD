@@ -4,6 +4,7 @@ import 'package:mud_mobile_app/screens/login_screen.dart';
 import 'package:mud_mobile_app/screens/signup_screen.dart';
 import 'package:mud_mobile_app/services/auth_service.dart';
 import 'package:mud_mobile_app/utilities/constants.dart';
+import 'package:mud_mobile_app/utilities/fade_in_animation.dart';
 
 class ErrorScreen extends StatefulWidget {
   static final String id = 'error_screen';
@@ -78,12 +79,12 @@ class _ErrorScreenState extends State<ErrorScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Text(
+                      FadeIn(1.0, Text(
                         'News App',
                         style: kTitleStyle
-                      ),
+                      )),
                       SizedBox(height: 20.0),
-                      Text(
+                      FadeIn(1.3, Text(
                         'You Got an Error!',
                         style: TextStyle(
                           color: Colors.white,
@@ -91,17 +92,17 @@ class _ErrorScreenState extends State<ErrorScreen> {
                           fontSize: 26.0,
                           fontWeight: FontWeight.bold,
                         ),
-                      ),
+                      )),
                       SizedBox(height: 20.0),
-                      Container(
+                      FadeIn(1.6, Container(
                         height: 200,
                         decoration: BoxDecoration(
                           shape: BoxShape.rectangle
                         ),
                         child: Image.asset('assets/images/sad.png'),
-                      ),
+                      )),
                       SizedBox(height: 10.0),
-                      Text(
+                      FadeIn(1.9, Text(
                         AuthService.getError(),
                         style: TextStyle(
                           color: Colors.white,
@@ -110,9 +111,9 @@ class _ErrorScreenState extends State<ErrorScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                         textAlign: TextAlign.center,
-                      ),
+                      )),
                       SizedBox(height: 10.0),
-                      _buildBackBtn(context),
+                      FadeIn(2.2, _buildBackBtn(context)),
                     ],
                   ),
                 ),

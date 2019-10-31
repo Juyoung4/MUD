@@ -6,9 +6,6 @@ import 'package:mud_mobile_app/screens/timeline_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static final id = "home_screen";
-  final String userId;
-
-  HomeScreen({this.userId});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -33,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: <Widget>[
           TimelineScreen(),
           CategoryScreen(),
-          ProfileScreen(userId: widget.userId,),
+          ProfileScreen(),
         ],
         onPageChanged: (int index) {
           setState(() {
