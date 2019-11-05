@@ -266,7 +266,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       SizedBox(height: 10.0),
                       FadeIn(
-                        1.3,
+                        1.2,
                         Text(
                           'Sign Up',
                           style: TextStyle(
@@ -278,17 +278,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
                       SizedBox(height: 30.0),
-                      FadeIn(1.6, _buildNameTF()),
+                      FadeIn(1.4, _buildNameTF()),
                       SizedBox(
                         height: 10.0,
                       ),
-                      FadeIn(1.9, _buildEmailTF()),
+                      FadeIn(1.6, _buildEmailTF()),
                       SizedBox(
                         height: 10.0,
                       ),
-                      FadeIn(2.2, _buildPasswordTF()),
-                      FadeIn(2.5, _buildSignUpBtn()),
-                      FadeIn(2.8, _buildLoginBtn()),
+                      FadeIn(1.8, _buildPasswordTF()),
+                      FadeIn(2.0, _buildSignUpBtn()),
+                      FadeIn(2.2, _buildLoginBtn()),
                     ],
                   ),
                 ),

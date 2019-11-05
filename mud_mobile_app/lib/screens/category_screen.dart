@@ -35,11 +35,11 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         child: FadeIn(1.0, Text("News", style: kTopBarTitleStyle)),
                       ),
                       Container(
-                        child: FadeIn(1.3, Text("Category", style: kTopBarTitleStyle)),
+                        child: FadeIn(1.2, Text("Category", style: kTopBarTitleStyle)),
                       ),
                     ],
                   ),
-                  FadeIn(1.6, Container(
+                  FadeIn(1.4, Container(
                     height: (devHeight / 2) * 0.2,
                     child: Image.asset('assets/images/category.png'),
                     decoration: BoxDecoration(
@@ -56,6 +56,59 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 ],
               ),
             ),
+            SizedBox(
+              height: 20,
+            ),
+            Expanded(
+              child: FadeIn(1.9, GridView.count(
+                padding: EdgeInsets.all(20.0),
+                crossAxisSpacing: 8.0,
+                mainAxisSpacing: 8.0,
+                crossAxisCount: 2,
+                children: <Widget>[
+                  Container(
+                    height: double.infinity,
+                    child: Center(
+                      child: Text("IT", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  Container(
+                    height: double.infinity,
+                    child: Center(
+                      child: Text("Sports", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  Container(
+                    height: double.infinity,
+                    child: Center(
+                      child: Text("World", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  Container(
+                    height: double.infinity,
+                    child: Center(
+                      child: Text("Weather", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                ],
+              )),
+            )
           ],
         )
       ),

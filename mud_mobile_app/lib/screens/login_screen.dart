@@ -237,7 +237,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SizedBox(height: 10.0),
                       FadeIn(
-                        1.3,
+                        1.2,
                         Text(
                           'Sign In',
                           style: TextStyle(
@@ -249,14 +249,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       SizedBox(height: 30.0),
-                      FadeIn(1.6, _buildEmailTF()),
+                      FadeIn(1.4, _buildEmailTF()),
                       SizedBox(
                         height: 10.0,
                       ),
-                      FadeIn(1.9, _buildPasswordTF()),
-                      FadeIn(2.2, _buildForgotPasswordBtn()),
-                      FadeIn(2.5, _buildLoginBtn()),
-                      FadeIn(2.8, _buildSignupBtn()),
+                      FadeIn(1.6, _buildPasswordTF()),
+                      FadeIn(1.8, _buildForgotPasswordBtn()),
+                      FadeIn(2.0, _buildLoginBtn()),
+                      FadeIn(2.2, _buildSignupBtn()),
                     ],
                   ),
                 ),

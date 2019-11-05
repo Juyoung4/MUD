@@ -58,11 +58,11 @@ class _TimelineScreenState extends State<TimelineScreen> {
                         child: FadeIn(1.0, Text("Today's News", style: kTopBarTitleStyle)),
                       ),
                       Container(
-                        child: FadeIn(1.3, Text("Timeline", style: kTopBarTitleStyle)),
+                        child: FadeIn(1.2, Text("Timeline", style: kTopBarTitleStyle)),
                       ),
                     ],
                   ),
-                  FadeIn(1.6, Container(
+                  FadeIn(1.4, Container(
                     height: (devHeight / 2) * 0.2,
                     child: Image.asset('assets/images/news.png'),
                     decoration: BoxDecoration(
@@ -79,13 +79,49 @@ class _TimelineScreenState extends State<TimelineScreen> {
                 ],
               ),
             ),
+            FadeIn(1.6, Container(
+              height: 100,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    child: Icon(
+                      Icons.speaker_phone,
+                      size: 68,
+                      color: Colors.green,
+                    ),
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.greenAccent.withOpacity(0.1),
+                          blurRadius: 20.0,
+                          spreadRadius: 5.0,
+                          offset: Offset(5.0, 5.0)
+                        )
+                      ]
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      '< News Title to Speek',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            )),
             Expanded(
               child: ListView.builder(
                 itemCount: articles == null ? 1 : articles.length,
                 itemBuilder: (BuildContext contex, int index){
                   return Container(
                     padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                    child: articles == null ? Container(child: Center(child: CircularProgressIndicator(),),) : Column(
+                    child: articles == null ? Container(child: Center(child: CircularProgressIndicator(),),) : FadeIn(1.6, Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Padding(
@@ -129,7 +165,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
                           height: 3.0,
                         )
                       ],
-                    ),
+                    )),
                   );
                 },
               ),

@@ -101,11 +101,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: FadeIn(1.0, Text("Today's News", style: kTopBarTitleStyle)),
                       ),
                       Container(
-                        child: FadeIn(1.3, Text("Profile", style: kTopBarTitleStyle)),
+                        child: FadeIn(1.2, Text("Profile", style: kTopBarTitleStyle)),
                       ),
                     ],
                   ),
-                  FadeIn(1.6, Container(
+                  FadeIn(1.4, Container(
                     height: (devHeight / 2) * 0.2,
                     child: Image.asset('assets/images/profile.png'),
                     decoration: BoxDecoration(
@@ -123,79 +123,81 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             Expanded(
-              child: FutureBuilder(
-                future: _getUserData(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.data == null) {
-                    return Padding(
-                      padding: const EdgeInsets.all(50.0),
-                      child: Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                  }
-                  User user = User.fromDoc(snapshot.data);
-                  return Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(top: 60),
+              child: SingleChildScrollView(
+                child: FutureBuilder(
+                  future: _getUserData(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.data == null) {
+                      return Padding(
+                        padding: const EdgeInsets.all(50.0),
                         child: Center(
-                          child: Container(
-                            child: CircleAvatar(
-                              backgroundImage: NetworkImage('https://bukiya.lk/upload/photos/2018/04/Ra8foNy1ki56SDiH4Oux_19_defe1f0b9a8471a31b17036dd1009bce_avatar_full.jpg'),
-                            ),
-                            width: 100,
-                            height: 100,
-                            padding: EdgeInsets.all(2.0),
-                            decoration: BoxDecoration(
-                              color: Color(0xFF73AEF5),
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.blueAccent.withOpacity(0.3),
-                                  blurRadius: 20.0,
-                                  spreadRadius: 5.0,
-                                  offset: Offset.zero
-                                ),
-                              ],
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    }
+                    User user = User.fromDoc(snapshot.data);
+                    return FadeIn(1.6, Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(top: 60),
+                          child: Center(
+                            child: Container(
+                              child: CircleAvatar(
+                                backgroundImage: NetworkImage('https://bukiya.lk/upload/photos/2018/04/Ra8foNy1ki56SDiH4Oux_19_defe1f0b9a8471a31b17036dd1009bce_avatar_full.jpg'),
+                              ),
+                              width: 100,
+                              height: 100,
+                              padding: EdgeInsets.all(2.0),
+                              decoration: BoxDecoration(
+                                color: Color(0xFF73AEF5),
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.blueAccent.withOpacity(0.3),
+                                    blurRadius: 20.0,
+                                    spreadRadius: 5.0,
+                                    offset: Offset.zero
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.fromLTRB(4.0, 16.0, 4.0, 4.0),
-                        child: Text(
-                          user.name,
-                          style: TextStyle(
-                            color: Colors.black45,
-                            fontFamily: 'OpenSans',
-                            fontSize: 20.0,
-                            letterSpacing: 1.5,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(4.0),
-                        child: Text(
-                          user.email,
-                          style: TextStyle(
-                            color: Colors.black45,
-                            fontFamily: 'OpenSans',
-                            fontSize: 20.0,
-                            letterSpacing: 1.5,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      ),
-                      SizedBox(
-                        height: 50.0,
-                      ),
-                      _buildProfileEditBtn(),
-                      _buildLogOutBtn(context),
-                    ],
-                  );
-                }
+                        Container(
+                          padding: EdgeInsets.fromLTRB(4.0, 16.0, 4.0, 4.0),
+                          child: Text(
+                            user.name,
+                            style: TextStyle(
+                              color: Colors.black45,
+                              fontFamily: 'OpenSans',
+                              fontSize: 20.0,
+                              letterSpacing: 1.5,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(4.0),
+                          child: Text(
+                            user.email,
+                            style: TextStyle(
+                              color: Colors.black45,
+                              fontFamily: 'OpenSans',
+                              fontSize: 20.0,
+                              letterSpacing: 1.5,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        ),
+                        SizedBox(
+                          height: 50.0,
+                        ),
+                        _buildProfileEditBtn(),
+                        _buildLogOutBtn(context),
+                      ],
+                    ));
+                  }
+                ),
               )
             )
           ],

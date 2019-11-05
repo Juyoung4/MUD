@@ -36,7 +36,7 @@ final kTopBarTitleStyle = TextStyle(
   color: Colors.black87,
   fontWeight: FontWeight.bold,
   fontFamily: 'OpenSans',
-  fontSize: 38,
+  fontSize: 28,
   letterSpacing: 1.5
 );
 

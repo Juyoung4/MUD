@@ -84,7 +84,7 @@ class _ErrorScreenState extends State<ErrorScreen> {
                         style: kTitleStyle
                       )),
                       SizedBox(height: 20.0),
-                      FadeIn(1.3, Text(
+                      FadeIn(1.2, Text(
                         'You Got an Error!',
                         style: TextStyle(
                           color: Colors.white,
@@ -94,7 +94,7 @@ class _ErrorScreenState extends State<ErrorScreen> {
                         ),
                       )),
                       SizedBox(height: 20.0),
-                      FadeIn(1.6, Container(
+                      FadeIn(1.4, Container(
                         height: 200,
                         decoration: BoxDecoration(
                           shape: BoxShape.rectangle
@@ -102,7 +102,7 @@ class _ErrorScreenState extends State<ErrorScreen> {
                         child: Image.asset('assets/images/sad.png'),
                       )),
                       SizedBox(height: 10.0),
-                      FadeIn(1.9, Text(
+                      FadeIn(1.6, Text(
                         AuthService.getError(),
                         style: TextStyle(
                           color: Colors.white,
@@ -113,7 +113,7 @@ class _ErrorScreenState extends State<ErrorScreen> {
                         textAlign: TextAlign.center,
                       )),
                       SizedBox(height: 10.0),
-                      FadeIn(2.2, _buildBackBtn(context)),
+                      FadeIn(1.8, _buildBackBtn(context)),
                     ],
                   ),
                 ),
