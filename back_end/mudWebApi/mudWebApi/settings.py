@@ -25,7 +25,7 @@ SECRET_KEY = 'c_upm##9ckgsk240$s4mc!h$!!t2-fg513^+6+*9g3ntf2v&=i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['34.84.147.192']
+ALLOWED_HOSTS = ['34.84.147.192', '127.0.0.1']
 
 
 # Application definition
@@ -118,6 +118,8 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+UNICODE_JSON = True
 
 
 # Static files (CSS, JavaScript, Images)

@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse, JsonResponse
 from rest_framework import viewsets
-from .models import ArticlesFromApi
-from .serializer import ArticlesFromApiSerializer
+from .models import ArticlesFromApi, NewsSummary, Cluster, User, UserRating, Favorite, Recommend
+from .serializer import ArticlesFromApiSerializer, NewsSummarySerializer, ClusterSerializer, UserSerializer, UserRatingSerializer, FavoriteSerializer, RecommendSerializer
 import requests
 import json
 import random
@@ -17,6 +18,30 @@ def index(request):
 class ArticlesAPI(viewsets.ModelViewSet):
     queryset = ArticlesFromApi.objects.all()
     serializer_class = ArticlesFromApiSerializer
+
+class Summary(viewsets.ModelViewSet):
+    queryset = NewsSummary.objects.all()
+    serializer_class = NewsSummarySerializer
+
+class RegisterdUsers(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class NewsCluster(viewsets.ModelViewSet):
+    queryset = Cluster.objects.all()
+    serializer_class = ClusterSerializer
+
+class RatingList(viewsets.ModelViewSet):
+    queryset = UserRating.objects.all()
+    serializer_class = UserRatingSerializer
+
+class FavoriteList(viewsets.ModelViewSet):
+    queryset = Favorite.objects.all()
+    serializer_class = FavoriteSerializer
+
+class RecommendList(viewsets.ModelViewSet):
+    queryset = Recommend.objects.all()
+    serializer_class = RecommendSerializer
 
 def latest(request):
     global counter

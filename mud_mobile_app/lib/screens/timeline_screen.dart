@@ -116,58 +116,59 @@ class _TimelineScreenState extends State<TimelineScreen> {
               ),
             )),
             Expanded(
-              child: ListView.builder(
-                itemCount: articles == null ? 1 : articles.length,
-                itemBuilder: (BuildContext contex, int index){
-                  return Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                    child: articles == null ? Container(child: Center(child: CircularProgressIndicator(),),) : FadeIn(1.6, Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4.0),
-                          child: Text(
-                            articles[index]["articles_title"] == null ? 'Title' : articles[index]["articles_title"],
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w600,
+              child: FadeIn(1.6, ListView.builder(
+                  itemCount: articles == null ? 1 : articles.length,
+                  itemBuilder: (BuildContext contex, int index){
+                    return Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                      child: articles == null ? Container(child: Center(child: CircularProgressIndicator(),),) : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 4.0),
+                            child: Text(
+                              articles[index]["articles_title"] == null ? 'Title' : articles[index]["articles_title"],
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4.0),
-                          child: Text(
-                            articles[index]["articles_description"] == null ? 'Description' : articles[index]["articles_description"],
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w400,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 4.0),
+                            child: Text(
+                              articles[index]["articles_description"] == null ? 'Description' : articles[index]["articles_description"],
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4.0),
-                          child: Text(
-                            articles[index]["articles_author"] == null ? 'Author' : articles[index]["articles_author"],
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.w400,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 4.0),
+                            child: Text(
+                              articles[index]["articles_author"] == null ? 'Author' : articles[index]["articles_author"],
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: Colors.black12
-                          ),
-                          height: 3.0,
-                        )
-                      ],
-                    )),
-                  );
-                },
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: Colors.black12
+                            ),
+                            height: 3.0,
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
             )
           ],
