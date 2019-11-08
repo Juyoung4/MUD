@@ -10,7 +10,8 @@ class ArticlesFromApiSerializer(serializers.ModelSerializer):
 class NewsSummarySerializer(serializers.ModelSerializer):
     class Meta:
         model = NewsSummary
-        fields = ('id', 'headline', 'summary', 'url', 'pub_date', 'sum_date', 'category')
+        fields = ('__all__')
+        #fields = ('id', 'headline', 'summary', 'url', 'pub_date', 'sum_date', 'category')
 
 class ClusterSerializer(serializers.ModelSerializer):
     class Meta:

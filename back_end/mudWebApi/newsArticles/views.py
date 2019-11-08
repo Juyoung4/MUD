@@ -7,6 +7,7 @@ from .serializer import ArticlesFromApiSerializer, NewsSummarySerializer, Cluste
 import requests
 import json
 import random
+from django_filters.rest_framework import DjangoFilterBackend
 
 # Create your views here.
 
@@ -22,6 +23,8 @@ class ArticlesAPI(viewsets.ModelViewSet):
 class Summary(viewsets.ModelViewSet):
     queryset = NewsSummary.objects.all()
     serializer_class = NewsSummarySerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['category', 'id']
 
 class RegisterdUsers(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -34,14 +37,20 @@ class NewsCluster(viewsets.ModelViewSet):
 class RatingList(viewsets.ModelViewSet):
     queryset = UserRating.objects.all()
     serializer_class = UserRatingSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['user_id',]
 
 class FavoriteList(viewsets.ModelViewSet):
     queryset = Favorite.objects.all()
     serializer_class = FavoriteSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['user_id',]
 
 class RecommendList(viewsets.ModelViewSet):
     queryset = Recommend.objects.all()
     serializer_class = RecommendSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['user_id',]
 
 def latest(request):
     global counter
