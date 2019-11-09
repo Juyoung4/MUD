@@ -1,0 +1,35 @@
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import linear_kernel
+import openpyxl
+
+
+wb = openpyxl.Workbook()
+sheet = wb.active
+results = {}
+ds = pd.read_csv(r"C:\Users\82103\Anaconda3\test2.csv",encoding ='cp949') 
+stopword = open(r'C:\Users\82103\git-workplace\kostopword.txt', encoding="utf8")
+tf = TfidfVectorizer(analyzer='word', ngram_range=(1, 2), stop_words= stopword)
+tfidf_matrix = tf.fit_transform(ds['summary'])
+
+# 코사인 유사도 
+cosine_similarities = linear_kernel(tfidf_matrix, tfidf_matrix)
+for idx, row in ds.iterrows():
+    similar_indices = cosine_similarities[idx].argsort()[:-100:-1]
+    similar_items = [(cosine_similarities[idx][i], ds['id'][i]) for i in similar_indices]
+    results[row['id']] = similar_items[1:]
+def item(summary):
+    return ds.loc[ds['id'] == summary]['summary'].tolist()[0]
+def url(url):
+    return ds.loc[ds['id'] == url]['url'].tolist()[0]
+
+def recommend(item_id, num):
+    print("사용자가 평점 매긴 기사의 URL: " + url(item_id))
+    print("사용자가 평점 매긴 기사의 Summary: " + item(item_id))  
+    print("-------")
+    recs = results[item_id][:num]
+    
+    for rec in recs:
+        print("추천 기사의 URL: " + url(rec[1]))
+        print("추천 기사의 Summary: " + item(rec[1]))
+        print("-------")
