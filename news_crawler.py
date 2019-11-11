@@ -44,10 +44,10 @@ class Writer(object):
     def initialize_file(self):
         #window와 linux csv 저장 encoding 형식 다름
         if self.user_operating_system == "Windows":
-            self.file = open('Article_' + self.category_name + '_' + self.date1+ self.time1 + '.csv', 'w', encoding='euc-kr',newline='')
+            self.file = open('Article_' + self.category_name + '_' + self.date1+ '.csv', 'w', encoding='euc-kr',newline='')
         # Other OS uses utf-8
         else:
-            self.file = open('Article_' + self.category_name + '_' + self.date1 + self.time1 + '.csv', 'w',encoding='utf-8', newline='')
+            self.file = open('Article_' + self.category_name + '_' + self.date1+ '.csv', 'w',encoding='utf-8', newline='')
 
     def get_writer_csv(self):
         return self.wcsv
@@ -116,8 +116,8 @@ class ArticleCrawler(object):
     @staticmethod
     def make_news_page_url(category_url, date):
         made_urls = []
-        url = category_url + date
-
+        year,month,day=date.split('-')[0],date.split('-')[1],date.split('-')[2]
+        url = category_url + year + month + day
         # totalpage는 네이버 페이지 구조를 이용해서 page=10000으로 지정해 totalpage를 알아냄
         # page=10000을 입력할 경우 페이지가 존재하지 않기 때문에 page=totalpage로 이동 됨 (Redirect)
         totalpage = ArticleParser.find_news_totalpage(url + "&page=10000")
