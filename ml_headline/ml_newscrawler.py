@@ -105,7 +105,6 @@ class ArticleCrawler(object):
                            'IT_science': 105, 'opinion': 110}
         self.selected_categories = []
         self.date = {'date': 0, 'time': 0}
-        self.old_date = {'date': 0 , 'time': 0}
         self.user_operating_system = str(platform.system())
 
     def set_category(self, *args):
@@ -141,16 +140,10 @@ class ArticleCrawler(object):
         # Multi Process PID
         print(category_name + " PID: " + str(os.getpid()))
 
-        #현재 날짜와 시간 정의
+        #date 정의
         now = str(datetime.now()).split()
         self.date['date'] = now[0]
         self.date['time'] = now[1]
-
-        #마지막으로 저장된(DB에 저장) 날짜 가져오기
-        old_day= open('./Article_IT과학_2019-11-11.csv','r',encoding='euc-kr').readline().split(',')[-1]
-        self.old_date['date'] = old_day.split()[0]
-        if old_day.split()[1] == '오후':
-
 
         writer = Writer(category_name=category_name, date=self.date)
 
