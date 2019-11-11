@@ -6,9 +6,9 @@ import platform
 import calendar
 import requests
 import re
-from datetime import datetime
+import datetime
 import csv
-
+import sys
 #excepion
 class InvalidCategory(Exception):
     def __init__(self, category):
@@ -105,7 +105,6 @@ class ArticleCrawler(object):
                            'IT_science': 105, 'opinion': 110}
         self.selected_categories = []
         self.date = {'date': 0, 'time': 0}
-        self.old_date = {'date': 0 , 'time': 0}
         self.user_operating_system = str(platform.system())
 
     def set_category(self, *args):
@@ -117,7 +116,7 @@ class ArticleCrawler(object):
     @staticmethod
     def make_news_page_url(category_url, date):
         made_urls = []
-        year,month,day=date.split('-')[0],date.split('-')[1],date.split('-')[2]
+        year, month, day = date.split('-')[0], date.split('-')[1], date.split('-')[2]
         url = category_url + year + month + day
         # totalpage는 네이버 페이지 구조를 이용해서 page=10000으로 지정해 totalpage를 알아냄
         # page=10000을 입력할 경우 페이지가 존재하지 않기 때문에 page=totalpage로 이동 됨 (Redirect)
@@ -142,15 +141,9 @@ class ArticleCrawler(object):
         print(category_name + " PID: " + str(os.getpid()))
 
         #현재 날짜와 시간 정의
-        now = str(datetime.now()).split()
+        now = str(datetime.datetime.now()).split()
         self.date['date'] = now[0]
         self.date['time'] = now[1]
-
-        #마지막으로 저장된(DB에 저장) 날짜 가져오기
-        old_day= open('./Article_IT과학_2019-11-11.csv','r',encoding='euc-kr').readline().split(',')[-1]
-        self.old_date['date'] = old_day.split()[0]
-        if old_day.split()[1] == '오후':
-
 
         writer = Writer(category_name=category_name, date=self.date)
 
@@ -219,14 +212,43 @@ class ArticleCrawler(object):
                     #뉴스 작성된 시간 가져옴
                     tag_date = document_content.find_all('span', {'class': 't11'})
                     tag_date=re.sub('<.+?>','',(str(tag_date[0]))).strip()
-                    text_date = '' #date 초기화
+                    print(tag_date)
+                    tag_date_datetime = tag_date.split()[0].split('.')
+                    tag_date_datetime = '-'.join([tag_date_datetime[i] for i in range(len(tag_date_datetime)-1)])+" "+tag_date.split()[2]
+                    tag_date_datetime = datetime.datetime.strptime(tag_date_datetime, '%Y-%m-%d %H:%M')
+                    if tag_date.split()[1] == '오후':
+                        tag_date_datetime += datetime.timedelta(hours=12)
+                    print("tag",tag_date_datetime)
+
+                    # 마지막으로 저장된(DB에 저장) 날짜 가져오기
+                    f = open('./Article_IT과학_2019-11-12.csv', 'r', encoding='euc-kr').readline().split(',')[-1]
+                    datee = f.split()[0].split()[0].split('.')
+                    datee = '-'.join([datee[i] for i in range(len(datee) - 1)])
+                    time = f.split()[2]
+
+                    old_total_date = datee + " " + time
+                    old_total_date = datetime.datetime.strptime(old_total_date, '%Y-%m-%d %H:%M')
+
+                    if f.split()[1] == '오후':
+                        old_total_date += datetime.timedelta(hours=12)
+                    print("old",old_total_date)
+
+                    text_date = ''  # date 초기화
+
                     text_date = text_date + tag_date
+
+                    #date 비교해서 old_date보다 큰 날짜에 속한 기사만 DB에 저장한다
+                    if tag_date_datetime > old_total_date:
+                        # write csv ( here change csv -> database access)
+                        wcsv = writer.get_writer_csv()
+                        wcsv.writerow(
+                            [news_date, category_name, text_company, text_headline, text_sentence, content_url,
+                             text_date])
+                    else:
+                        writer.close()
+                        return
                     if not text_date:
                         continue
-
-                    # write csv ( here change csv -> database access)
-                    wcsv = writer.get_writer_csv()
-                    wcsv.writerow([news_date, category_name, text_company, text_headline, text_sentence, content_url, text_date])
 
                     del text_company, text_sentence, text_headline
                     del tag_company
@@ -237,6 +259,7 @@ class ArticleCrawler(object):
                     # wcsv.writerow([ex, content_url])
                     del request_content, document_content
                     pass
+            writer.close()
         writer.close()
 
     def start(self):
