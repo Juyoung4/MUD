@@ -25,7 +25,7 @@ class ResponseTimeout(Exception):
     def __str__(self):
         return str(self.message)
 
-#csv write
+#csv write(here csv delete)
 class Writer(object):
     def __init__(self, category_name, date):
         self.user_operating_system = str(platform.system())
@@ -209,9 +209,17 @@ class ArticleCrawler(object):
                     if not text_company:  # 공백일 경우 기사 제외 처리
                         continue
 
-                    # CSV 작성
+                    #뉴스 작성된 시간 가져옴
+                    tag_date = document_content.find_all('span', {'class': 't11'})
+                    tag_date=re.sub('<.+?>','',(str(tag_date[0]))).strip()
+                    text_date = '' #date 초기화
+                    text_date = text_date + tag_date
+                    if not text_date:
+                        continue
+
+                    # write csv ( here change csv -> database access)
                     wcsv = writer.get_writer_csv()
-                    wcsv.writerow([news_date, category_name, text_company, text_headline, text_sentence, content_url])
+                    wcsv.writerow([news_date, category_name, text_company, text_headline, text_sentence, content_url, text_date])
 
                     del text_company, text_sentence, text_headline
                     del tag_company
