@@ -33,3 +33,6 @@ def recommend(item_id, num):
         print("추천 기사의 URL: " + url(rec[1]))
         print("추천 기사의 Summary: " + item(rec[1]))
         print("-------")
+
+
+# ds는 news_id summary 가 있다
