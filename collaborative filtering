@@ -1,0 +1,63 @@
+import pandas as pd
+import openpyxl
+import math
+
+
+def top_match(ds, name, index, cos_function = pearson):
+    result_list = []
+    for i in ds.user_id.value_counts().index:
+        if name != i:
+            result_list.append((cos_function(ds,name,i),i))
+    result_list.sort()
+    result_list.reverse()
+    
+    return result_list[:index]
+
+def pearson(ds, name1, name2):
+    sumX = 0
+    sumY = 0
+    sumPowX = 0
+    sumPowY = 0
+    sumXY = 0
+    count = 0
+    a = ds.loc[ds['user_id'] == name1]
+    b = ds.loc[ds['user_id'] == name2]
+    for i in a['news_id'].values:
+        if i in b['news_id'].values:
+            sumX += int(a.loc[a['news_id'] == i]['score'].values)
+            sumY += int(b.loc[b['news_id'] == i]['score'].values)
+            sumPowX += pow(int(a.loc[a['news_id'] == i]['score'].values),2)
+            sumPowY += pow(int(b.loc[b['news_id'] == i]['score'].values),2)
+            sumXY += int(a.loc[a['news_id'] == i]['score'].values) * int(b.loc[b['news_id'] == i]['score'].values)
+            count += 1
+            
+    if sumPowX - (pow(sumX,2) / count) == 0 or sumPowY - (pow(sumY,2)/count) == 0:
+        return -1
+    return ( sumXY- ((sumX*sumY)/count) )/ math.sqrt( (sumPowX - (pow(sumX,2) / count)) * (sumPowY - (pow(sumY,2)/count)))
+
+def getRecommendation(ds, person, index):
+    result = top_match(ds, person,index)
+    simSum = 0
+    score = 0
+    result_list = []
+    score_dic = {}
+    sim_dic = {}   
+    p = ds.loc[ds['user_id'] == person]
+    for sim, name in result:
+        if sim < 0 : continue
+        n = ds.loc[ds['user_id'] == name]
+        for news in ds.loc[ds['user_id'] == name]['news_id']:
+            if news not in p['news_id'].values:
+                score += sim * int(n.loc[n['news_id'] == news]['score'].values)
+                score_dic.setdefault(news,0)
+                score_dic[news] += score
+                sim_dic.setdefault(news,0)
+                sim_dic[news] += sim
+            score = 0
+    for key in score_dic:
+        score_dic[key] = score_dic[key] / sim_dic[key]
+        result_list.append((score_dic[key], key))
+    result_list.sort()
+    result_list.reverse()
+    
+    return result_list
