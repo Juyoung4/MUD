@@ -85,6 +85,7 @@ def getContentsbased(news_id):
         results[row['id']] = similar_items[1:]
     return results[news_id][:2]
     
-# ds 는 user_id score news_id ds2 는 news_id summary 이고 collaborative filtering으로 결과가 나올시 예측평점과 뉴스 아이디가 나오고 
+# ds 는 user_id score news_id ds2 는 news_id summary 이고 index는 전체 사용자 수 이다.
+# collaborative filtering으로 결과가 나올시 예측평점과 뉴스 아이디가 나오고 
 # contents-based filtering으로 결과가 나올시 유사도와 뉴스 아이디가 나온다.
     
