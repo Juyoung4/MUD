@@ -61,3 +61,5 @@ def getRecommendation(ds, person, index):
     result_list.reverse()
     
     return result_list
+    
+    # ds 는 csv 파일로 user_id score news_id가 있다.
