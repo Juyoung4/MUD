@@ -1,0 +1,90 @@
+# content-based filtering과 collaborative filtering을 결합한 형태로 collaborative filtering의 cold start 문제를 보안하기 위해 사용하였다.
+# 사용자간의 유사도를 기반으로 추천을 했으시 예측 평점이 3점 미만인걸 제외 하고 추천할 데이터가 없을시 사용자가 평점을 매긴 뉴스 중 
+# 가장 평점이 높은 뉴스로 contesnts-based filtering을 사용해 그 와 유사한 뉴스를 추천해 준다.
+
+
+import pandas as pd
+import openpyxl
+import math
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import linear_kernel
+
+def top_match(ds, name, index, cos_function = pearson):
+    result_list = []
+    for i in ds.user_id.value_counts().index:
+        if name != i:
+            result_list.append((cos_function(ds,name,i),i))
+    result_list.sort()
+    result_list.reverse()
+    
+    return result_list[:index]
+
+def pearson(ds, name1, name2):
+    sumX = 0
+    sumY = 0
+    sumPowX = 0
+    sumPowY = 0
+    sumXY = 0
+    count = 0
+    a = ds.loc[ds['user_id'] == name1]
+    b = ds.loc[ds['user_id'] == name2]
+    for i in a['news_id'].values:
+        if i in b['news_id'].values:
+            sumX += int(a.loc[a['news_id'] == i]['score'].values)
+            sumY += int(b.loc[b['news_id'] == i]['score'].values)
+            sumPowX += pow(int(a.loc[a['news_id'] == i]['score'].values),2)
+            sumPowY += pow(int(b.loc[b['news_id'] == i]['score'].values),2)
+            sumXY += int(a.loc[a['news_id'] == i]['score'].values) * int(b.loc[b['news_id'] == i]['score'].values)
+            count += 1
+            
+    if sumPowX - (pow(sumX,2) / count) == 0 or sumPowY - (pow(sumY,2)/count) == 0:
+        return -1
+    return ( sumXY- ((sumX*sumY)/count) )/ math.sqrt( (sumPowX - (pow(sumX,2) / count)) * (sumPowY - (pow(sumY,2)/count)))
+
+def getRecommendation(ds, person, index):
+    result = top_match(ds, person,index)
+    simSum = 0
+    score = 0
+    result_list = []
+    score_dic = {}
+    sim_dic = {}   
+    p = ds.loc[ds['user_id'] == person]
+    for sim, name in result:
+        if sim < 0 : continue
+        n = ds.loc[ds['user_id'] == name]
+        for news in ds.loc[ds['user_id'] == name]['news_id']:
+            if news not in p['news_id'].values:
+                score += sim * int(n.loc[n['news_id'] == news]['score'].values)
+                score_dic.setdefault(news,0)
+                score_dic[news] += score
+                sim_dic.setdefault(news,0)
+                sim_dic[news] += sim
+            score = 0
+    for key in score_dic:
+        score_dic[key] = score_dic[key] / sim_dic[key]
+        if score_dic[key] < 3 : continue
+        result_list.append((score_dic[key], key))
+    if len(result_list) == 0:
+        return getContentsbased(p.loc[p['score'] == max(p['score'].values)]['news_id'].values[0])
+    result_list.sort()
+    result_list.reverse()
+    return result_list
+
+def getContentsbased(news_id):
+    results = {}
+    ds2 = pd.read_csv(r"C:\Users\82103\Anaconda3\test2.csv",encoding ='cp949') 
+    stopword = open(r'C:\Users\82103\git-workplace\kostopword.txt', encoding="utf8")
+    tf = TfidfVectorizer(analyzer='word', ngram_range=(1, 2), stop_words= stopword)
+    tfidf_matrix = tf.fit_transform(ds2['summary'])
+
+
+    cosine_similarities = linear_kernel(tfidf_matrix, tfidf_matrix)
+    for idx, row in ds2.iterrows():
+        similar_indices = cosine_similarities[idx].argsort()[:-100:-1]
+        similar_items = [(cosine_similarities[idx][i], ds2['id'][i]) for i in similar_indices]
+        results[row['id']] = similar_items[1:]
+    return results[news_id][:2]
+    
+# ds 는 user_id score news_id ds2 는 news_id summary 이고 collaborative filtering으로 결과가 나올시 예측평점과 뉴스 아이디가 나오고 
+# contents-based filtering으로 결과가 나올시 유사도와 뉴스 아이디가 나온다.
+    
