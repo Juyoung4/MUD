@@ -62,4 +62,4 @@ def getRecommendation(ds, person, index):
     
     return result_list
     
-    # ds 는 csv 파일로 user_id score news_id가 있다.
+    # ds 는 csv 파일로 user_id score news_id가 있다. 결과값은 예측 평점 3점이상인 news_id와 그 뉴스에 대한 예측 평점이다.
