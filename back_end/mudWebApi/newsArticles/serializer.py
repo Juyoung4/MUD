@@ -1,11 +1,6 @@
 from rest_framework import serializers
-from .models import ArticlesFromApi, NewsSummary, Cluster, User, UserRating, Favorite, Recommend
+from .models import NewsSummary, Cluster, User, UserRating, Favorite, Recommend
 
-
-class ArticlesFromApiSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ArticlesFromApi
-        fields = ('__all__')
 
 class NewsSummarySerializer(serializers.ModelSerializer):
     class Meta:

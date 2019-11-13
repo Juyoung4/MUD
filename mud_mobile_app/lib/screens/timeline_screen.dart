@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mud_mobile_app/services/auth_service.dart';
 import 'package:mud_mobile_app/utilities/constants.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -13,16 +16,20 @@ class TimelineScreen extends StatefulWidget {
 
 class _TimelineScreenState extends State<TimelineScreen> {
 
-  final String url = 'http://34.84.147.192:8000/news/articles/?format=json';
+  final String url = 'http://34.84.147.192:8000/news/recommend/?format=json';
   List articles;
   bool isSwitched = false;
 
   Future<String> getData() async {
-    var res = await http.get(Uri.encodeFull(url), headers: {"Accept" : "application/json"});
+    FirebaseUser user = await AuthService.getCurrentUser();
+    String uid = user.uid;
+    print(uid);
+    var res = await http.get(Uri.encodeFull(url + '&user_id=' + uid), headers: {"Accept" : "application/json"});
     setState(() {
       var resbody = json.decode(utf8.decode(res.bodyBytes));
       articles = resbody;
     });
+    print(articles);
     return 'Success!';
   }
 
@@ -127,7 +134,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 4.0),
                             child: Text(
-                              articles[index]["articles_title"] == null ? 'Title' : articles[index]["articles_title"],
+                              articles[index]["headline"] == null ? 'Title' : articles[index]["headline"],
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 18.0,
@@ -138,7 +145,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 4.0),
                             child: Text(
-                              articles[index]["articles_description"] == null ? 'Description' : articles[index]["articles_description"],
+                              articles[index]["summary"] == null ? 'Description' : articles[index]["summary"],
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontSize: 16.0,
@@ -149,7 +156,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 4.0),
                             child: Text(
-                              articles[index]["articles_author"] == null ? 'Author' : articles[index]["articles_author"],
+                              articles[index]["url"] == null ? 'Author' : articles[index]["url"],
                               style: TextStyle(
                                 color: Colors.black54,
                                 fontSize: 14.0,
