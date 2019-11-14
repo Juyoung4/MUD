@@ -3,6 +3,7 @@
 from apscheduler.schedulers.background import  BackgroundScheduler
 from apscheduler.jobstores.base import JobLookupError
 import time
+from newscrawler import news_crawler
 
 def job():
     print("I'm working...", "| [time] " , str(time.localtime().tm_hour) + ":" + str(time.localtime().tm_min) + ":" + str(time.localtime().tm_sec))
