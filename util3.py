@@ -50,7 +50,7 @@ def normalize(datapath):
         title,content,title1,content1,=[],[],[],[]
         m_title,m_content=[],[] 
 
-        if count == 20000:
+        if count == 4:
             break
         else:
             count += 1
