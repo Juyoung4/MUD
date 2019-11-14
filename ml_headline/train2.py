@@ -1,11 +1,14 @@
 import tensorflow as tf
 import numpy as np
-import util3
+from ml_headline import util3
 import time
 
 datapath = 'merge10.csv'
 title,content = util3.normalize(datapath)
-word_to_ix,ix_to_word = util3.make_dict(title+content)
+
+contents=title+content
+
+word_to_ix,ix_to_word = util3.make_dict(contents)
 
 multi = True
 forward_only = False
@@ -15,11 +18,11 @@ num_layers = 3
 learning_rate = 0.001
 batch_size = 16
 encoder_size = 100
-decoder_size = util3.doclength(title,sep=True) # (Maximum) number of time steps in this batch
+decoder_size = util3.doclength(title, sep=True) # (Maximum) number of time steps in this batch
 steps_per_checkpoint = 10
 
 # transform data
-encoderinputs, decoderinputs, targets_, targetweights = util3.make_suffle(content,title,word_to_ix,encoder_size=encoder_size,decoder_size=decoder_size,shuffle=False)
+encoderinputs, decoderinputs, targets_, targetweights = util3.make_suffle(content, title, word_to_ix, encoder_size=encoder_size, decoder_size=decoder_size, shuffle=False)
 
 class seq2seq(object):
 
@@ -35,25 +38,24 @@ class seq2seq(object):
         self.global_step = tf.Variable(0, trainable=False)
 
         # networks
-        W = tf.Variable(tf.random_normal([hidden_size, vocab_size]))
-        b = tf.Variable(tf.random_normal([vocab_size]))
+        W = tf.Variable(tf.random.normal([hidden_size, vocab_size]))
+        b = tf.Variable(tf.random.normal([vocab_size]))
         output_projection = (W, b)
-        self.encoder_inputs = [tf.placeholder(tf.int32, [batch_size]) for _ in range(encoder_size)]  # 인덱스만 있는 데이터 (원핫 인코딩 미시행)
-        self.decoder_inputs = [tf.placeholder(tf.int32, [batch_size]) for _ in range(decoder_size)]
-        self.targets = [tf.placeholder(tf.int32, [batch_size]) for _ in range(decoder_size)]
-        self.target_weights = [tf.placeholder(tf.float32, [batch_size]) for _ in range(decoder_size)]
+        self.encoder_inputs = [tf.compat.v1.placeholder(tf.int32, [batch_size]) for _ in range(encoder_size)]  # 인덱스만 있는 데이터 (원핫 인코딩 미시행)
+        self.decoder_inputs = [tf.compat.v1.placeholder(tf.int32, [batch_size]) for _ in range(decoder_size)]
+        self.targets = [tf.compat.v1.placeholder(tf.int32, [batch_size]) for _ in range(decoder_size)]
+        self.target_weights = [tf.compat.v1.placeholder(tf.float32, [batch_size]) for _ in range(decoder_size)]
 
         # models
         if multi:
-            single_cell = tf.nn.rnn_cell.GRUCell(num_units=hidden_size)
-            cell = tf.nn.rnn_cell.MultiRNNCell([single_cell] * num_layers)
+            single_cell = tf.compat.v1.nn.rnn_cell.GRUCell(num_units=hidden_size)
+            cell = tf.compat.v1.nn.rnn_cell.MultiRNNCell([single_cell] * num_layers)
         else:
-            cell = tf.nn.rnn_cell.GRUCell(num_units=hidden_size)
+            cell = tf.compat.v1.rnn_cell.GRUCell(num_units=hidden_size)
             #cell = tf.nn.rnn_cell.LSTMCell(num_units=hidden_size)
 
         if not forward_only:
-            #tf.nn.seq2seq.embedding_attention_seq2seq(
-            self.outputs, self.states = tf.contrib.legacy_seq2seq.embedding_seq2seq(
+            self.outputs, self.states = tf.contrib.legacy_seq2seq.embedding_attention_seq2seq(
                 self.encoder_inputs, self.decoder_inputs, cell,
                 num_encoder_symbols=vocab_size,
                 num_decoder_symbols=vocab_size,
@@ -66,12 +68,12 @@ class seq2seq(object):
             for logit, target, target_weight in zip(self.logits, self.targets, self.target_weights):
                 crossentropy = tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logit, labels=target)
                 self.loss.append(crossentropy * target_weight)
-            self.cost = tf.add_n(self.loss)
-            self.train_op = tf.train.AdamOptimizer(learning_rate).minimize(self.cost)
+            self.cost = tf.compat.v1.add_n(self.loss)
+            self.train_op = tf.compat.v1.train.AdamOptimizer(learning_rate).minimize(self.cost)
 
 
         else:
-            self.outputs, self.states = tf.contrib.legacy_seq2seq.embedding_seq2seq(
+            self.outputs, self.states = tf.contrib.legacy_seq2seq.embedding_attention_seq2seq(
                 self.encoder_inputs, self.decoder_inputs, cell,
                 num_encoder_symbols=vocab_size,
                 num_decoder_symbols=vocab_size,
@@ -100,13 +102,15 @@ class seq2seq(object):
         else:
             return output[0:] # outputs
 
-sess = tf.Session()
+sess = tf.compat.v1.Session()
+print(sess)
+#sess = tf.compat.v1.Session()
 model = seq2seq(multi=multi, hidden_size=hidden_size, num_layers=num_layers,
                     learning_rate=learning_rate, batch_size=batch_size,
                     vocab_size=vocab_size,
                     encoder_size=encoder_size, decoder_size=decoder_size,
                     forward_only=forward_only)
-sess.run(tf.global_variables_initializer())
+sess.run(tf.compat.v1.global_variables_initializer())
 step_time, loss = 0.0, 0.0
 current_step = 0
 start = 0
@@ -143,5 +147,5 @@ while current_step < 10000001:
     start += batch_size
     end += batch_size
 
-
+ 
 
