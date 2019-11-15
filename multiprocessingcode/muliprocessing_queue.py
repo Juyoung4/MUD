@@ -1,17 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
-
-import multiprocessing
-import time
-from multiprocessing import Process, Queue
-from bs4 import BeautifulSoup
 from datetime import datetime
-import requests
-
-import re
-import os
-
-from lexrankr import LexRank
 
 # +++++++++++++++++++++++++++++++++++++
 # 최종 크롤러!!!
@@ -52,35 +41,6 @@ class ResponseTimeout(Exception):
     def __str__(self):
         return str(self.message)
 
-#csv write(here csv delete)
-class Writer(object):
-    def __init__(self, category_name, date):
-        self.user_operating_system = str(platform.system())
-
-        self.category_name = category_name
-
-        self.date = date
-        self.date1 = self.date['date']
-        self.time1 = self.date['time']
-
-        self.file = None
-        self.initialize_file()
-
-        self.wcsv = csv.writer(self.file)
-
-    def initialize_file(self):
-        #window와 linux csv 저장 encoding 형식 다름
-        if self.user_operating_system == "Windows":
-            self.file = open('Article_' + self.category_name + '_' + self.date1+ '.csv', 'w', encoding='euc-kr',newline='')
-        # Other OS uses utf-8
-        else:
-            self.file = open('Article_' + self.category_name + '_' + self.date1+ '.csv', 'w',encoding='utf-8', newline='')
-
-    def get_writer_csv(self):
-        return self.wcsv
-
-    def close(self):
-        self.file.close()
 
 #article parser
 class ArticleParser(object):
@@ -178,8 +138,6 @@ class ArticleCrawler(object):
         self.date['date'] = now[0]
         self.date['time'] = now[1]
 
-        writer = Writer(category_name=category_name, date=self.date)
-
         # 기사 URL 형식(sid1은 category id, date는 date)
         url = "http://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=" + str(self.categories.get(category_name)) + "&date="
 
@@ -262,9 +220,7 @@ class ArticleCrawler(object):
                     if not text_date:
                         continue
 
-                    # write csv ( here change csv -> database access)
-                    #wcsv = writer.get_writer_csv()
-                    #wcsv.writerow([news_date, category_name, text_company, text_headline, text_sentence, content_url, text_date])
+
                     resultdata = [news_date, category_name, text_company, text_headline, text_sentence, content_url, tag_date_datetime]
                     #print("c",resultdata)
                     q.put(resultdata)
