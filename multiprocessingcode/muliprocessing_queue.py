@@ -254,7 +254,7 @@ class ArticleCrawler(object):
                     # wcsv.writerow([ex, content_url])
                     del request_content, document_content
                     pass
-        writer.close()
+
 
     def start(self):
         # MultiProcess crawling start(each category)
@@ -263,69 +263,6 @@ class ArticleCrawler(object):
             proc.start()
 
 
-
-
-
-# 각 크롤링 결과 저장하기 위한 리스트 선언
-furl_list = []
-title_text = []
-link_text = []
-L_category_text = []
-S_category_text = []
-date_text = []
-contents_text = []
-result = {}
-
-now = datetime.now()  # 파일이름 현 시간으로 저장하기
-
-#대주제 -> 소주제 들어가는 함수
-def first_crawler():
-    url = f'https://terms.naver.com/list.nhn?cid=41703&categoryId=41703'
-    bbreq = requests.get(url)
-    bbhtml = bbreq.text
-    bbsoup = BeautifulSoup(bbhtml, 'html.parser')
-
-    for furls in bbsoup.select('#content > div.subject_wrap > div > ul > li > a'):
-        furls = "http://terms.naver.com" + furls["href"]
-        furl_list.append(furls)
-
-    return furl_list
-
-
-#본문가져오기
-def get_text(n_url):
-    text_detail = []
-
-    breq = requests.get(n_url)
-    bsoup = BeautifulSoup(breq.content, 'html.parser')
-
-    textlist = bsoup.select('#size_ct > p')
-
-    for txt in textlist:
-        # text_detail.append(txt.text)
-        return txt.text
-
-#소주제에서 페이지 넘기면서 본문 크롤링
-def crawler2(q):
-    count = 0
-    for url in first_crawler():             # first_crawler()함수로 소주제 링크 목록 가져오기
-        for i in range(2,3):                # 페이지 수 100개 - 150000개
-
-            urlp = url + '&page={}'.format(i)
-            response = requests.get(urlp)
-            html = response.text
-
-            # 뷰티풀소프의 인자값 지정
-            #"이 문자열은  html 구조에 맞게 작성되어있음. html 관점에서 이해하라는 것
-            soup = BeautifulSoup(html, 'html.parser')
-
-            # 본문전체내용
-            for urls in soup.select('div.subject > strong > a:nth-child(1)'):
-                urls = "http://terms.naver.com" + urls["href"]
-                data = get_text(urls)
-                q.put(data)
-                count += 1
-                print("put{}!".format(count))
 
 count = 0
 def smry(q):
@@ -337,19 +274,15 @@ def smry(q):
             count += 1
             print("get{}!".format(count))
             lexrank = LexRank()
-            lexrank.summarize(data[4])
-            summaries = lexrank.probe(3)
-            for summary in summaries:
-                print(summary)
+            lexrank.summarize(data[4]) #data[4] (본문)가져와서 요약
+            summaries = lexrank.probe(3) #3줄요약, summaries 타입은 list
+            data[4] = '. '.join(summaries)+'.' #요약된 내용 다시 .으로 join후 저장
+            print("result",data) #db에 저장되어야 하는 최종 결과
+            # for summary in summaries:
+            #     print(summary)
         except (IndexError,ValueError,AttributeError):
             pass
             # 입력데이터가 이상한 값이어서 요약문이 안나올 때 에러처리 #입력데이터가 None으로 들어올때 에러처리
-
-    def start(self):
-        # MultiProcess crawling start(each category)
-        for category_name in self.selected_categories:
-            proc = Process(target=self.crawling, args=(category_name,q,))
-            proc.start()
 
 
 if __name__ == "__main__":
@@ -357,9 +290,9 @@ if __name__ == "__main__":
     #q2 = Queue()
 
     Crawler = ArticleCrawler()
-    Crawler2 = ArticleCrawler()
+    #Crawler2 = ArticleCrawler()
     Crawler.set_category("IT과학")
-    Crawler2.set_category("경제")
+    #Crawler2.set_category("경제")
 
 
     #process_one = Process(target=crawler2, args=(q,))
@@ -367,7 +300,7 @@ if __name__ == "__main__":
     #process_three = Process(target=smry, args=(q2,))
     Crawler.start()
 
-    Crawler2.start()
+    #Crawler2.start()
 
     process_two.start()
     #process_three.start()
