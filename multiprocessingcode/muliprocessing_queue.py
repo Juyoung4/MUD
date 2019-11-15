@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
+
+import multiprocessing
 import time
 from multiprocessing import Process, Queue
 from bs4 import BeautifulSoup
@@ -17,7 +19,7 @@ from lexrankr import LexRank
 from time import sleep
 from time import sleep
 from bs4 import BeautifulSoup
-from multiprocessing import Process
+from multiprocessing import Process, Queue
 import os
 import platform
 import calendar
@@ -25,6 +27,12 @@ import requests
 import re
 from datetime import datetime
 import csv
+
+from lexrankr import LexRank
+from apscheduler.schedulers.background import BackgroundScheduler
+import time
+
+
 
 #excepion
 class InvalidCategory(Exception):
@@ -120,6 +128,7 @@ class ArticleCrawler(object):
         self.categories = {'정치': 100, '경제': 101, '사회': 102, '생활문화': 103, '세계': 104, 'IT과학': 105, '오피니언': 110,
                            'politics': 100, 'economy': 101, 'society': 102, 'living_culture': 103, 'world': 104,
                            'IT_science': 105, 'opinion': 110}
+
         self.selected_categories = []
         self.date = {'date': 0, 'time': 0}
         self.user_operating_system = str(platform.system())
@@ -154,6 +163,10 @@ class ArticleCrawler(object):
         raise ResponseTimeout()
 
     def crawling(self, category_name,q):
+        global old
+
+        category_name = "경제"
+
         # Multi Process PID
         count = 0
         print(category_name + " PID: " + str(os.getpid()))
@@ -193,8 +206,12 @@ class ArticleCrawler(object):
                 post.append(line.a.get('href'))  # 해당되는 page에서 모든 기사들의 URL을 post 리스트에 넣음
             del post_temp
 
+            self.new = post[0]
             for content_url in post:  # 기사 URL
                 # 크롤링 대기 시간
+                if content_url == old:
+                    old = self.new
+                    return
                 sleep(0.01)
 
                 # 기사 HTML 가져옴
@@ -241,10 +258,10 @@ class ArticleCrawler(object):
                     #wcsv = writer.get_writer_csv()
                     #wcsv.writerow([news_date, category_name, text_company, text_headline, text_sentence, content_url, text_date])
                     resultdata = [news_date, category_name, text_company, text_headline, text_sentence, content_url, text_date]
-                    print(resultdata)
+                    # print("c",resultdata)
                     q.put(resultdata)
                     count += 1
-                    print("put{}!".format(count))
+                    #print("put{}!".format(count))
                     del text_company, text_sentence, text_headline
                     del tag_company
                     del tag_content, tag_headline
@@ -272,12 +289,12 @@ def smry(q):
             global count
             data = q.get()
             count += 1
-            print("get{}!".format(count))
+            #print("get{}!".format(count))
             lexrank = LexRank()
             lexrank.summarize(data[4]) #data[4] (본문)가져와서 요약
             summaries = lexrank.probe(3) #3줄요약, summaries 타입은 list
             data[4] = '. '.join(summaries)+'.' #요약된 내용 다시 .으로 join후 저장
-            print("result",data) #db에 저장되어야 하는 최종 결과
+            print(data) #db에 저장되어야 하는 최종 결과
             # for summary in summaries:
             #     print(summary)
         except (IndexError,ValueError,AttributeError):
@@ -287,30 +304,26 @@ def smry(q):
 
 if __name__ == "__main__":
     q = Queue()
-    #q2 = Queue()
-
+    old = 'https://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=101&oid=087&aid=0000777184'
+    ####크롤러####
     Crawler = ArticleCrawler()
-    #Crawler2 = ArticleCrawler()
-    Crawler.set_category("IT과학")
-    #Crawler2.set_category("경제")
+    Crawler.set_category("경제")
+
+    # ####스케줄러로 크롤러 제어####
+    sched = BackgroundScheduler()
+    sched.start()
+    sched.add_job(Crawler.crawling, 'interval', seconds=10, id='test_2',args=["category_name",q])    # argssms 배열로 넣어주어야한다.
 
 
-    #process_one = Process(target=crawler2, args=(q,))
-    process_two = Process(target=smry, args=(q,))
-    #process_three = Process(target=smry, args=(q2,))
-    Crawler.start()
+    ####요약####
+    process_summary = Process(target=smry, args=(q,))
+    process_summary.start()
 
-    #Crawler2.start()
-
-    process_two.start()
-    #process_three.start()
-
-    #process_one.start()
+    while True:
+        print("running!!")
+        time.sleep(1)
 
 
-
+    #Crawler.start()
     q.close()
     q.join_thread()
-
-    ##q2.close()
-    #q2.join_thread()
