@@ -7,7 +7,7 @@ from multiprocessing import Process, Queue
 from bs4 import BeautifulSoup
 from datetime import datetime
 import requests
-import pandas as pd
+
 import re
 import os
 
@@ -25,9 +25,9 @@ import platform
 import calendar
 import requests
 import re
-from datetime import datetime
+import datetime
 import csv
-
+import json
 
 
 from lexrankr import LexRank
@@ -174,7 +174,7 @@ class ArticleCrawler(object):
         print(category_name + " PID: " + str(os.getpid()))
 
         #date 정의
-        now = str(datetime.now()).split()
+        now = str(datetime.datetime.now()).split()
         self.date['date'] = now[0]
         self.date['time'] = now[1]
 
@@ -187,9 +187,8 @@ class ArticleCrawler(object):
         day_urls = self.make_news_page_url(url, self.date['date'])
         print(category_name + " Urls are generated")
         print("The crawler starts")
-
+        print(old)
         for URL in day_urls:
-
             regex = re.compile("date=(\d+)")
             news_date = regex.findall(URL)[0]
 
@@ -229,6 +228,7 @@ class ArticleCrawler(object):
                     text_headline = ''  # 뉴스 기사 제목 초기화
                     text_headline = text_headline + ArticleParser.clear_headline(
                         str(tag_headline[0].find_all(text=True)))
+
                     if not text_headline:  # 공백일 경우 기사 제외 처리
                         continue
 
@@ -253,16 +253,23 @@ class ArticleCrawler(object):
                     tag_date=re.sub('<.+?>','',(str(tag_date[0]))).strip()
                     text_date = '' #date 초기화
                     text_date = text_date + tag_date
+                    tag_date_datetime = text_date.split()[0].split('.')
+                    tag_date_datetime = '-'.join(
+                        [tag_date_datetime[i] for i in range(len(tag_date_datetime) - 1)]) + " " + text_date.split()[2]
+                    tag_date_datetime = datetime.datetime.strptime(tag_date_datetime, '%Y-%m-%d %H:%M')
+                    if text_date.split()[1] == '오후':
+                        tag_date_datetime += datetime.timedelta(hours=12)
                     if not text_date:
                         continue
 
                     # write csv ( here change csv -> database access)
                     #wcsv = writer.get_writer_csv()
                     #wcsv.writerow([news_date, category_name, text_company, text_headline, text_sentence, content_url, text_date])
-                    resultdata = [news_date, category_name, text_company, text_headline, text_sentence, content_url, text_date]
-                    # print("c",resultdata)
+                    resultdata = [news_date, category_name, text_company, text_headline, text_sentence, content_url, tag_date_datetime]
+                    #print("c",resultdata)
                     q.put(resultdata)
                     count += 1
+
                     #print("put{}!".format(count))
                     del text_company, text_sentence, text_headline
                     del tag_company
@@ -297,12 +304,29 @@ def smry(q):
             summaries = lexrank.probe(3) #3줄요약, summaries 타입은 list
             data[4] = '. '.join(summaries)+'.' #요약된 내용 다시 .으로 join후 저장
             print(data) #db에 저장되어야 하는 최종 결과
+            db_store(data)
             # for summary in summaries:
             #     print(summary)
         except (IndexError,ValueError,AttributeError):
             pass
             # 입력데이터가 이상한 값이어서 요약문이 안나올 때 에러처리 #입력데이터가 None으로 들어올때 에러처리
-
+def db_store(data):
+    URL = "http://34.84.147.192:8000/news/articles/"
+    data = {
+        "headline": data[3],
+        "summary": data[4],
+        "url": data[5],
+        "pub_date": data[6],  # Shuld be in datetime format
+        "category": data[1],  # This is news category
+        "cluster_id": "01873b9c-244d-4744-afb9-3a2dc34dbfd1",  # This is Default cluster ID for null value
+    }
+    try:
+        res = requests.post(url=URL,
+                            data=data).json()  # This will post data to database and return the colume back and convert to json
+        print(res['news_id'])  # This will show the newly created news id
+        res = requests.get(url=URL)
+    except Exception as e:
+        print(e)
 
 if __name__ == "__main__":
     q = Queue()
