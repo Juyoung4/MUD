@@ -27,6 +27,7 @@ import re
 from datetime import datetime
 import csv
 
+old =  'https://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=101&oid=214&aid=0000993995'
 
 # excepion
 class InvalidCategory(Exception):
@@ -133,6 +134,7 @@ class ArticleCrawler(object):
         self.selected_categories = []
         self.date = {'date': 0, 'time': 0}
         self.user_operating_system = str(platform.system())
+        self.new=''
 
     def set_category(self, *args):
         for key in args:
@@ -164,8 +166,9 @@ class ArticleCrawler(object):
         raise ResponseTimeout()
 
     def crawling(self, category_name, q):
+        global old
         # Multi Process PID
-        category_name = "IT과학"
+        category_name = "경제"
         count = 0
         print(category_name + " PID: " + str(os.getpid()))
 
@@ -204,12 +207,14 @@ class ArticleCrawler(object):
                 post.append(line.a.get('href'))  # 해당되는 page에서 모든 기사들의 URL을 post 리스트에 넣음
             del post_temp
 
-            new_url_id = post[0]
-            for content_url in post:  # 기사 URL
-                # if content_url == old:
-                #     old = new_url_id
-                #     return old
+            self.new = post[0]
+            # if len(post) == 1:
+            #     old = post[0]
 
+            for content_url in post:  # 기사 URL
+                if content_url == old:
+                    old = self.new
+                    return
                 # 크롤링 대기 시간
                 sleep(0.01)
 
@@ -285,7 +290,7 @@ if __name__ == "__main__":
     q = Queue()
 
     Crawler = ArticleCrawler()
-    Crawler.set_category("IT과학")
+    Crawler.set_category("경제")
 
     #     process_two = Process(target=smry, args=(q,))
 
@@ -294,7 +299,7 @@ if __name__ == "__main__":
     sched = BackgroundScheduler()
     sched.start()
 
-    sched.add_job(Crawler.crawling, 'interval', seconds=10, id='test_2', args=["category_name", "q"])
+    sched.add_job(Crawler.crawling, 'interval', seconds=600, id='test_2', args=["category_name", "q"])
     # argssms 배열로 넣어주어야한다.
 
     while True:
