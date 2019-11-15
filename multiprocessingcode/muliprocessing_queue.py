@@ -25,14 +25,7 @@ import time
 
 
 
-#excepion
-class InvalidCategory(Exception):
-    def __init__(self, category):
-        self.category = category
-        self.message = " is not valid."
 
-    def __str__(self):
-        return str(self.category + self.message)
 #excepion
 class ResponseTimeout(Exception):
     def __init__(self):
@@ -87,19 +80,9 @@ class ArticleParser(object):
 #article crawler
 class ArticleCrawler(object):
     def __init__(self):
-        self.categories = {'정치': 100, '경제': 101, '사회': 102, '생활문화': 103, '세계': 104, 'IT과학': 105, '오피니언': 110,
-                           'politics': 100, 'economy': 101, 'society': 102, 'living_culture': 103, 'world': 104,
-                           'IT_science': 105, 'opinion': 110}
 
-        self.selected_categories = []
         self.date = {'date': 0, 'time': 0}
         self.user_operating_system = str(platform.system())
-
-    def set_category(self, *args):
-        for key in args:
-            if self.categories.get(key) is None:
-                raise InvalidCategory(key)
-        self.selected_categories = args
 
     @staticmethod
     def make_news_page_url(category_url, date):
@@ -126,8 +109,9 @@ class ArticleCrawler(object):
 
     def crawling(self, category_name,q):
         global old
-
-        category_name = "경제"
+        categories = {'정치': 100, '경제': 101, '사회': 102, '생활문화': 103, '세계': 104, 'IT과학': 105, '오피니언': 110,
+                           'politics': 100, 'economy': 101, 'society': 102, 'living_culture': 103, 'world': 104,
+                           'IT_science': 105, 'opinion': 110}
 
         # Multi Process PID
         count = 0
@@ -146,6 +130,7 @@ class ArticleCrawler(object):
         print(category_name + " Urls are generated")
         print("The crawler starts")
         print(old)
+
         for URL in day_urls:
             regex = re.compile("date=(\d+)")
             news_date = regex.findall(URL)[0]
@@ -168,9 +153,22 @@ class ArticleCrawler(object):
             self.new = post[0]
             for content_url in post:  # 기사 URL
                 # 크롤링 대기 시간
-                if content_url == old:
-                    old = self.new
-                    return
+                if category_name == "경제":
+                    if content_url == old[0]:
+                        old[0] = self.new
+                        return
+                if category_name == "IT과학":
+                    if content_url == old[1]:
+                        old[1] = self.new
+                        return
+                if category_name == "사회":
+                    if content_url == old[2]:
+                        old[2] = self.new
+                        return
+                if category_name == "정치":
+                    if content_url == old[3]:
+                        old[3] = self.new
+                        return
                 sleep(0.01)
 
                 # 기사 HTML 가져옴
@@ -286,15 +284,26 @@ def db_store(data):
 
 if __name__ == "__main__":
     q = Queue()
-    old = 'https://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=101&oid=087&aid=0000777184'
     ####크롤러####
     Crawler = ArticleCrawler()
-    Crawler.set_category("경제")
-
     # ####스케줄러로 크롤러 제어####
     sched = BackgroundScheduler()
     sched.start()
-    sched.add_job(Crawler.crawling, 'interval', seconds=10, id='test_2',args=["category_name",q])    # argssms 배열로 넣어주어야한다.
+    old=[]
+    category={"경제":'https://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=101&oid=008&aid=0004310706',"IT과학":'https://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=105&oid=023&aid=0003487212'
+              ,'사회':'https://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=102&oid=005&aid=0001259755','정치':'https://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=100'}
+
+    ##경제 :5분/ 사회:3분/ 정치:7분/IT:15분.
+    if "경제" in category:
+        old.append(category["경제"])
+        sched.add_job(Crawler.crawling, 'interval', seconds=3, id='test_1',args=["경제", q])  # argssms 배열로 넣어주어야한다.
+    if "IT과학" in category:
+        old.append(category["IT과학"])
+        sched.add_job(Crawler.crawling, 'interval', seconds=5, id='test_2', args=["IT과학", q])  # argssms 배열로 넣어주어야한다.
+    if "사회" in category:
+        old.append(category["사회"])
+    if "정치" in category:
+        old.append(category["정치"])
 
 
     ####요약####
