@@ -163,7 +163,7 @@ class ArticleCrawler(object):
             remaining_tries = remaining_tries - 1
         raise ResponseTimeout()
 
-    def crawling(self, category_name, q, old):
+    def crawling(self, category_name, q):
         # Multi Process PID
         category_name = "IT과학"
         count = 0
@@ -206,9 +206,9 @@ class ArticleCrawler(object):
 
             new_url_id = post[0]
             for content_url in post:  # 기사 URL
-                if content_url == old:
-                    old = new_url_id
-                    return old
+                # if content_url == old:
+                #     old = new_url_id
+                #     return old
 
                 # 크롤링 대기 시간
                 sleep(0.01)
@@ -294,8 +294,7 @@ if __name__ == "__main__":
     sched = BackgroundScheduler()
     sched.start()
 
-    sched.add_job(Crawler.crawling, 'interval', seconds=10, id='test_2', args=["category_name", "q",
-                                                                               'https://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=105&oid=215&aid=0000824631'])
+    sched.add_job(Crawler.crawling, 'interval', seconds=10, id='test_2', args=["category_name", "q"])
     # argssms 배열로 넣어주어야한다.
 
     while True:
