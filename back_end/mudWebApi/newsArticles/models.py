@@ -36,7 +36,7 @@ class UserRating(models.Model):
     news_summary = models.ForeignKey(NewsSummary, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.score
+        return str(self.score)
 
 class Favorite(models.Model):
     favorite_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
@@ -44,7 +44,7 @@ class Favorite(models.Model):
     news_summary = models.ForeignKey(NewsSummary, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.news_summary
+        return str(self.news_summary)
 
 class Recommend(models.Model):
     recommend_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
@@ -52,4 +52,4 @@ class Recommend(models.Model):
     cluster_id = models.ForeignKey(Cluster, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.cluster_id
+        return str(self.cluster_id)
