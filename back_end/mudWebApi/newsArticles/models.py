@@ -38,14 +38,6 @@ class UserRating(models.Model):
     def __str__(self):
         return str(self.score)
 
-class Favorite(models.Model):
-    favorite_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    news_summary = models.ForeignKey(NewsSummary, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return str(self.news_summary)
-
 class Recommend(models.Model):
     recommend_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -53,3 +45,19 @@ class Recommend(models.Model):
 
     def __str__(self):
         return str(self.cluster_id)
+
+class allUserFavorite(models.Model):
+    allUserFavorite_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
+    headline = models.CharField(max_length=250)
+    summary = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.headline
+
+class Favorite(models.Model):
+    favorite_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    allUserFav_id = models.ForeignKey(allUserFavorite, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.allUserFav_id)

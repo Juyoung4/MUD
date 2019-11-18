@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import NewsSummary, Cluster, User, UserRating, Favorite, Recommend
+from .models import NewsSummary, Cluster, User, UserRating, Favorite, Recommend, allUserFavorite
 
 
 class NewsSummarySerializer(serializers.ModelSerializer):
@@ -31,4 +31,9 @@ class FavoriteSerializer(serializers.ModelSerializer):
 class RecommendSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recommend
+        fields = ('__all__')
+
+class allUserFavoriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = allUserFavorite
         fields = ('__all__')

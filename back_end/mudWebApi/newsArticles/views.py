@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from rest_framework import viewsets, filters
-from .models import  NewsSummary, Cluster, User, UserRating, Favorite, Recommend
-from .serializer import  NewsSummarySerializer, ClusterSerializer, UserSerializer, UserRatingSerializer, FavoriteSerializer, RecommendSerializer
+from .models import  NewsSummary, Cluster, User, UserRating, Favorite, Recommend, allUserFavorite
+from .serializer import  NewsSummarySerializer, ClusterSerializer, UserSerializer, UserRatingSerializer, FavoriteSerializer, RecommendSerializer, allUserFavoriteSerializer
 import requests
 import json
 import random
@@ -19,7 +19,7 @@ class Summary(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['category', 'news_id', 'cluster_id']
     search_fields = ['headline', 'pub_date']
-    ordering = ['pub_date']
+    ordering = ['sum_date']
 
 class RegisterdUsers(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -42,10 +42,16 @@ class FavoriteList(viewsets.ModelViewSet):
     queryset = Favorite.objects.all()
     serializer_class = FavoriteSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['user_id', 'news_summary']
+    filterset_fields = ['user_id', 'allUserFav_id']
 
 class RecommendList(viewsets.ModelViewSet):
     queryset = Recommend.objects.all()
     serializer_class = RecommendSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['user_id', 'cluster_id']
+
+class AllUserFavoriteList(viewsets.ModelViewSet):
+    queryset = allUserFavorite.objects.all()
+    serializer_class = allUserFavoriteSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['allUserFavorite_id', 'headline']
