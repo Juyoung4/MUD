@@ -1,0 +1,168 @@
+import requests
+import json
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import linear_kernel
+from apscheduler.jobstores.base import JobLookupError
+from apscheduler.schedulers.background import BackgroundScheduler
+import math
+import copy
+
+class Recommendation:
+    def pearson(name1, name2, data):
+        data = requests.get(url = "http://34.84.147.192:8000/news/rating/").json()
+        sumX = 0
+        sumY = 0
+        sumPowX = 0
+        sumPowY = 0
+        sumXY = 0
+        count = 0
+        user=list(set([i["user_id"] for i in data]))
+        user_data = []
+        for i in data:
+            if i['user_id'] in user:
+                user_data.append([i['user_id'],i['news_summary'],i['score']])
+        list1 = []
+        list2 = []
+        for i in user_data:
+            if i[0] == name1:
+                list1.append([i[1],i[2]])
+            elif i[0] == name2:
+                list2.append([i[1],i[2]])
+        for i in list1:
+            for j in list2:
+                if i == j:
+                    sumX += i[1]
+                    sumY += j[1]
+                    sumPowX += pow(i[1],2)
+                    sumPowY += pow(j[1],2)
+                    sumXY += i[1] * j[1]
+                    count += 1
+        try:
+            ( sumXY- ((sumX*sumY)/count) )/ math.sqrt( (sumPowX - (pow(sumX,2) / count)) * (sumPowY - (pow(sumY,2)/count)))
+        except:
+            return -1
+        else:
+            return ( sumXY- ((sumX*sumY)/count) )/ math.sqrt( (sumPowX - (pow(sumX,2) / count)) * (sumPowY - (pow(sumY,2)/count)))
+
+    def top_match(name, data, cos_function = pearson):
+        result_list = []
+
+        user= list(set([i["user_id"] for i in data]))
+
+        for i in user:
+            if name != i:
+                result_list.append((cos_function(name,i, data),i))
+        result_list.sort()
+        result_list.reverse()
+
+        return result_list
+
+    def getClusterid(news_id):
+        data = requests.get(url = "http://34.84.147.192:8000/news/articles/").json()
+        news_id_list = []
+        result = []
+        for i in news_id:
+            news_id_list.append(i[1])
+        for i in data:
+            if i['news_id'] in news_id_list:
+                result.append(i['cluster_id'])
+
+        result = list(set(result))
+        return result
+
+    def getRecommendation(person):
+        data = requests.get(url = "http://34.84.147.192:8000/news/rating/").json()
+        result = Recommendation.top_match(person, data)
+        simSum = 0
+        score = 0
+        result_list = []
+        score_dic = {}
+        sim_dic = {}   
+        user= list(set([i["user_id"] for i in data]))
+        user_data = []
+        s = []
+        d = []
+        for i in data:
+            if i['user_id'] in user:
+                user_data.append([i['score'], i['user_id'],i['news_summary']])
+
+        for i in user_data:
+            if i[1] == person:
+                d.append(i)
+
+        k = copy.deepcopy(d)
+
+        for sim, name in result:
+            if sim <0.5 : continue
+            for i in user_data:
+                if i[1] == name:
+                    s.append(i)
+
+        for i in s:
+            for j in d:
+                if i != j:
+                    d.remove(j)
+                    score += sim * i[0]
+                    score_dic.setdefault(i[2],0)
+                    score_dic[i[2]] += score
+                    sim_dic.setdefault(i[2],0)
+                    sim_dic[i[2]] += sim
+            score = 0
+
+        for key in score_dic:
+            score_dic[key] = score_dic[key] / sim_dic[key]
+            if score_dic[key] < 4 : continue
+            result_list.append((score_dic[key], key))
+        if not result_list:
+            return Recommendation.getContentsbased(k[k.index(max(k))][2])
+
+        result_list.sort()
+        result_list.reverse()
+        cluster_id = Recommendation.getClusterid(result_list)
+        data = requests.get(url = "http://34.84.147.192:8000/news/recommend/").json()
+        for i in data:
+            for j in cluster_id:
+                if i['cluster_id'] == j:
+                    print(j)
+                    cluster_id.remove(j)
+
+        if not cluster_id:
+            return Recommendation.getContentsbased(k[k.index(max(k))][2])
+        else:
+            print(cluster_id, person)
+
+    def getContentsbased(news_id):
+        stopword = open(r'C:\Users\82103\git-workplace\kostopword.txt', encoding="utf8")
+        results = {}
+        a = requests.get(url = "http://34.84.147.192:8000/news/articles/").json()
+        tf = TfidfVectorizer(analyzer='word', ngram_range=(1, 2), stop_words = stopword)
+        s = []
+        e = []
+        index = 0
+        for i in a:
+            s.append([index,i['summary'], i['news_id']])
+            e.append(i['summary'])
+            index += 1
+        tfidf_matrix = tf.fit_transform(e)
+
+        cosine_similarities = linear_kernel(tfidf_matrix, tfidf_matrix)
+        for idx, summary, id in s:
+            similar_indices = cosine_similarities[idx].argsort()[:-100:-1]
+            similar_items = [(cosine_similarities[idx][i], s[i][2]) for i in similar_indices]
+            results[id] = similar_items[:5]
+        result = results[news_id][:5]
+        cluster_id = Recommendation.getClusterid(result)
+        data = requests.get(url = "http://34.84.147.192:8000/news/recommend/").json()
+
+        for i in data:
+            for j in cluster_id:
+                if i['cluster_id'] == j:
+                    print(j)
+                    cluster_id.remove(j)
+        print(cluster_id)  
+
+
+    
+
+    
+
