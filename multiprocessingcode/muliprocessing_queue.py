@@ -109,7 +109,7 @@ class ArticleCrawler(object):
 
     def crawling(self, category_name,q):
         global old
-        categories = {'정치': 100, '경제': 101, '사회': 102, '생활문화': 103, '세계': 104, 'IT과학': 105, '오피니언': 110,
+        self.categories = {'정치': 100, '경제': 101, '사회': 102, '생활문화': 103, '세계': 104, 'IT과학': 105, '오피니언': 110,
                            'politics': 100, 'economy': 101, 'society': 102, 'living_culture': 103, 'world': 104,
                            'IT_science': 105, 'opinion': 110}
 
@@ -153,19 +153,19 @@ class ArticleCrawler(object):
             self.new = post[0]
             for content_url in post:  # 기사 URL
                 # 크롤링 대기 시간
-                if category_name == "경제":
+                if category_name == "economy":
                     if content_url == old[0]:
                         old[0] = self.new
                         return
-                if category_name == "IT과학":
+                if category_name == "IT_science":
                     if content_url == old[1]:
                         old[1] = self.new
                         return
-                if category_name == "사회":
+                if category_name == "society":
                     if content_url == old[2]:
                         old[2] = self.new
                         return
-                if category_name == "정치":
+                if category_name == "politics":
                     if content_url == old[3]:
                         old[3] = self.new
                         return
@@ -272,7 +272,7 @@ def db_store(data):
         "url": data[5],
         "pub_date": data[6],  # Shuld be in datetime format
         "category": data[1],  # This is news category
-        "cluster_id": "01873b9c-244d-4744-afb9-3a2dc34dbfd1",  # This is Default cluster ID for null value
+        "cluster_id": "1f4f3d79-192a-409c-b824-091ae97bfccd",  # This is Default cluster ID for null value
     }
     try:
         res = requests.post(url=URL,
@@ -290,20 +290,22 @@ if __name__ == "__main__":
     sched = BackgroundScheduler()
     sched.start()
     old=[]
-    category={"경제":'https://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=101&oid=008&aid=0004310706',"IT과학":'https://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=105&oid=023&aid=0003487212'
-              ,'사회':'https://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=102&oid=005&aid=0001259755','정치':'https://news.naver.com/main/list.nhn?mode=LSD&mid=sec&sid1=100'}
+    category={"economy":'https://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=101&oid=056&aid=0010765063',"IT_science":'https://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=105&oid=032&aid=0002975476'
+              ,'society':'https://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=102&oid=005&aid=0001260359','politics':'https://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=100&oid=052&aid=0001367122'}
 
     ##경제 :5분/ 사회:3분/ 정치:7분/IT:15분.
-    if "경제" in category:
-        old.append(category["경제"])
-        sched.add_job(Crawler.crawling, 'interval', seconds=3, id='test_1',args=["경제", q])  # argssms 배열로 넣어주어야한다.
-    if "IT과학" in category:
-        old.append(category["IT과학"])
-        sched.add_job(Crawler.crawling, 'interval', seconds=5, id='test_2', args=["IT과학", q])  # argssms 배열로 넣어주어야한다.
-    if "사회" in category:
-        old.append(category["사회"])
-    if "정치" in category:
-        old.append(category["정치"])
+    if "economy" in category:
+        old.append(category["economy"])
+        sched.add_job(Crawler.crawling, 'interval', seconds=3, id='test_1',args=["economy", q])  # argssms 배열로 넣어주어야한다.
+    if "IT_science" in category:
+        old.append(category["IT_science"])
+        sched.add_job(Crawler.crawling, 'interval', seconds=5, id='test_2', args=["IT_science", q])  # argssms 배열로 넣어주어야한다.
+    if "society" in category:
+        old.append(category["society"],)
+        sched.add_job(Crawler.crawling, 'interval', seconds=8, id='test_3', args=["society", q])  # argssms 배열로 넣어주어야한다.
+    if "politics" in category:
+        old.append(category["politics"])
+        sched.add_job(Crawler.crawling, 'interval', seconds=10, id='test_4', args=["politics", q])  # argssms 배열로 넣어주어야한다.
 
 
     ####요약####
