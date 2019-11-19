@@ -290,22 +290,22 @@ if __name__ == "__main__":
     sched = BackgroundScheduler()
     sched.start()
     old=[]
-    category={"economy":'https://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=101&oid=011&aid=0003653323',"IT_science":'https://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=105&oid=144&aid=0000642801'
-              ,'society':'https://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=102&oid=023&aid=0003487612','politics':'https://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=100&oid=214&aid=0000994552'}
+    category={"economy":'https://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=101&oid=005&aid=0001260441',"IT_science":'https://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=105&oid=020&aid=0003254067'
+              ,'society':'https://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=102&oid=005&aid=0001260447','politics':'https://news.naver.com/main/read.nhn?mode=LSD&mid=sec&sid1=100&oid=005&aid=0001260414'}
 
     ##경제 :5분/ 사회:3분/ 정치:7분/IT:15분.
     if "economy" in category:
         old.append(category["economy"])
-        sched.add_job(Crawler.crawling, 'cron', minute="5", id='test_1',args=["economy", q])  # argssms 배열로 넣어주어야한다.
+        sched.add_job(Crawler.crawling, 'interval', seconds=180, id='test_1',args=["economy", q])  # argssms 배열로 넣어주어야한다.
     if "IT_science" in category:
         old.append(category["IT_science"])
-        sched.add_job(Crawler.crawling, 'cron', minute="15", id='test_2', args=["IT_science", q])  # argssms 배열로 넣어주어야한다.
+        sched.add_job(Crawler.crawling, 'interval', seconds=900, id='test_2', args=["IT_science", q])  # argssms 배열로 넣어주어야한다.
     if "society" in category:
         old.append(category["society"],)
-        sched.add_job(Crawler.crawling, 'cron', minute="3", id='test_3', args=["society", q])  # argssms 배열로 넣어주어야한다.
+        sched.add_job(Crawler.crawling, 'interval', seconds=180, id='test_3', args=["society", q])  # argssms 배열로 넣어주어야한다.
     if "politics" in category:
         old.append(category["politics"])
-        sched.add_job(Crawler.crawling, 'cron', minute="7", id='test_4', args=["politics", q])  # argssms 배열로 넣어주어야한다.
+        sched.add_job(Crawler.crawling, 'interval', seconds=420, id='test_4', args=["politics", q])  # argssms 배열로 넣어주어야한다.
 
 
     ####요약####
