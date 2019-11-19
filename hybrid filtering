@@ -30,7 +30,7 @@ class Recommendation:
                 list2.append([i[1],i[2]])
         for i in list1:
             for j in list2:
-                if i == j:
+                if i[0] == j[0]:
                     sumX += i[1]
                     sumY += j[1]
                     sumPowX += pow(i[1],2)
@@ -54,7 +54,6 @@ class Recommendation:
                 result_list.append((cos_function(name,i, data),i))
         result_list.sort()
         result_list.reverse()
-
         return result_list
 
     def getClusterid(news_id):
@@ -114,7 +113,7 @@ class Recommendation:
             if score_dic[key] < 4 : continue
             result_list.append((score_dic[key], key))
         if not result_list:
-            return Recommendation.getContentsbased(k[k.index(max(k))][2])
+            return Recommendation.getContentsbased(k[k.index(max(k))][2], person)
 
         result_list.sort()
         result_list.reverse()
@@ -127,17 +126,23 @@ class Recommendation:
                     cluster_id.remove(j)
 
         if not cluster_id:
-            return Recommendation.getContentsbased(k[k.index(max(k))][2])
+            return Recommendation.getContentsbased(k[k.index(max(k))][2], person)
         else:
-            print(cluster_id, person)
+            for i in cluster_id:
+                post_data={
+                           "user_id" : person,
+                           "cluster_id" : i
+                 }
+            res = requests.post(url = data, data = post_data).json()
 
-    def getContentsbased(news_id):
+    def getContentsbased(news_id, person):
         stopword = open(r'C:\Users\82103\git-workplace\kostopword.txt', encoding="utf8")
         results = {}
         a = requests.get(url = "http://34.84.147.192:8000/news/articles/").json()
         tf = TfidfVectorizer(analyzer='word', ngram_range=(1, 2), stop_words = stopword)
         s = []
         e = []
+        post_data = {}
         index = 0
         for i in a:
             s.append([index,i['summary'], i['news_id']])
@@ -159,7 +164,13 @@ class Recommendation:
                 if i['cluster_id'] == j:
                     print(j)
                     cluster_id.remove(j)
-        print(cluster_id)  
+        for i in cluster_id:
+            post_data={
+                "user_id" : person,
+                "cluster_id" : i
+            }
+            res = requests.post(url = data, data = post_data).json()
+        print(cluster_id,person)  
 
 
     
