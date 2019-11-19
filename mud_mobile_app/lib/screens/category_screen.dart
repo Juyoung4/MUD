@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mud_mobile_app/screens/category_listview_page.dart';
 import 'package:mud_mobile_app/utilities/constants.dart';
 import 'package:mud_mobile_app/utilities/fade_in_animation.dart';
 
@@ -66,44 +67,120 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 mainAxisSpacing: 8.0,
                 crossAxisCount: 2,
                 children: <Widget>[
-                  Container(
-                    height: double.infinity,
-                    child: Center(
-                      child: Text("IT", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
+                  Card(
+                    elevation: 4.0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)
                     ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
+                    child: GestureDetector(
+                      child: Container(
+                        height: double.infinity,
+                        child: Center(
+                          child: Text("Society", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(30),
+                          border: Border.all(
+                            width: 3,
+                            color: Colors.greenAccent
+                          )
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CategoryListView("society", "Society")),
+                        );
+                      },
                     ),
                   ),
-                  Container(
-                    height: double.infinity,
-                    child: Center(
-                      child: Text("Sports", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
+                  Card(
+                    elevation: 4.0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)
                     ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
+                    child: GestureDetector(
+                      child: Container(
+                        height: double.infinity,
+                        child: Center(
+                          child: Text("Economy", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(30),
+                          border: Border.all(
+                            width: 3,
+                            color: Colors.greenAccent
+                          )
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CategoryListView("economy", "Economy")),
+                        );
+                      },
                     ),
                   ),
-                  Container(
-                    height: double.infinity,
-                    child: Center(
-                      child: Text("World", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
+                  Card(
+                    elevation: 4.0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)
                     ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
+                    child: GestureDetector(
+                      child: Container(
+                        height: double.infinity,
+                        child: Center(
+                          child: Text("IT", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(30),
+                          border: Border.all(
+                            width: 3,
+                            color: Colors.greenAccent
+                          )
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CategoryListView("IT_science", "IT")),
+                        );
+                      },
                     ),
                   ),
-                  Container(
-                    height: double.infinity,
-                    child: Center(
-                      child: Text("Weather", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
+                  Card(
+                    elevation: 4.0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)
                     ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
+                    child: GestureDetector(
+                      child: Container(
+                        height: double.infinity,
+                        child: Center(
+                          child: Text("World", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(30),
+                          border: Border.all(
+                            width: 3,
+                            color: Colors.greenAccent
+                          )
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CategoryListView("world", "World")),
+                        );
+                      },
                     ),
                   ),
                 ],

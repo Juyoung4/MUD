@@ -37,7 +37,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         _nameValidate = false;
       });
       AuthService.signUpUser(context, _nameText.text, _emailText.text, _passwordText.text);
-      print(AuthService.getError());
     }
   }
 

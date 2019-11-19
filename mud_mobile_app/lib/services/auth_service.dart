@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mud_mobile_app/screens/error_page.dart';
 import 'package:mud_mobile_app/screens/home_screen.dart';
 import 'package:mud_mobile_app/screens/login_screen.dart';
+import 'package:mud_mobile_app/services/api_service.dart';
 
 class AuthService {
   static final _auth = FirebaseAuth.instance;
@@ -25,6 +26,7 @@ class AuthService {
           'email': email,
           'profileImageUrl': '',
         });
+        await ApiService.creatUser(signedInUser.uid);
         Navigator.pushReplacementNamed(context, HomeScreen.id);
       }
     } catch (error) {

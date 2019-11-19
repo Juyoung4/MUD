@@ -6,20 +6,23 @@ import 'package:mud_mobile_app/utilities/constants.dart';
 import 'dart:async';
 import 'package:mud_mobile_app/utilities/fade_in_animation.dart';
 
-class TimelineScreen extends StatefulWidget {
+class CategoryListView extends StatefulWidget {
+  final String category;
+  final String title;
+
+  CategoryListView(this.category, this.title);
   @override
-  _TimelineScreenState createState() => _TimelineScreenState();
+  _CategoryListViewState createState() => _CategoryListViewState();
 }
 
-class _TimelineScreenState extends State<TimelineScreen> {
+class _CategoryListViewState extends State<CategoryListView> {
   List<Article> articles;
-  List<Clusters> clusters;
   bool isSwitched = false;
 
   Future getData() async {
-    List<Clusters> response = await ApiService.getRecommends();
+    List<Article> response = await ApiService.getArticlesByCategory(widget.category);
     setState(() {
-      clusters = response;
+      articles = response;
     });
   }
 
@@ -47,12 +50,20 @@ class _TimelineScreenState extends State<TimelineScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
+                  FadeIn(1.2, Container(
+                    child: IconButton(
+                      icon: Icon(Icons.arrow_back_ios),
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
+                    ),
+                  )),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Container(
-                        child: FadeIn(1.0, Text("Today's News", style: kTopBarTitleStyle)),
+                        child: FadeIn(1.0, Text(widget.title, style: kTopBarTitleStyle)),
                       ),
                       Container(
                         child: FadeIn(1.2, Text("Timeline", style: kTopBarTitleStyle)),
@@ -76,55 +87,19 @@ class _TimelineScreenState extends State<TimelineScreen> {
                 ],
               ),
             ),
-            FadeIn(1.6, Container(
-              height: 100,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    child: Icon(
-                      Icons.speaker_phone,
-                      size: 68,
-                      color: Colors.green,
-                    ),
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.greenAccent.withOpacity(0.1),
-                          blurRadius: 20.0,
-                          spreadRadius: 5.0,
-                          offset: Offset(5.0, 5.0)
-                        )
-                      ]
-                    ),
-                  ),
-                  Container(
-                    child: Text(
-                      '< News Title to Speek',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            )),
             Expanded(
               child: FadeIn(1.6, ListView.builder(
-                  itemCount: clusters == null ? 1 : clusters.length,
+                  itemCount: articles == null ? 1 : articles.length,
                   itemBuilder: (BuildContext contex, int index){
                     return Container(
                       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                      child: clusters == null ? Container(child: Center(child: CircularProgressIndicator(),),) : Column(
+                      child: articles == null ? Container(child: Center(child: CircularProgressIndicator(),),) : Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 4.0),
                             child: Text(
-                              clusters[index].clusterHeadline == null ? 'Headline' : clusters[index].clusterHeadline,
+                              articles[index].headline == null ? 'Headline' : articles[index].headline,
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 18.0,
@@ -135,7 +110,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 4.0),
                             child: Text(
-                              clusters[index].clusterSummary == null ? 'Summary' : clusters[index].clusterSummary,
+                              articles[index].summary == null ? 'Summary' : articles[index].summary,
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontSize: 16.0,
@@ -146,7 +121,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 4.0),
                             child: Text(
-                              clusters[index].clusterId == null ? 'ID' : clusters[index].clusterId,
+                              articles[index].url == null ? 'URL' : articles[index].url,
                               style: TextStyle(
                                 color: Colors.black54,
                                 fontSize: 14.0,

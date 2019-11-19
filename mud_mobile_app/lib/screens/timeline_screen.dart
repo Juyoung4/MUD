@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:mud_mobile_app/models/api_models.dart';
 import 'package:mud_mobile_app/services/api_service.dart';
+import 'package:mud_mobile_app/services/tts_service.dart';
 import 'package:mud_mobile_app/utilities/constants.dart';
 import 'dart:async';
 import 'package:mud_mobile_app/utilities/fade_in_animation.dart';
@@ -32,23 +32,56 @@ class _TimelineScreenState extends State<TimelineScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final double devHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.dark,
-        child: Container(
-          child: CustomScrollView(
-            slivers: <Widget>[
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: HeroHeader(
-                  minExtent: 150.0,
-                  maxExtent: 250.0,
-                ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(bottom: 10.0),
+              height: (devHeight / 2) * 0.4,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        child: FadeIn(1.0, Text("Today's News", style: kTopBarTitleStyle)),
+                      ),
+                      Container(
+                        child: FadeIn(1.2, Text("Timeline", style: kTopBarTitleStyle)),
+                      ),
+                    ],
+                  ),
+                  FadeIn(1.4, Container(
+                    height: (devHeight / 2) * 0.2,
+                    child: Image.asset('assets/images/news.png'),
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.greenAccent.withOpacity(0.3),
+                          blurRadius: 20.0,
+                          spreadRadius: 5.0,
+                          offset: Offset(5.0, 5.0)
+                        )
+                      ]
+                    ),
+                  ))
+                ],
               ),
-              SliverFixedExtentList(
-                itemExtent: clusters == null ? 1 : clusters.length,
-                delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+            ),
+            FadeIn(1.6, TtsService()),
+            Expanded(
+              child: FadeIn(1.6, ListView.builder(
+                  itemCount: clusters == null ? 1 : clusters.length,
+                  itemBuilder: (BuildContext contex, int index){
                     return Container(
                       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                       child: clusters == null ? Container(child: Center(child: CircularProgressIndicator(),),) : Column(
@@ -100,69 +133,10 @@ class _TimelineScreenState extends State<TimelineScreen> {
                   },
                 ),
               ),
-            ],
-          ),
+            )
+          ],
         )
       ),
     );
   }
-}
-
-class HeroHeader implements SliverPersistentHeaderDelegate {
-  HeroHeader({
-    this.minExtent,
-    this.maxExtent,
-  });
-  double maxExtent;
-  double minExtent;
-
-  @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.transparent,
-                Colors.black54,
-              ],
-              stops: [0.5, 1.0],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              tileMode: TileMode.repeated,
-            ),
-          ),
-        ),
-        Positioned(
-          left: 4.0,
-          top: 4.0,
-          child: SafeArea(
-            child: IconButton(
-              icon: Icon(Icons.filter_2),
-              onPressed: (){},
-            ),
-          ),
-        ),
-        Positioned(
-          left: 16.0,
-          right: 16.0,
-          bottom: 16.0,
-          child: Text(
-            'Hero Image',
-            style: TextStyle(fontSize: 32.0, color: Colors.white),
-          ),
-        ),
-      ],
-    );
-  }
-
-  @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
-    return true;
-  }
-
-  @override
-  FloatingHeaderSnapConfiguration get snapConfiguration => null;
 }

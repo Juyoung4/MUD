@@ -143,7 +143,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Center(
                             child: Container(
                               child: CircleAvatar(
-                                backgroundImage: NetworkImage('https://bukiya.lk/upload/photos/2018/04/Ra8foNy1ki56SDiH4Oux_19_defe1f0b9a8471a31b17036dd1009bce_avatar_full.jpg'),
+                                backgroundImage: NetworkImage('https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png'),
                               ),
                               width: 100,
                               height: 100,
