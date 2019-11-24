@@ -29,7 +29,21 @@ final kTitleStyle = TextStyle(
       blurRadius: 5.0,
       color: Color(0xFF398AE5)
     ),
-  ], 
+  ],
+);
+
+final kTitleStyleMain = TextStyle(
+  color: Colors.white,
+  fontWeight: FontWeight.bold,
+  fontFamily: 'Pacifico',
+  fontSize: 36,
+  shadows: <Shadow>[
+    Shadow(
+      offset: Offset.zero,
+      blurRadius: 5.0,
+      color: Color(0xFF398AE5)
+    ),
+  ],
 );
 
 final kTopBarTitleStyle = TextStyle(

@@ -8,10 +8,16 @@ class TtsService extends StatefulWidget {
   @override
   _TtsServiceState createState() => _TtsServiceState();
 }
-
+enum TtsState { playing, stopped }
 class _TtsServiceState extends State<TtsService> {
   List<Clusters> clusters;
   FlutterTts flutterTts = new FlutterTts();
+  
+  TtsState ttsState = TtsState.stopped;
+
+  get isPlaying => ttsState == TtsState.playing;
+
+  get isStopped => ttsState == TtsState.stopped;
 
   Future getData() async {
     List<Clusters> response = await ApiService.getAllClusters();
@@ -22,50 +28,69 @@ class _TtsServiceState extends State<TtsService> {
 
   Future _speak(speek) async{
     await flutterTts.setLanguage("ko-KR");
-    await flutterTts.setPitch(0.8);
-    await flutterTts.speak(speek);
+    await flutterTts.setPitch(0.6);
+    var result = await flutterTts.speak(speek);
+    if (result == 1) setState(() => ttsState = TtsState.playing);
+  }
+
+  Future _stop() async{
+      var result = await flutterTts.stop();
+      if (result == 1) setState(() => ttsState = TtsState.stopped);
+  }
+
+  initTts() {
+    flutterTts = FlutterTts();
+
+    flutterTts.setStartHandler(() {
+      setState(() {
+        ttsState = TtsState.playing;
+      });
+    });
+
+    flutterTts.setCompletionHandler(() {
+      setState(() {
+        print("Complete");
+        ttsState = TtsState.stopped;
+      });
+    });
+
+    flutterTts.setErrorHandler((msg) {
+      setState(() {
+        ttsState = TtsState.stopped;
+      });
+    });
   }
 
   @override
   void initState() { 
     super.initState();
     this.getData();
+    initTts();
   }
  
   @override
   Widget build(BuildContext context) {
     final double devWidth = MediaQuery.of(context).size.width;
     return Container(
-      height: 100,
+      height: 60,
+      width: devWidth,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Container(
-            child: IconButton(
-              icon: Icon(
-                Icons.speaker_phone,
-                size: 48,
-                color: Colors.green,
-              ),
-              onPressed: clusters == null ? (){} : (){
-                print(clusters[1].clusterHeadline);
-                _speak(clusters[1].clusterHeadline);
-              },
-            ),
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.greenAccent.withOpacity(0.1),
-                  blurRadius: 20.0,
-                  spreadRadius: 5.0,
-                  offset: Offset(5.0, 5.0)
-                )
-              ]
+          GestureDetector(
+            onTap: clusters == null ? (){} : (){
+              if (isStopped){
+                _speak(clusters[1].clusterSummary);
+              } else {
+                _stop();
+              }
+            },
+            child: Container(
+              child: isPlaying ? Image.asset('assets/images/pause.png') : Image.asset('assets/images/play.png')
             ),
           ),
           Container(
-            width: (devWidth / 4) * 3,
+            width: devWidth * 0.75,
             child: clusters == null ? Text(
               'Loading....',
               style: TextStyle(
@@ -74,13 +99,13 @@ class _TtsServiceState extends State<TtsService> {
                 fontWeight: FontWeight.bold
               ),
             ) : Marquee(
-              text: clusters[1].clusterHeadline,
+              text: clusters[1].clusterSummary,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
               blankSpace: 20.0,
               pauseAfterRound: Duration(seconds: 1),
               startPadding: 10.0,
             ),
-          )
+          ),
         ],
       ),
     );

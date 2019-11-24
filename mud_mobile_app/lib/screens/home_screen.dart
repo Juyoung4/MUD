@@ -26,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
+        physics: NeverScrollableScrollPhysics(),
         controller: _pageController,
         children: <Widget>[
           TimelineScreen(),
@@ -44,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
           setState(() {
             _currentTab = index;
           });
-          _pageController.animateToPage(index, duration: Duration(milliseconds: 200), curve: Curves.easeIn);
+          _pageController.animateToPage(index, duration: Duration(milliseconds: 100), curve: Curves.easeIn);
         },
         activeColor: Color(0xFF398AE5),
         items: [
