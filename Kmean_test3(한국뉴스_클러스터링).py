@@ -46,7 +46,7 @@ def tokenizer(raw, pos=["Noun","Alpha","Verb","Number"], stopword=[]):
         ]
 
 # CountVectrizer로 토큰화
-vectorizer = CountVectorizer()#tokenizer= tokenizer, min_df = 1
+vectorizer = CountVectorizer(tokenizer= tokenizer, min_df = 1)
 X = vectorizer.fit_transform(content)
 print('fit_transform, (sentence {}, feature {})'.format(X.shape[0], X.shape[1]))
 print(vectorizer.get_feature_names())
@@ -65,7 +65,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 def BestK(X):
     distortions = []
-    K = range(1,10)
+    K = range(1,30)
     for k in K:
         kmeanModel = KMeans(n_clusters=k, init='k-means++',random_state=0)
         kmeanModel.fit(X)
@@ -108,23 +108,23 @@ def drawgraph(data):
 # drawgraph(X)
 
 # k-means 알고리즘 적용
-kmeans = KMeans(n_clusters=100).fit(X)
+# # kmeans = KMeans(n_clusters=100).fit(X)
+#
+# # trained labels and cluster centers
+# centers = kmeans.cluster_centers_
+# # labels에 merge
+# df['labels'] =  kmeans.labels_
 
-# trained labels and cluster centers
-centers = kmeans.cluster_centers_
-# labels에 merge
-df['labels'] =  kmeans.labels_
-
-#간단히 코드 몇 줄 만으로 뉴스기사에대한 clustering이 완료되었습니다.
-
-print()
-print(df.loc[df['labels']==9,['content_cleaned', 'labels','id']])
-print()
-print(df.loc[df['labels']==1,['content_cleaned','labels','id']])
-print()
-for i in (df.loc[df['labels']==9,['id']]):
-    print(df.loc[df['id']==i])
-print()
+# #간단히 코드 몇 줄 만으로 뉴스기사에대한 clustering이 완료되었습니다.
+#
+# print()
+# print(df.loc[df['labels']==9,['content_cleaned', 'labels','id']])
+# print()
+# print(df.loc[df['labels']==1,['content_cleaned','labels','id']])
+# print()
+# for i in (df.loc[df['labels']==9,['id']]):
+#     print(df.loc[df['id']==i])
+# print()
 
 from IPython.display import display
 # describe(df.loc[df['id']==10])
