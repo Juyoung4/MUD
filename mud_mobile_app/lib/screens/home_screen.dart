@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
           setState(() {
             _currentTab = index;
           });
-          _pageController.animateToPage(index, duration: Duration(milliseconds: 100), curve: Curves.easeIn);
+          _pageController.jumpToPage(index);
         },
         activeColor: Color(0xFF398AE5),
         items: [

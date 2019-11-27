@@ -5,64 +5,9 @@ import 'package:mud_mobile_app/models/api_models.dart';
 import 'package:mud_mobile_app/services/auth_service.dart';
 
 class ApiService {
-  static Clusters getRecommendError = Clusters(
-        clusterId: "----",
-        clusterHeadline : "Error Loading Data",
-        clusterSummary : "User may not have Recommending Profile yet",
-      );
-  
-  static Clusters getClustersError = Clusters(
-          clusterId: "----",
-          clusterHeadline: "Error Loading Data",
-          clusterSummary: "News may have deleted from database"
-        );
-  
-  static Article getArticleError = Article(
-        url : "----",
-        headline : "Error Loading Data frome category",
-        summary : "Check the Status Code"
-      );
 
-  static Future getArticles() async {
-    List<Article> articles = List();
-    final response = await http.get(
-      Uri.encodeFull("http://34.84.147.192:8000/news/articles/?format=json"), 
-      headers: {"Accept" : "application/json"}
-    );
-    if (response.statusCode == 200) {
-      articles = (json.decode(utf8.decode(response.bodyBytes)) as List)
-          .map((data) => new Article.fromJson(data))
-          .toList();
-      return articles;
-    } else {
-      return null;
-    }
-  }
-
-  static Future getArticlesByCategory(category) async {
-    List<Article> articles = List();
-    final response = await http.get(
-      Uri.encodeFull("http://34.84.147.192:8000/news/articles/?format=json&category=" + category), 
-      headers: {"Accept" : "application/json"}
-    );
-    if (response.statusCode == 200) {
-      articles = (json.decode(utf8.decode(response.bodyBytes)) as List)
-          .map((data) => new Article.fromJson(data))
-          .toList();
-      if (articles.length == 0){
-        articles.add(getArticleError);
-        return articles;
-      }
-      return articles;
-    } else {
-      articles.add(getArticleError);
-      return articles;
-    }
-  }
-
-  static Future getRecommends() async {
+  static Future<List<Clusters>> getRecommends() async {
     List<Recommends> recommends = List();
-    List<Clusters> clusters = List();
     FirebaseUser user = await AuthService.getCurrentUser();
     final response = await http.get(
       Uri.encodeFull("http://34.84.147.192:8000/news/recommend/?format=json&user_id=" + user.uid), 
@@ -73,17 +18,15 @@ class ApiService {
           .map((data) => new Recommends.fromJson(data))
           .toList();
       if (recommends.length == 0){
-        clusters.add(getRecommendError);
-        return clusters;
+        return null;
       }
       return getClusters(recommends);
     } else {
-      clusters.add(getRecommendError);
-      return clusters;
+      return null;
     }
   }
 
-  static Future getClusters(recommendsList) async {
+  static Future<List<Clusters>> getClusters(recommendsList) async {
     List<Clusters> clusters = List();
     for (var i = 0; i < recommendsList.length; i++){
       final response = await http.get(
@@ -95,11 +38,28 @@ class ApiService {
           .map((data) => new Clusters.fromJson(data))
           .toList();
         clusters.add(cluster[0]);
-      } else {
-        clusters.add(getClustersError);
-      }
+      } 
     }
     return clusters;
+  }
+
+  static Future<List<Article>> getArticlesByCategory(category) async {
+    List<Article> articles = List();
+    final response = await http.get(
+      Uri.encodeFull("http://34.84.147.192:8000/news/articles/?format=json&category=" + category), 
+      headers: {"Accept" : "application/json"}
+    );
+    if (response.statusCode == 200) {
+      articles = (json.decode(utf8.decode(response.bodyBytes)) as List)
+          .map((data) => new Article.fromJson(data))
+          .toList();
+      if (articles.length == 0){
+        return null;
+      }
+      return articles;
+    } else {
+      return null;
+    }
   }
 
   static Future getAllClusters() async {
@@ -133,4 +93,21 @@ class ApiService {
       print("User Create Success!");
     }
   }
+
+  static Future creatBookmark(uid, headline, summary) async {
+    AllUserBookmarks bookmark = AllUserBookmarks();
+    var jsonData = {
+      "headline": headline,
+      "summary": summary,
+    };
+    final response = await http.post(
+      Uri.encodeFull("http://34.84.147.192:8000/news/allbookmarks/"), 
+      body: jsonData,
+      headers: {"Accept" : "application/json"}
+    );
+    if (response.statusCode == 201){
+      bookmark = AllUserBookmarks.fromJson(json.decode(utf8.decode(response.bodyBytes)));
+    }
+  }
+
 }

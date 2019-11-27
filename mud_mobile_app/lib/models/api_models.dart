@@ -149,3 +149,22 @@ class Rating {
     return data;
   }
 }
+
+class AllUserBookmarks {
+  String headline;
+  String summary;
+
+  AllUserBookmarks({this.headline, this.summary});
+
+  AllUserBookmarks.fromJson(Map<String, dynamic> json) {
+    headline = json['headline'];
+    summary = json['summary'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['headline'] = this.headline;
+    data['summary'] = this.summary;
+    return data;
+  }
+}

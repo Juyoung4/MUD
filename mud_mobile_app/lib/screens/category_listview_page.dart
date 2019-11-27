@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mud_mobile_app/models/Conection_error.dart';
 import 'package:mud_mobile_app/models/api_models.dart';
 import 'package:mud_mobile_app/models/button_models.dart';
 import 'package:mud_mobile_app/services/api_service.dart';
@@ -18,14 +19,10 @@ class CategoryListView extends StatefulWidget {
 }
 
 class _CategoryListViewState extends State<CategoryListView> {
-  List<Article> articles;
-  bool isSwitched = false;
+ bool isSwitched = false;
 
   Future getData() async {
-    List<Article> response = await ApiService.getArticlesByCategory(widget.category);
-    setState(() {
-      articles = response;
-    });
+    return await ApiService.getArticlesByCategory(widget.category);
   }
 
   @override
@@ -43,8 +40,6 @@ class _CategoryListViewState extends State<CategoryListView> {
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.dark,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Stack(
               children: <Widget>[
@@ -65,7 +60,7 @@ class _CategoryListViewState extends State<CategoryListView> {
                               Navigator.pop(context);
                             },
                           ),
-                          Text('Today\'s News', style: kTitleStyleMain,),
+                          Text(widget.title, style: kTitleStyleMain,),
                           IconButton(
                             color: Colors.white,
                             icon: Icon(Icons.search, size: 36,),
@@ -78,122 +73,136 @@ class _CategoryListViewState extends State<CategoryListView> {
                 )
               ],
             ),
-            Expanded(
-              child: FadeIn(1.6, ListView.builder(
-                  itemCount: articles == null ? 1 : articles.length,
-                  itemBuilder: (BuildContext contex, int index){
+            Flexible(
+              child: FadeIn(1.6, FutureBuilder(
+                future: getData(),
+                builder: (BuildContext context, AsyncSnapshot snapshot){
+                  if (snapshot.connectionState == ConnectionState.waiting){
                     return Container(
-                      child: articles == null ? Container(child: Center(child: CircularProgressIndicator(),),) : 
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                        padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            width: 1.0,
-                            color: Color(0xFF398AE5),
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(5.0))
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              child: Text(
-                                articles[index].headline == null ? 'Headline' : articles[index].headline,
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5.0,
-                            ),
-                            Container(
-                              child: Text(
-                                articles[index].summary == null ? 'Summary' : articles[index].summary,
-                                style: TextStyle(
-                                  color: Colors.black87,
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5.0,
-                            ),
-                            Container(
-                              child: Text(
-                                articles[index].url == null ? 'ID' : articles[index].url,
-                                style: TextStyle(
-                                  color: Colors.black54,
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5.0,
-                            ),
-                            Container(
-                              height: 1,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(50)),
-                                color: Color(0xFF398AE5)
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: <Widget>[
-                                  RaisedGradientButton(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      children: <Widget>[
-                                        Icon(Icons.bookmark, color: Colors.white,),
-                                        Text('Bookmark', style: TextStyle(color: Colors.white),)
-                                      ],
-                                    ),
-                                    onPressed: (){},
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Color(0xFF398AE5),
-                                        Color(0xFF73AEF5),
-                                      ],
-                                      begin: Alignment.bottomLeft,
-                                      end: Alignment.topRight
-                                    ),
-                                  ),
-                                  RaisedGradientButton(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      children: <Widget>[
-                                        Icon(Icons.chrome_reader_mode, color: Colors.white,),
-                                        Text('Read More', style: TextStyle(color: Colors.white),)
-                                      ],
-                                    ),
-                                    onPressed: (){},
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Color(0xFF398AE5),
-                                        Color(0xFF73AEF5),
-                                      ],
-                                      begin: Alignment.bottomLeft,
-                                      end: Alignment.topRight
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        )
-                      ),
+                      child: CircularProgressIndicator(),
+                      alignment: Alignment.center,
                     );
-                  },
-                ),
-              ),
+                  } else if (snapshot.hasError || !snapshot.hasData) {
+                    return Container(
+                      child: ErrorDisplay(errorDisplay: 'Opps Somthing is not okay!',),
+                    );
+                  }
+                  List<Article> articles = snapshot.data;
+                  return ListView.builder(
+                    itemCount: articles.length,
+                    itemBuilder: (BuildContext contex, int index){
+                      return Container(
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                          padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 1.0,
+                              color: Color(0xFF398AE5),
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(5.0))
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                child: Text(
+                                  articles[index].headline == null ? 'Headline' : articles[index].headline,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5.0,
+                              ),
+                              Container(
+                                child: Text(
+                                  articles[index].summary == null ? 'Summary' : articles[index].summary,
+                                  style: TextStyle(
+                                    color: Colors.black87,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5.0,
+                              ),
+                              Container(
+                                child: Text(
+                                  articles[index].url == null ? 'ID' : articles[index].url,
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5.0,
+                              ),
+                              Container(
+                                height: 1,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                                  color: Color(0xFF398AE5)
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 5.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: <Widget>[
+                                    RaisedGradientButton(
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: <Widget>[
+                                          Icon(Icons.bookmark, color: Colors.white,),
+                                          Text('Bookmark', style: TextStyle(color: Colors.white),)
+                                        ],
+                                      ),
+                                      onPressed: (){},
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Color(0xFF398AE5),
+                                          Color(0xFF73AEF5),
+                                        ],
+                                        begin: Alignment.bottomLeft,
+                                        end: Alignment.topRight
+                                      ),
+                                    ),
+                                    RaisedGradientButton(
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: <Widget>[
+                                          Icon(Icons.chrome_reader_mode, color: Colors.white,),
+                                          Text('Read More', style: TextStyle(color: Colors.white),)
+                                        ],
+                                      ),
+                                      onPressed: (){},
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Color(0xFF398AE5),
+                                          Color(0xFF73AEF5),
+                                        ],
+                                        begin: Alignment.bottomLeft,
+                                        end: Alignment.topRight
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )
+                        ),
+                      );
+                    },
+                  );
+                },
+              )),
             )
           ],
         )
