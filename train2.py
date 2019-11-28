@@ -143,7 +143,7 @@ with tf.copat.v1.Session() as sess:
     end = batch_size
     while current_step < 10001:
         if step % 1000 == 0:
-            saver = tf.train.Saver(sess,checkpoint_path, global_step=current_step)
+            saver = saver.save(sess,checkpoint_path, global_step=current_step)
             
         if end > len(title):
             start = 0
