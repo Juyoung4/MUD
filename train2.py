@@ -1,7 +1,10 @@
 import tensorflow as tf
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
 import numpy as np
 import util4
 import time
+import os
 
 datapath = 'merge10.csv'
 title,content = util4.loading_data(datapath,eng=False, num=False, punc=False)
@@ -16,11 +19,11 @@ hidden_size = 300
 vocab_size = len(ix_to_word)+1#voca_size error
 num_layers = 3
 learning_rate = 0.001
-batch_size = 16
+batch_size = 500
 encoder_size = 100
 decoder_size = util4.doclength(title, sep=True)
 #decoder_size = util3.doclength(title, sep=True) # (Maximum) number of time steps in this batch
-steps_per_checkpoint = 10
+steps_per_checkpoint = 100
 
 # transform data
 encoderinputs, decoderinputs, targets_, targetweights = util4.make_suffle(content, title, word_to_ix, encoder_size=encoder_size, decoder_size=decoder_size, shuffle=False)
@@ -114,36 +117,33 @@ class seq2seq(object):
         else:
             return output[0:] # outputs
 
-config = tf.ConfigProto()
-config.gpu_options.allow_growth = True
+
 #sess = tf.compat.v1.Session()
-model = seq2seq(multi=multi, hidden_size=hidden_size, num_layers=num_layers,
+# tf.train.Saver를 이용해서 모델과 파라미터를 저장합니다.
+if not os.path.exists("model"):
+    os.mkdir("model")
+else:
+    old_model_checkpoint_path = open('model/checkpoint','r')
+    old_model_checkpoint_path = "".join(["model/",old_model_checkpoint_path.read().splitlines()[0].split('"')[1]])
+
+
+with tf.compat.v1.Session(config=config) as sess:
+    model = seq2seq(multi=multi, hidden_size=hidden_size, num_layers=num_layers,
                     learning_rate=learning_rate, batch_size=batch_size,
                     vocab_size=vocab_size,
                     encoder_size=encoder_size, decoder_size=decoder_size,
                     forward_only=forward_only)
-# tf.train.Saver를 이용해서 모델과 파라미터를 저장합니다.
-SAVER_DIR = "model"
-saver = tf.train.Saver()
-checkpoint_path = os.path.join(SAVER_DIR, "model")
-ckpt = tf.train.get_checkpoint_state(SAVER_DIR)
-
-with tf.copat.v1.Session() as sess:
+    
     sess.run(tf.compat.v1.global_variables_initializer())#global_variables_initializer()
-    
-    # 만약 저장된 모델과 파라미터가 있으면 이를 불러오고 (Restore)
-    if ckpt and ckpt.model_checkpoint_path:
-        saver.restore(sess, ckpt.model_checkpoint_path)    
-        sess.close()
-        exit()
-    
+    saver = tf.compat.v1.train.Saver(tf.compat.v1.global_variables())
+    if 'old_model_checkpoint_path' in globals():
+        print("continuing from previous trained model: ",old_model_checkpoint_path, "...")
+        saver.restore(sess, old_model_checkpoint_path)
     step_time, loss = 0.0, 0.0
     current_step = 0
     start = 0
     end = batch_size
     while current_step < 10001:
-        if step % 1000 == 0:
-            saver = saver.save(sess,checkpoint_path, global_step=current_step)
             
         if end > len(title):
             start = 0
@@ -151,7 +151,7 @@ with tf.copat.v1.Session() as sess:
 
         # Get a batch and make a step
         start_time = time.time()
-        encoder_inputs, decoder_inputs, targets, target_weights = ut.make_batch(encoderinputs[start:end],decoderinputs[start:end],targets_[start:end],targetweights[start:end])
+        encoder_inputs, decoder_inputs, targets, target_weights = util4.make_batch(encoderinputs[start:end],decoderinputs[start:end],targets_[start:end],targetweights[start:end])
 
         if current_step % steps_per_checkpoint == 0:
             for i in range(decoder_size - 2):
@@ -161,6 +161,7 @@ with tf.copat.v1.Session() as sess:
             predict = ' '.join(ix_to_word[ix][0] for ix in predict)
             real = [word[0] for word in targets]
             real = ' '.join(ix_to_word[ix][0] for ix in real)
+            saver.save(sess, "./model/model.ckpt",global_step=current_step)
             print('\n----\n step : %s \n time : %s \n LOSS : %s \n prediction : %s \n edit result : %s \n actual result : %s \n----' %
                   (current_step, step_time, loss, predict, real, title[start]))
             loss, step_time = 0.0, 0.0
