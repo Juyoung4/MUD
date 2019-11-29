@@ -11,14 +11,14 @@ from normalizing import normalize
 def loading_data(data_path, eng=True, num=True, punc=False):
     # data example : "title","content"
     # data format : csv, utf-8
-    os.chdir("./")
-    doc_ko=open('merge12.csv','w',encoding='utf_8_sig', newline="")
-    wcsv = csv.writer(doc_ko)
     corpus = pd.read_table(data_path, sep=",", encoding="utf-8")
     corpus = np.array(corpus)
     title = []
     contents = []
+    count = 0
     for doc in corpus:
+        if count == 60000:
+            break
         if type(doc[0]) is not str or type(doc[1]) is not str:
             continue
         if len(doc[0]) > 0 and len(doc[1]) > 0:
@@ -26,7 +26,7 @@ def loading_data(data_path, eng=True, num=True, punc=False):
             tmpcontents = normalize(doc[1], english=eng, number=num, punctuation=punc)
             title.append(tmptitle)
             contents.append(tmpcontents)
-            wcsv.writerow([tmptitle,tmpcontents])
+            count += 1
     return title, contents
 
 # word_to_ix, ix_to_word 생성
