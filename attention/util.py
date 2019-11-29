@@ -13,21 +13,14 @@ import csv
 from konlpy.tag import Twitter;t=Twitter()#tokens_ko=t.morphs(doc_ko)
 
 #각 파일 불러오기
-train_content_path= ''
-train_title_path = ''
-valid_content_path =''
+train_content_path= '../content.csv'
+train_title_path = '../title.csv'
+valid_content_path ='../merge11.csv'
 
 def clean_str(sentence):
     sentence = re.sub("[#.]+", "#", sentence)
     return sentence
 
-
-# def get_text_list(data_path, toy):
-#     with open (data_path, "r", encoding="utf-8") as f:
-#         if not toy:
-#             return [clean_str(x.strip()) for x in f.readlines()]
-#         else:
-#             return [clean_str(x.strip()) for x in f.readlines()][:50000]
 def get_text_list(data_path,title=False,content=False,toy):
     with open (data_path, "r", encoding="utf-8") as f:
         if not toy:
