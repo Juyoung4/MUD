@@ -24,12 +24,9 @@ def clean_str(sentence):
 def get_text_list(data_path,title=False,content=False,toy):
     with open (data_path, "r", encoding="utf-8") as f:
         if not toy:
-            if content:
-                return [clean_str(x.strip()) for x in f.readlines()]
-            elif title:
-                return [clean_str(x.strip()) for x in f.readlines()]
+            return [clean_str(x.strip()) for x in f.readlines()]
         else:
-            return [clean_str(x.strip()) for x in line.readlines()]
+            return [clean_str(x.strip()) for x in f.readlines()]
             
 def build_dict(step, toy=False):
     if step == "train":
