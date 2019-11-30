@@ -2,7 +2,7 @@ import time
 start = time.perf_counter()
 import tensorflow as tf
 import pickle
-import import_ipynb
+
 import os
 from model import Model
 from utils import build_dict, build_dataset, batch_iter
@@ -14,14 +14,15 @@ learning_rate = 1e-3
 beam_width = 10
 keep_prob = 0.8
 glove = True
-batch_size=256
+batch_size=512
 num_epochs=10
 
 if not os.path.exists("saved_model"):
     os.mkdir("saved_model")
 else:
-    old_model_checkpoint_path = open('saved_model/checkpoint', 'r')
-    old_model_checkpoint_path = "".join(["saved_model/",old_model_checkpoint_path.read().splitlines()[0].split('"')[1]])
+    if os.path.exists('saved_model/checkpoint'):
+        old_model_checkpoint_path = open('saved_model/checkpoint', 'r')
+        old_model_checkpoint_path = "".join(["saved_model/",old_model_checkpoint_path.read().splitlines()[0].split('"')[1]])
 
 
 print("Building dictionary...")

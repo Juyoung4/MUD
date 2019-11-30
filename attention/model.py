@@ -1,7 +1,7 @@
 import tensorflow as tf
 from tensorflow.contrib import rnn
 
-import import_ipynb
+
 from utils import get_init_embedding
 
 
