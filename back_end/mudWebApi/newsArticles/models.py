@@ -50,6 +50,7 @@ class allUserFavorite(models.Model):
     allUserFavorite_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     headline = models.CharField(max_length=250)
     summary = models.TextField(blank=True, null=True)
+    news_id = models.CharField(max_length=100, default='null')
 
     def __str__(self):
         return self.headline

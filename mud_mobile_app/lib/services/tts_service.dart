@@ -72,7 +72,7 @@ class _TtsServiceState extends State<TtsService> {
   Widget build(BuildContext context) {
     final double devWidth = MediaQuery.of(context).size.width;
     return Container(
-      height: 60,
+      height: 50.0,
       width: devWidth,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -80,7 +80,7 @@ class _TtsServiceState extends State<TtsService> {
           GestureDetector(
             onTap: clusters == null ? (){} : (){
               if (isStopped){
-                _speak(clusters[1].clusterSummary);
+                _speak(clusters[0].clusterSummary);
               } else {
                 _stop();
               }
@@ -95,12 +95,12 @@ class _TtsServiceState extends State<TtsService> {
               'Loading....',
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 24,
+                fontSize: 22,
                 fontWeight: FontWeight.bold
               ),
             ) : Marquee(
-              text: clusters[1].clusterSummary,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
+              text: clusters[0].clusterSummary,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
               blankSpace: 20.0,
               pauseAfterRound: Duration(seconds: 1),
               startPadding: 10.0,

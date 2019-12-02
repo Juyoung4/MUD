@@ -54,4 +54,4 @@ class AllUserFavoriteList(viewsets.ModelViewSet):
     queryset = allUserFavorite.objects.all()
     serializer_class = allUserFavoriteSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['allUserFavorite_id', 'headline']
+    filterset_fields = ['allUserFavorite_id', 'headline', 'news_id']
