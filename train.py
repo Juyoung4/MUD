@@ -1,30 +1,10 @@
 import tensorflow as tf
 import numpy as np
-import util4
+import os
+#import import_ipynb
+#from utils import loading,make_dict,make_suffle,doclength,make_batch
+#from test import load
 import time
-
-datapath = 'merge10.csv'
-title,content = util4.loading_data(datapath,eng=False, num=False, punc=False)
-#title,content = util3.normalize(datapath)
-word_to_ix,ix_to_word = util4.make_dict(title + content, minlength=0, maxlength=3,jamo_delete=True)
-#word_to_ix,ix_to_word = util3.make_dict(title + content)
-
-
-multi = True
-forward_only = False
-hidden_size = 300
-vocab_size = len(ix_to_word)+1#voca_size error
-num_layers = 3
-learning_rate = 0.001
-batch_size = 16
-encoder_size = 100
-decoder_size = util4.doclength(title, sep=True)
-#decoder_size = util3.doclength(title, sep=True) # (Maximum) number of time steps in this batch
-steps_per_checkpoint = 10
-
-# transform data
-encoderinputs, decoderinputs, targets_, targetweights = util4.make_suffle(content, title, word_to_ix, encoder_size=encoder_size, decoder_size=decoder_size, shuffle=False)
-
 class seq2seq(object):
 
     def __init__(self, multi, hidden_size, num_layers, forward_only,learning_rate, batch_size,vocab_size, encoder_size, decoder_size):
@@ -113,49 +93,179 @@ class seq2seq(object):
             return output[1] # loss
         else:
             return output[0:] # outputs
+ ########################       
+import import_ipynb
+import tensorflow as tf
+import numpy as np
+import time
+import os
+import pickle
 
-config = tf.ConfigProto()
-config.gpu_options.allow_growth = True
-sess = tf.compat.v1.Session()
-model = seq2seq(multi=multi, hidden_size=hidden_size, num_layers=num_layers,
-                    learning_rate=learning_rate, batch_size=batch_size,
-                    vocab_size=vocab_size,
-                    encoder_size=encoder_size, decoder_size=decoder_size,
-                    forward_only=forward_only)
+import import_ipynb
+from normalizing import normalize
+import tensorflow as tf
+import numpy as np
 
-sess.run(tf.compat.v1.global_variables_initializer())#global_variables_initializer()
-step_time, loss = 0.0, 0.0
-current_step = 0
-start = 0
-end = batch_size
-while current_step < 10000001:
+def make_3word(content):
+    raw_content=""
+    for word in content.split():
+        if len(word) > 0:
+            normalizedword = word[:3]
+            tmp = []
+            for char in normalizedword:
+                if ord(char) < 12593 or ord(char) > 12643:
+                    tmp.append(char)
+            normalizedword = ''.join(char for char in tmp)
+            raw_content += normalizedword+" "
+    return raw_content
 
-    if end > len(title):
-        start = 0
-        end = batch_size
+def make_suffle2(content,word_to_ix,encoder_size=100,decoder_size=18):
+    tmp=[] 
+    tmp.append(content)
+    content = np.array(tmp)
+    
+     
+    encoder_input=[]
+    
+    tmp_encoder_input=[word_to_ix[v] for idx,v in enumerate(content[0].split()) if idx < encoder_size and v in word_to_ix]
+    encoder_padd_size=max(encoder_size - len(tmp_encoder_input),0)
+    encoder_padd = [word_to_ix['<PAD>']] * encoder_padd_size
+    encoder_input.append(list(reversed(tmp_encoder_input+encoder_padd)))
 
-    # Get a batch and make a step
-    start_time = time.time()
-    encoder_inputs, decoder_inputs, targets, target_weights = util4.make_batch(encoderinputs[start:end],decoderinputs[start:end],targets_[start:end],targetweights[start:end])
+    return encoder_input
+#############################################
+if __name__ == "__main__":
+    config = tf.ConfigProto()
+    config.gpu_options.allow_growth = True
+    #sess = tf.compat.v1.Session()
+    args1=input("input train or test:")
 
-    if current_step % steps_per_checkpoint == 0:
-        for i in range(decoder_size - 2):
-            decoder_inputs[i + 1] = np.array([word_to_ix['<PAD>']] * batch_size)
-        output_logits = model.step(sess, encoder_inputs, decoder_inputs, targets, target_weights, True)
-        predict = [np.argmax(logit, axis=1)[0] for logit in output_logits]
-        predict = ' '.join(ix_to_word[ix][0] for ix in predict)
-        real = [word[0] for word in targets]
-        real = ' '.join(ix_to_word[ix][0] for ix in real)
-        print('\n----\n step : %s \n time : %s \n LOSS : %s \n prediction : %s \n edit result : %s \n actual result : %s \n----' %
-              (current_step, step_time, loss, predict, real, title[start]))
-        loss, step_time = 0.0, 0.0
+    ########test#########################
+    if args1 == "test":
+        tf.reset_default_graph()
+        multi = True
+        forward_only = False
+        hidden_size = 150
+        num_layers = 3
+        learning_rate = 0.001
+        batch_size = 16
+        encoder_size = 100
+        decoder_size = 15
+        
+    #     with open("ix_to_word.pickle", "rb") as f:
+    #         ix_to_word = pickle.load(f)
+        with open("word_to_ix.pickle", "rb") as t:
+            word_to_ix = pickle.load(t)
+        content = """6일 통신업계에 따르면 이동통신사들이 '구독형 유료 멤버십' 형태로 자사 가입고객에게 추가 혜택을 제공하는 상품을 출시하고 있다. 
+        이통사들은 통신서비스 외에 쇼핑, 여행 등 이용시 다양한 할인 등 추가적인 혜택을 제공하는 멤버십을 운영해 왔다. 
+        이통 가입자 1위 사업자인 SK텔레콤의 마케팅비용은 지난 3분기 7천878억원에 달했다"""
+        end = 1
+        content=normalize(content)
+        content=make_3word(content)
+        vocab_size = len(content.split())+1
+        encoderinputs=make_suffle2(content,word_to_ix) # padding
+        
+        if not os.path.exists("mm/copy_model"):
+            os.mkdir("mm/copy_model")
+        else:
+            if os.path.exists("mm/copy_model/checkpoint"):
+                old_model_checkpoint_path = open('mm/copy_model/checkpoint','r')
+                old_model_checkpoint_path = "".join(["model/",old_model_checkpoint_path.read().splitlines()[0].split('"')[1]]) 
+        
+        with tf.compat.v1.Session() as sess:
 
-    step_loss = model.step(sess, encoder_inputs, decoder_inputs, targets, target_weights, False)
-    step_time += time.time() - start_time / steps_per_checkpoint
-    loss += np.mean(step_loss) / steps_per_checkpoint
-    current_step += 1
-    start += batch_size
-    end += batch_size
+            print("continuing from previous trained model: ",old_model_checkpoint_path, "...")
+            #saver.restore(sess, old_model_checkpoint_path)
+            model = seq2seq(multi=multi, hidden_size=hidden_size, num_layers=num_layers,
+                        learning_rate=learning_rate, batch_size=batch_size,
+                        vocab_size=vocab_size,
+                        encoder_size=encoder_size, decoder_size=decoder_size,
+                        forward_only=True)
 
+            saver = tf.train.Saver(tf.global_variables())
+            ckpt = tf.train.get_checkpoint_state("./mm/copy_model/")
+            saver.restore(sess, ckpt.model_checkpoint_path)
+            d=[]
+            print([0]*15)
+            d.append([0]*15)
+            print(d)
+            encoder_inputs, decoder_inputs, targets, target_weights = make_batch(encoderinputs[0:end],d,d,d)
+            print(encoder_inputs)
 
+            sess.run()
+            output_logits = model.step(sess,encoder_inputs,decoder_inputs,targets,target_weights,True)
+            predict = [np.argmax(logit,axis=1)[0] for logit in output_logits]
+            predict = ' '.join(ix_to_word[ix] for ix in predict)
+            print(predict)
+    #######train################
+    elif args1 == "train":
+        data_path = './jp1.csv'
+        title,content = loading(data_path,eng=False, num=True, punc=False)
+        word_to_ix,ix_to_word = make_dict(title + content, minlength=0, maxlength=3,jamo_delete=True)
+        
+        multi = True
+        forward_only = False
+        hidden_size = 150
+        vocab_size = len(ix_to_word)+1
+        num_layers = 3
+        learning_rate = 0.001
+        batch_size = 16
+        encoder_size = 100
+        decoder_size = doclength(title, sep=True)
+        #decoder_size = util3.doclength(title, sep=True) # (Maximum) number of time steps in this batch
+        steps_per_checkpoint = 500
+        
+        # transform data
+        encoderinputs, decoderinputs, targets_, targetweights = make_suffle(content, title, word_to_ix, encoder_size=encoder_size, decoder_size=decoder_size, shuffle=False)
+           
+        if not os.path.exists("mm/copy_model"):
+            os.mkdir("mm/copy_model")
+        else:
+            if os.path.exists("mm/copy_model/checkpoint"):
+                old_model_checkpoint_path = open('mm/copy_model/checkpoint','r')
+                old_model_checkpoint_path = "".join(["model/",old_model_checkpoint_path.read().splitlines()[0].split('"')[1]]) 
+        
+        with tf.compat.v1.Session(config=config) as sess:
+            model = seq2seq(multi=multi, hidden_size=hidden_size, num_layers=num_layers,
+                        learning_rate=learning_rate, batch_size=batch_size,
+                        vocab_size=vocab_size,
+                        encoder_size=encoder_size, decoder_size=decoder_size,
+                        forward_only=forward_only)
+
+            sess.run(global_variables_initializer())#global_variables_initializer()
+            saver = tf.compat.v1.train.Saver(tf.compat.v1.global_variables())
+            step_time, loss = 0.0, 0.0
+            current_step = 0
+            start = 0
+            end = batch_size
+            while current_step < 200001:
+
+                if end > len(title):
+                    start = 0
+                    end = batch_size
+
+                # Get a batch and make a step
+                start_time = time.time()
+                encoder_inputs, decoder_inputs, targets, target_weights = make_batch(encoderinputs[start:end],decoderinputs[start:end],targets_[start:end],targetweights[start:end])
+
+                if current_step % steps_per_checkpoint == 0:
+                    for i in range(decoder_size - 2):
+                        decoder_inputs[i + 1] = np.array([word_to_ix['<PAD>']] * batch_size)
+                    output_logits = model.step(sess, encoder_inputs, decoder_inputs, targets, target_weights, True)
+                    predict = [np.argmax(logit, axis=1)[0] for logit in output_logits]
+                    predict = ' '.join(ix_to_word[ix] for ix in predict)
+                    real = [word[0] for word in targets]
+                    real = ' '.join(ix_to_word[ix][0] for ix in real)
+                    saver.save(sess, "./mm/copy_model/model.ckpt",global_step=current_step)
+                    print('\n----\n step : %s \n time : %s \n LOSS : %s \n prediction : %s \n edit result : %s \n actual result : %s \n----' %
+                          (current_step, step_time, loss, predict, real, title[start]))
+                    loss, step_time = 0.0, 0.0
+
+                step_loss = model.step(sess, encoder_inputs, decoder_inputs, targets, target_weights, False)
+                step_time += time.time() - start_time / steps_per_checkpoint
+                loss += np.mean(step_loss) / steps_per_checkpoint
+                current_step += 1
+                start += batch_size
+                end += batch_size
+             save_path = saver.save(sess, 'model.pd')    
 
