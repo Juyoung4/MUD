@@ -31,7 +31,7 @@ class call_Dataset:
         print('data_in_Category')
         self.category_Index =category_Index  #category는 "economy""IT_science""society""politics"
         self.df = self.df[self.df['category']==self.category_Index]
-        print(len(self.df))
+        print(category_Index,"의 기사개수 : ",len(self.df))
         df_headline = self.df['headline'].tolist()
         print(df_headline)
         return df_headline
@@ -146,13 +146,13 @@ class optimal_K:
     #2단계 구간 나누기 --> 단기간 최적의 K c찾는함수
     def final_find_K(self):
         #1차 구간나누기 : 6칸씩 300으로
-        first_K, first_index,first_length = self.find_K(self.sK,self.eK,6,300)
+        first_K, first_index,first_length = self.find_K(self.sK,self.eK,6,200)
 
         #2차 구간나누기 : 3칸씩 400으로
         if (first_index == first_length): #1차구간중 마지막 구간에 해당한다면
-            second_K,second_index,second_length = self.find_K(first_K-5,self.eK,3,400)
+            second_K,second_index,second_length = self.find_K(first_K-5,self.eK,3,300)
         else:
-            second_K,second_index,second_length = self.find_K(first_K-5,first_K+5,3,400)
+            second_K,second_index,second_length = self.find_K(first_K-5,first_K+5,3,300)
 
         #3차 구간나누기 :
         thrid_K =self.find_K(second_K,second_K+3,1,600)[0]
@@ -293,16 +293,21 @@ class run_kmeans:
         distance = finalkmeans.transform(preprocessed_Data)
         c=closed_news(finalkmeans,label,distance)
         default_index = c.default_index_news() #default를 줘야하는 뉴스기사 index들 리스트
-        for i in default_index:
-            label[default_index[i]]="07f269a8-3ae6-4994-abfd-e2cb2d4633f3"
 
-        #최종은 label
-        Final_Data =pd.DataFrame(columns=['news_id','cluster_id'])
-        Final_Data.loc[0] =self.DBjson['news_id']
-        Final_Data.loc[1] =label
+
+        label2 = list(map(str, label))
+        for i in default_index:
+            label2[i]="07f269a8-3ae6-4994-abfd-e2cb2d4633f3"
+
+        # 최종은 label2
+        Final_Data = pd.DataFrame(columns=['news_id', 'cluster_id'])
+        Final_Data['news_id'] = self.DBjson['news_id']
+        Final_Data['cluster_id'] = label2
 
         s = store_Clusterid(Final_Data,self.rawDataresult)
         s.store()
+        print("Clustering ALL Success")
+
 
     #고정 K 주었을때
     def play_fixK(self):
@@ -310,7 +315,7 @@ class run_kmeans:
         preprocessed_Data = p.result()
         # o = optimal_K(preprocessed_Data, self.sK, self.eK)
         # k = o.final_find_K()  # 최적의 K
-        finalkmeans = KMeans(n_clusters=10, init='k-means++', n_init=100).fit(preprocessed_Data)
+        finalkmeans = KMeans(n_clusters=20, init='k-means++', n_init=600).fit(preprocessed_Data)
 
         label = finalkmeans.labels_
         print(label)
@@ -319,20 +324,16 @@ class run_kmeans:
         distance = finalkmeans.transform(preprocessed_Data)
         c = closed_news(finalkmeans, label, distance)
         default_index = c.default_index_news()  # default를 줘야하는 뉴스기사 index들 리스트
-        print("label")
-        print(label.tolist())
-        print('for문')
+
         label2 = list(map(str, label))
         for i in default_index:
             label2[i]="07f269a8-3ae6-4994-abfd-e2cb2d4633f3"
-        print("label2\n",label2)
-        # 최종은 label
+
+        # 최종은 label2
         Final_Data = pd.DataFrame(columns=['news_id', 'cluster_id'])
         Final_Data['news_id'] = self.DBjson['news_id']
-        print(len(Final_Data['news_id'].tolist()))
-        print(len(label2))
-
         Final_Data['cluster_id'] = label2
 
         s = store_Clusterid(Final_Data, self.rawDataresult)
         s.store()
+        print("Clustering ALL Success")
