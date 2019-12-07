@@ -1,4 +1,4 @@
-from Kmeans_success.K_class import *
+from final_KmeansClass import *
 
 main_economy = run_kmeans('economy',15,30)
 main_it =run_kmeans('IT_science',10,20)
