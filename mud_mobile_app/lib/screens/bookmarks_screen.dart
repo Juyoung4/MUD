@@ -3,78 +3,50 @@ import 'package:flutter/services.dart';
 import 'package:mud_mobile_app/models/Conection_error.dart';
 import 'package:mud_mobile_app/models/api_models.dart';
 import 'package:mud_mobile_app/models/button_models.dart';
-import 'package:mud_mobile_app/screens/read_more.dart';
 import 'package:mud_mobile_app/services/api_service.dart';
 import 'package:mud_mobile_app/utilities/constants.dart';
-import 'dart:async';
 
-class CategoryListView extends StatefulWidget {
-  final String category;
-  final String title;
-
-  CategoryListView(this.category, this.title);
+class BookmarksPage extends StatefulWidget {
   @override
-  _CategoryListViewState createState() => _CategoryListViewState();
+  _BookmarksPageState createState() => _BookmarksPageState();
 }
 
-class _CategoryListViewState extends State<CategoryListView> {
+class _BookmarksPageState extends State<BookmarksPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
- bool isSwitched = false;
- ArticlePagination articlePagination;
   List<AllUserBookmarks> allUserBookmarks = List();
-  List<String> bookmarkNewsIds = List();
-  Future getArticlesFuture;
+  Future getBookmarksFuture;
 
-  Future getArticles() async {
-    await checkBookmarks();
-    return await ApiService.getArticlesByCategory(widget.category);
+  Future getBookmarks() async {
+    return await ApiService.getBookmarksByUser();
   }
 
-  void createbookmark(newsId, headline, summary) async {
-    bool result = await ApiService.creatBookmark(newsId, headline, summary);
+  Future delBookmark(bookmarkId, index) async {
+    bool result = await ApiService.delBookmark(bookmarkId);
     if (result){
-      bookmarkNewsIds.add(newsId);
-      print('Done');
-      _scaffoldKey.currentState.showSnackBar(
-      SnackBar(
-        content: Row(
-          children: <Widget>[
-            Icon(Icons.save_alt),
-            SizedBox(width: 5,),
-            Text('Saved'),
-          ],
-        ),
-        duration: Duration(seconds: 2),
-      ));
+      setState(() {
+        allUserBookmarks.removeAt(index);
+        print(bookmarkId + ' Deleted!');
+        _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Row(
+            children: <Widget>[
+              Icon(Icons.delete_forever),
+              SizedBox(width: 5,),
+              Text('Deleted'),
+            ],
+          ),
+          duration: Duration(seconds: 2),
+        ));
+      });
     } else {
-      print('Not Done');
-      _scaffoldKey.currentState.showSnackBar(
-      SnackBar(
-        content: Row(
-          children: <Widget>[
-            Icon(Icons.error),
-            SizedBox(width: 5,),
-            Text('Opps Not saved'),
-          ],
-        ),
-        duration: Duration(seconds: 2),
-      ));
-    }
-  }
-
-  Future checkBookmarks() async {
-    allUserBookmarks = await ApiService.getBookmarksByUser();
-    if (allUserBookmarks?.isNotEmpty ?? false){
-      for (var i = 0; i < allUserBookmarks.length; i++){
-        bookmarkNewsIds.add(allUserBookmarks[i].newsId);
-      }
+      print('Did Not Delete');
     }
   }
 
   @override
   void initState() {
     super.initState();
-    getArticlesFuture = getArticles();
+    this.getBookmarksFuture = getBookmarks();
   }
 
   @override
@@ -116,7 +88,7 @@ class _CategoryListViewState extends State<CategoryListView> {
                           ),
                           Text('Today\'s News', style: kTitleStyleMain,),
                           IconButton(
-                            color: Colors.white,
+                            color: Colors.transparent,
                             icon: Icon(Icons.search, size: 36,),
                             onPressed: (){},
                           ),
@@ -134,7 +106,7 @@ class _CategoryListViewState extends State<CategoryListView> {
                         ),
                         padding: EdgeInsets.symmetric(vertical: 10),
                         margin: EdgeInsets.only(top: 10),
-                        child: Text(widget.title, style: TextStyle(fontFamily: 'Pacifico', fontSize: 36, color: Color(0xFF398AE5), fontWeight: FontWeight.bold,))
+                        child: Text('Bookmarks', style: TextStyle(fontFamily: 'Pacifico', fontSize: 36, color: Color(0xFF398AE5), fontWeight: FontWeight.bold,))
                       )
                     ],
                   ),
@@ -150,7 +122,7 @@ class _CategoryListViewState extends State<CategoryListView> {
               ),
             ),
             FutureBuilder(
-              future: getArticlesFuture,
+              future: getBookmarksFuture,
               builder: (BuildContext context, AsyncSnapshot snapshot){
                 if (snapshot.connectionState == ConnectionState.waiting){
                   return SliverToBoxAdapter(
@@ -160,15 +132,21 @@ class _CategoryListViewState extends State<CategoryListView> {
                       alignment: Alignment.center,
                     ),
                   );
-                } else if (snapshot.hasError || !snapshot.hasData) {
+                } else if (snapshot.hasError) {
                   return SliverToBoxAdapter(
                     child: Container(
                       child: ErrorDisplay(errorDisplay: 'Opps Somthing is not okay!', error: true,),
                     ),
                   );
+                } else if (!snapshot.hasData) {
+                  return SliverToBoxAdapter(
+                    child: Container(
+                      child: ErrorDisplay(errorDisplay: 'You Don\'t Have Bookmarks!', error: false,),
+                    ),
+                  );
                 }
-                articlePagination = snapshot.data;
-                var childCount = articlePagination.results.length;
+                allUserBookmarks = snapshot.data;
+                var childCount = allUserBookmarks.length;
                 return SliverList(
                   delegate: SliverChildBuilderDelegate((BuildContext contex, int index) {
                     return Container(
@@ -187,14 +165,12 @@ class _CategoryListViewState extends State<CategoryListView> {
                           children: <Widget>[
                             Container(
                               child: Text(
-                                articlePagination.results[index].headline,
+                                allUserBookmarks[index].headline ?? 'Not Found',
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 18.0,
+                                  fontSize: 26.0,
                                   fontWeight: FontWeight.w600,
                                 ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 2,
                               ),
                             ),
                             SizedBox(
@@ -202,29 +178,14 @@ class _CategoryListViewState extends State<CategoryListView> {
                             ),
                             Container(
                               child: Text(
-                                articlePagination.results[index].summary,
+                                allUserBookmarks[index].summary ?? 'Not Found',
                                 style: TextStyle(
                                   color: Colors.black87,
-                                  fontSize: 16.0,
+                                  fontSize: 24.0,
                                   fontWeight: FontWeight.w400,
                                 ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 3,
                               ),
                             ),
-                            SizedBox(
-                              height: 5.0,
-                            ),
-                            Container(
-                                child: Text(
-                                  'Publication Date : ' + articlePagination.results[index].pubDate.split("T")[0],
-                                  style: TextStyle(
-                                    color: Colors.black54,
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ),
                             SizedBox(
                               height: 5.0,
                             ),
@@ -238,49 +199,18 @@ class _CategoryListViewState extends State<CategoryListView> {
                             Padding(
                               padding: const EdgeInsets.only(top: 5.0),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
                                   RaisedGradientButton(
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                                       children: <Widget>[
-                                        Icon(Icons.bookmark, color: Colors.white,),
-                                        Text('Bookmark', style: TextStyle(color: Colors.white),)
-                                      ],
-                                    ),
-                                    onPressed: !bookmarkNewsIds.contains(articlePagination.results[index].newsId) ? (){
-                                      createbookmark(
-                                        articlePagination.results[index].newsId,
-                                        articlePagination.results[index].headline,
-                                        articlePagination.results[index].summary,
-                                      );
-                                    } : (){},
-                                    gradient: LinearGradient(
-                                      colors: !bookmarkNewsIds.contains(articlePagination.results[index].newsId) ? [
-                                        Color(0xFF398AE5),
-                                        Color(0xFF73AEF5),
-                                      ] : [
-                                        Colors.grey,
-                                        Colors.grey
-                                      ],
-                                      begin: Alignment.bottomLeft,
-                                      end: Alignment.topRight
-                                    ),
-                                  ),
-                                  RaisedGradientButton(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      children: <Widget>[
-                                        Icon(Icons.chrome_reader_mode, color: Colors.white,),
-                                        Text('Read More', style: TextStyle(color: Colors.white),)
+                                        Icon(Icons.delete_forever, color: Colors.white,),
+                                        Text('Delete', style: TextStyle(color: Colors.white),)
                                       ],
                                     ),
                                     onPressed: (){
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ReadMoreNews(articlePagination.results[index])),
-                                      );
+                                      delBookmark(allUserBookmarks[index].allUserFavoriteId, index);
                                     },
                                     gradient: LinearGradient(
                                       colors: [

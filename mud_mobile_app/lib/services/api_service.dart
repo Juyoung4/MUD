@@ -45,10 +45,28 @@ class ApiService {
   }
 
   static Future<ArticlePagination> getArticles(nextUrl) async {
-    var url = initialurl + "articles/?format=json&limit=10";
+    var url = initialurl + "articles/?format=json&limit=100";
     if (nextUrl != null) {
       url = nextUrl;
     }
+    ArticlePagination articles;
+    final response = await http.get(
+      Uri.encodeFull(url), 
+      headers: {"Accept" : "application/json"}
+    );
+    if (response.statusCode == 200) {
+      articles = ArticlePagination.fromJson(json.decode(utf8.decode(response.bodyBytes)));
+      if (articles.results.length == 0){
+        return null;
+      }
+      return articles;
+    } else {
+      return null;
+    }
+  }
+
+  static Future<ArticlePagination> getArticlesByClusterId(clusterId) async {
+    var url = initialurl + "articles/?cluster_id=" + clusterId + "&format=json&limit=10";
     ArticlePagination articles;
     final response = await http.get(
       Uri.encodeFull(url), 
@@ -134,6 +152,42 @@ class ApiService {
     }
   }
 
+  static Future creatRating(score, newsId) async {
+    FirebaseUser user = await AuthService.getCurrentUser();
+    var jsonData = {
+        "score": score,
+        "user_id": user.uid,
+        "news_summary": newsId,
+    };
+    final response = await http.post(
+      Uri.encodeFull(initialurl + "rating/"), 
+      body: jsonData,
+      headers: {"Accept" : "application/json"}
+    );
+    if (response.statusCode == 201){
+      return true;
+    }
+    return false;
+  }
+
+  static Future updateRating(score, newsId, ratingId) async {
+    FirebaseUser user = await AuthService.getCurrentUser();
+    var jsonData = {
+        "score": score,
+        "user_id": user.uid,
+        "news_summary": newsId,
+    };
+    final response = await http.put(
+      Uri.encodeFull(initialurl + "rating/" + ratingId + "/"), 
+      body: jsonData,
+      headers: {"Accept" : "application/json"}
+    );
+    if (response.statusCode == 200){
+      return true;
+    }
+    return false;
+  }
+
   static Future<List<AllUserBookmarks>> getBookmarksByUser() async {
     List<Bookmarks> bookmarks = List();
     FirebaseUser user = await AuthService.getCurrentUser();
@@ -203,6 +257,14 @@ class ApiService {
     } else {
       return false;
     }
+  }
+
+  static Future delBookmark(bookmarkId) async {
+    final response = await http.delete(Uri.encodeFull(initialurl + "allbookmarks/" + bookmarkId + "/"));
+    if (response.statusCode == 204){
+      return true;
+    }
+    return false;
   }
 
 }

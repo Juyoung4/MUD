@@ -130,7 +130,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       child: Container(
                         height: double.infinity,
                         child: Center(
-                          child: Text("IT", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
+                          child: Text("IT & Science", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
                         ),
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -145,7 +145,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CategoryListView("IT_science", "IT")),
+                            builder: (context) => CategoryListView("IT_science", "IT & Science")),
                         );
                       },
                     ),
@@ -159,7 +159,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       child: Container(
                         height: double.infinity,
                         child: Center(
-                          child: Text("World", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
+                          child: Text("Politics", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
                         ),
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -174,7 +174,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CategoryListView("world", "World")),
+                            builder: (context) => CategoryListView("politics", "Politics")),
                         );
                       },
                     ),

@@ -25,7 +25,7 @@ class RaisedGradientButton extends StatelessWidget {
         gradient: gradient, 
         boxShadow: [
           BoxShadow(
-            color: Colors.grey[500],
+            color: Colors.grey[200],
             offset: Offset(0.0, 1.5),
             blurRadius: 1.5,
           ),

@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mud_mobile_app/models/Conection_error.dart';
 import 'package:mud_mobile_app/models/user_model.dart';
+import 'package:mud_mobile_app/screens/bookmarks_screen.dart';
 import 'package:mud_mobile_app/services/auth_service.dart';
 import 'package:mud_mobile_app/utilities/constants.dart';
 import 'package:mud_mobile_app/utilities/fade_in_animation.dart';
@@ -14,12 +16,14 @@ class ProfileScreen extends StatefulWidget {
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
+class _ProfileScreenState extends State<ProfileScreen> {
+
   Future<DocumentSnapshot> _getUserData() async {
     FirebaseUser user = await AuthService.getCurrentUser();
     return await Firestore.instance.collection('users').document(user.uid).get();
   }
 
-Widget _buildLogOutBtn(context) {
+  Widget _buildLogOutBtn(context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0, horizontal: 60.0),
       width: double.infinity,
@@ -47,14 +51,18 @@ Widget _buildLogOutBtn(context) {
     );
   }
 
-  Widget _buildProfileEditBtn() {
+  Widget _buildBookmarkBtn(context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0, horizontal: 60.0),
       width: double.infinity,
       child: RaisedButton(
         elevation: 2.0,
         onPressed: () {
-          print('Edit Pressed!');
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BookmarksPage()),
+          );
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
@@ -62,7 +70,7 @@ Widget _buildLogOutBtn(context) {
         ),
         color: Colors.white,
         child: Text(
-          'EDIT PROFILE',
+          'BOOKMARKS',
           style: TextStyle(
             color: Color(0xFF73AEF5),
             letterSpacing: 1.5,
@@ -75,7 +83,7 @@ Widget _buildLogOutBtn(context) {
     );
   }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+
   @override
   Widget build(BuildContext context) {
     final double devHeight = MediaQuery.of(context).size.height;
@@ -123,12 +131,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: FutureBuilder(
                   future: _getUserData(),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (snapshot.data == null) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
                       return Padding(
                         padding: const EdgeInsets.all(50.0),
                         child: Center(
                           child: CircularProgressIndicator(),
                         ),
+                      );
+                    } else if (snapshot.hasError || !snapshot.hasData) {
+                      return Center(
+                        child: ErrorDisplay(errorDisplay: 'Error Loading Profile Data', error: false,),
                       );
                     }
                     User user = User.fromDoc(snapshot.data);
@@ -139,7 +151,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Center(
                             child: Container(
                               child: CircleAvatar(
-                                backgroundImage: NetworkImage('https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png'),
+                                backgroundImage: AssetImage('assets/images/avatar.png'),
                               ),
                               width: 100,
                               height: 100,
@@ -186,9 +198,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           )
                         ),
                         SizedBox(
-                          height: 50.0,
+                          height: 30.0,
                         ),
-                        _buildProfileEditBtn(),
+                        _buildBookmarkBtn(context),
                         _buildLogOutBtn(context),
                       ],
                     ));

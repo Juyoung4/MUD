@@ -11,7 +11,7 @@ class TtsService extends StatefulWidget {
 enum TtsState { playing, stopped }
 class _TtsServiceState extends State<TtsService> {
   List<Clusters> clusters;
-  FlutterTts flutterTts = new FlutterTts();
+  FlutterTts flutterTts = FlutterTts();
   
   TtsState ttsState = TtsState.stopped;
 
@@ -90,6 +90,7 @@ class _TtsServiceState extends State<TtsService> {
             ),
           ),
           Container(
+            alignment: Alignment.centerLeft,
             width: devWidth * 0.75,
             child: clusters == null ? Text(
               'Loading....',
