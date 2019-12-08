@@ -275,6 +275,8 @@ class store_Clusterid:
             print('Cluster ID and News List must not be null')
     def store(self):
         a=self.replace_clusterid_to_uuid()
+        print('cluster_uuid_set : ',set(a))
+        print('cluster_uuid_개수 : ',len(set(a)))
         print('store')
         self.updateClusterId(a)
 
