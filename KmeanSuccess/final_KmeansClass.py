@@ -324,7 +324,7 @@ class run_kmeans:
         preprocessed_Data = p.result()
         # o = optimal_K(preprocessed_Data, self.sK, self.eK)
         # k = o.final_find_K()  # 최적의 K
-        finalkmeans = KMeans(n_clusters=20, init='k-means++', n_init=100).fit(preprocessed_Data)
+        finalkmeans = KMeans(n_clusters=20, init='k-means++', n_init=600).fit(preprocessed_Data)
 
 
         label =finalkmeans.labels_
