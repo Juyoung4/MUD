@@ -243,16 +243,16 @@ class store_Clusterid:
     #새로정의된 label을 원래데이터 rawDataresult에 붙어서
     def updateClusterId(self, newClusterIdlist):
         import requests
-        self.rawDataresult=list(self.rawDataresult)
-        if self.rawDataresult and newClusterIdlist:
+        # self.rawDataresult=list(self.rawDataresult)
+        if  newClusterIdlist:
             print('updateClusterid')
             print(newClusterIdlist)
             # for article in self.rawDataresult.loc[self.rawDataresult['cluster_id']==newClusterId]:
             print(len(self.rawDataresult))
             print(len(newClusterIdlist))
             base =-1
-            for article in self.rawDataresult:
-
+            for i in range( len(self.rawDataresult)):
+                article = self.rawDataresult.iloc[i]
                 base+=1
                 if(newClusterIdlist[base]!='07f269a8-3ae6-4994-abfd-e2cb2d4633f3'):
                     print('if문돌아가는중')
