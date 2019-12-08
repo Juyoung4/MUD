@@ -22,9 +22,9 @@ class call_Dataset:
         #url로 불러온 rawDatasetjson은 { ~~:~~~,~~;~~,'results':['news_id:~~,headline:~~....]}이런형태로되있으므로 원하는것 results에
         self.rawDatasetresult = rawDatasetjson['results']
         #크롤링된 데이터를 Dataframe으로 변환 ---->최종 dataframe 형식 Dataset은 변수명'self.df'
-        originaldf = pd.DataFrame(self.rawDatasetresult)
+        self.originaldf = pd.DataFrame(self.rawDatasetresult)
         self.df = pd.DataFrame(columns=['category','news_id','headline','cluster_id'])
-        self.df = originaldf[['category','news_id','headline','cluster_id']]
+        self.df = self.originaldf[['category','news_id','headline','cluster_id']]
 
     # 카테고리선택
     def data_in_Category(self,category_Index):
@@ -33,7 +33,6 @@ class call_Dataset:
         self.df = self.df[self.df['category']==self.category_Index]
         print(category_Index,"의 기사개수 : ",len(self.df))
         df_headline = self.df['headline'].tolist()
-        print(df_headline)
         return df_headline
 
 #전처리과정 > 2차원배열 X
@@ -191,13 +190,12 @@ class closed_news:
                 for m in range(40 , self.label.count(i)):
                     #거리 정렬순으로 했을때 해당 cluster_id 속 40번째가 초과되는 뉴스기사들의 index를 default_cluster 리스테 넣어주기
                     default_cluster.append(dis_list_in_cluster[m][0])
-        print(default_cluster)
         return (default_cluster)
 
 #DB에 Clusterid 부여하기
 class store_Clusterid:
     def __init__(self,finalData,rawDataresult):
-        print('store_clusterid')
+        print('store_clusterid Class')
         self.url_articles ="http://34.84.147.192:8000/news/articles/"
         self.url_clsuter = "http://34.84.147.192:8000/news/clusters/"
         self.finalData = finalData
@@ -223,6 +221,7 @@ class store_Clusterid:
             print('Cluster Headline Must not be null!')
             return None
     def replace_clusterid_to_uuid(self):
+        print('replace_clusterId_to_uuid')
         label = self.finalData['cluster_id']
         labelset = list(set(label))
         del(labelset[labelset.index('07f269a8-3ae6-4994-abfd-e2cb2d4633f3')])
@@ -234,24 +233,32 @@ class store_Clusterid:
         #생성된 Cluster 갯수만큼 headline,summary 값 보내주기
         for i in range (len(labelset)):
             cluster_uuid_list.append(self.creatCluster(newClusterHeadline,newClusterSummary))
+
         for i in (labelset):
             # label.replace(i,cluster_uuid_list[i],label.count(i))
-            print(type(i))
             label = list(map(lambda x: cluster_uuid_list[int(i)] if x == i else x, label))
+            self.finalData['cluster_id']=label
+            # self.rawDataresult['cluster_id']=list(map(str,label))
         return label
-
     #새로정의된 label을 원래데이터 rawDataresult에 붙어서
-    def updateClusterId(self, newClusterId):
+    def updateClusterId(self, newClusterIdlist):
         import requests
-        if self.rawDataresult and newClusterId:
+        self.rawDataresult=list(self.rawDataresult)
+        if self.rawDataresult and newClusterIdlist:
             print('updateClusterid')
-            print(self.rawDataresult)
-            print(newClusterId)
+            print(newClusterIdlist)
+            # for article in self.rawDataresult.loc[self.rawDataresult['cluster_id']==newClusterId]:
+            print(len(self.rawDataresult))
+            print(len(newClusterIdlist))
+            base =-1
             for article in self.rawDataresult:
-                if(article['cluster_id']!='07f269a8-3ae6-4994-abfd-e2cb2d4633f3'):
+
+                base+=1
+                if(newClusterIdlist[base]!='07f269a8-3ae6-4994-abfd-e2cb2d4633f3'):
+                    print('if문돌아가는중')
                     try:
                         print('try')
-                        article['cluster_id'] = newClusterId
+                        article['cluster_id'] = newClusterIdlist[base]
                         res = requests.put(url=self.url_articles + article['news_id'] + '/', data=article)
                         if res.status_code == 200:
                             data = res.json()
@@ -265,9 +272,7 @@ class store_Clusterid:
     def store(self):
         a=self.replace_clusterid_to_uuid()
         print('store')
-        print(a)
-        for i in a:
-            self.updateClusterId(i)
+        self.updateClusterId(a)
 
 #한번에 K_mean 모두 실행 class
 class run_kmeans:
@@ -275,10 +280,10 @@ class run_kmeans:
         # 카테고리 선택해서 data 들고오기
         get_rawData = call_Dataset()
         # caall_Dataset Class에서 self.df는 ['category','news_id','headline','cluster_id']Dataframe
-
+        self.category = category_index
         self.rawData = get_rawData.data_in_Category(category_index)  # DB에서 들고오는 일단은 제목에 해당되는 rawData
         self.DBjson=get_rawData.df
-        self.rawDataresult = get_rawData.rawDatasetresult
+        self.rawDataresult = get_rawData.originaldf[get_rawData.originaldf['category']==category_index] #해당카테고리의 모든 데이터가 있는 dataframe
         self.sK = start_Kn
         self.eK = end_Kn
 
@@ -293,7 +298,6 @@ class run_kmeans:
         distance = finalkmeans.transform(preprocessed_Data)
         c=closed_news(finalkmeans,label,distance)
         default_index = c.default_index_news() #default를 줘야하는 뉴스기사 index들 리스트
-
 
         label2 = list(map(str, label))
         for i in default_index:
@@ -315,15 +319,13 @@ class run_kmeans:
         preprocessed_Data = p.result()
         # o = optimal_K(preprocessed_Data, self.sK, self.eK)
         # k = o.final_find_K()  # 최적의 K
-        finalkmeans = KMeans(n_clusters=20, init='k-means++', n_init=600).fit(preprocessed_Data)
+        finalkmeans = KMeans(n_clusters=10, init='k-means++', n_init=600).fit(preprocessed_Data)
 
-        label = finalkmeans.labels_
-        print(label)
-        print(len(label))
-        print(type(label))
+
+        label =finalkmeans.labels_
         distance = finalkmeans.transform(preprocessed_Data)
-        c = closed_news(finalkmeans, label, distance)
-        default_index = c.default_index_news()  # default를 줘야하는 뉴스기사 index들 리스트
+        c=closed_news(finalkmeans,label,distance)
+        default_index = c.default_index_news() #default를 줘야하는 뉴스기사 index들 리스트
 
         label2 = list(map(str, label))
         for i in default_index:
@@ -334,6 +336,6 @@ class run_kmeans:
         Final_Data['news_id'] = self.DBjson['news_id']
         Final_Data['cluster_id'] = label2
 
-        s = store_Clusterid(Final_Data, self.rawDataresult)
+        s = store_Clusterid(Final_Data,self.rawDataresult)
         s.store()
-        print("Clustering ALL Success")
+        print(self.category," : Clustering ALL Success")
