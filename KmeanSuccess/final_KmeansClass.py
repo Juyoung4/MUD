@@ -32,6 +32,10 @@ class call_Dataset:
         self.category_Index =category_Index  #category는 "economy""IT_science""society""politics"
         self.df = self.df[self.df['category']==self.category_Index]
         print(category_Index,"의 기사개수 : ",len(self.df))
+        print(list(self.df['cluster_id']))
+        print(set(list(self.df['cluster_id'])))
+        print(len(set(list(self.df['cluster_id']))))
+
         df_headline = self.df['headline'].tolist()
         return df_headline
 
@@ -250,23 +254,23 @@ class store_Clusterid:
             # for article in self.rawDataresult.loc[self.rawDataresult['cluster_id']==newClusterId]:
             print(len(self.rawDataresult))
             print(len(newClusterIdlist))
-            base =-1
             for i in range( len(self.rawDataresult)):
                 article = self.rawDataresult.iloc[i]
-                base+=1
-                if(newClusterIdlist[base]!='07f269a8-3ae6-4994-abfd-e2cb2d4633f3'):
+                if(newClusterIdlist[i]!='07f269a8-3ae6-4994-abfd-e2cb2d4633f3'):
                     print('if문돌아가는중')
                     try:
                         print('try')
-                        article['cluster_id'] = newClusterIdlist[base]
-                        res = requests.put(url=self.url_articles + article['news_id'] + '/', data=article)
+                        article['cluster_id'] = newClusterIdlist[i]
+                        res = requests.put(url=self.url_articles + article['news_id'] + '/', data=article.to_dict())
                         if res.status_code == 200:
                             data = res.json()
                             print('Cluster ID Upadated for News : ' + data['news_id'])
                         else:
                             print('Bad Request!')
-                    except:
+                    except  :
                         print('Something went wrong when updating the News ID')
+                # Tell the user their URL was bad and try a different one
+
         else:
             print('Cluster ID and News List must not be null')
     def store(self):
@@ -284,6 +288,7 @@ class run_kmeans:
         self.rawData = get_rawData.data_in_Category(category_index)  # DB에서 들고오는 일단은 제목에 해당되는 rawData
         self.DBjson=get_rawData.df
         self.rawDataresult = get_rawData.originaldf[get_rawData.originaldf['category']==category_index] #해당카테고리의 모든 데이터가 있는 dataframe
+        print()
         self.sK = start_Kn
         self.eK = end_Kn
 
@@ -319,7 +324,7 @@ class run_kmeans:
         preprocessed_Data = p.result()
         # o = optimal_K(preprocessed_Data, self.sK, self.eK)
         # k = o.final_find_K()  # 최적의 K
-        finalkmeans = KMeans(n_clusters=10, init='k-means++', n_init=600).fit(preprocessed_Data)
+        finalkmeans = KMeans(n_clusters=20, init='k-means++', n_init=100).fit(preprocessed_Data)
 
 
         label =finalkmeans.labels_
