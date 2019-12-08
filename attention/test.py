@@ -1,6 +1,6 @@
 import tensorflow as tf
 import pickle
-import import_ipynb
+
 from model import Model
 from utils import build_dict, build_dataset, batch_iter
 

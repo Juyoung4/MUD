@@ -33,7 +33,7 @@ moum_list = ['ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ
 doublespace_pattern = re.compile('\s+')
 repeatchars_pattern = re.compile('(\w)\\1{3,}')
 
-def normalize(doc, english=False, number=False, punctuation=False, remove_repeat = 0, remains={}):
+def normalize(doc, english=True, number=True, punctuation=True, remove_repeat = 0, remains={}):
     if remove_repeat > 0:
         doc = repeatchars_pattern.sub('\\1' * remove_repeat, doc)
 

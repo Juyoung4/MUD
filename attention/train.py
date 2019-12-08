@@ -1,6 +1,8 @@
 import time
 start = time.perf_counter()
 import tensorflow as tf
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
 import pickle
 
 import os
@@ -8,14 +10,14 @@ from model import Model
 from utils import build_dict, build_dataset, batch_iter
 
 embedding_size=300
-num_hidden = 150
-num_layers = 2
-learning_rate = 1e-3
+num_hidden = 500
+num_layers = 3
+learning_rate = 0.01
 beam_width = 10
 keep_prob = 0.8
 glove = True
-batch_size=512
-num_epochs=10
+batch_size=64
+num_epochs=5
 
 if not os.path.exists("saved_model"):
     os.mkdir("saved_model")
@@ -30,7 +32,7 @@ word_dict, reversed_dict, article_max_len, summary_max_len = build_dict("train",
 print("Loading training dataset...")
 train_x, train_y = build_dataset("train", word_dict, article_max_len, summary_max_len, toy=True)
 
-with tf.Session() as sess:
+with tf.compat.v1.Session(config=config) as sess:
     model = Model(reversed_dict, article_max_len, summary_max_len, embedding_size, num_hidden, num_layers, learning_rate, beam_width, keep_prob, glove)
     sess.run(tf.global_variables_initializer())
     saver = tf.train.Saver(tf.global_variables())

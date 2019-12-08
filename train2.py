@@ -6,7 +6,7 @@ import util4
 import time
 import os
 
-datapath = 'merge10.csv'
+datapath = './merge10.csv'
 title,content = util4.loading_data(datapath,eng=False, num=False, punc=False)
 #title,content = util3.normalize(datapath)
 word_to_ix,ix_to_word = util4.make_dict(title + content, minlength=0, maxlength=3,jamo_delete=True)
@@ -120,11 +120,11 @@ class seq2seq(object):
 
 #sess = tf.compat.v1.Session()
 # tf.train.Saver를 이용해서 모델과 파라미터를 저장합니다.
-if not os.path.exists("model"):
-    os.mkdir("model")
-else:
-    old_model_checkpoint_path = open('model/checkpoint','r')
-    old_model_checkpoint_path = "".join(["model/",old_model_checkpoint_path.read().splitlines()[0].split('"')[1]])
+#if not os.path.exists("model"):
+#    os.mkdir("model")
+#else:
+#    old_model_checkpoint_path = open('model/checkpoint','r')
+#    old_model_checkpoint_path = "".join(["model/",old_model_checkpoint_path.read().splitlines()[0].split('"')[1]])
 
 
 with tf.compat.v1.Session(config=config) as sess:
@@ -136,14 +136,15 @@ with tf.compat.v1.Session(config=config) as sess:
     
     sess.run(tf.compat.v1.global_variables_initializer())#global_variables_initializer()
     saver = tf.compat.v1.train.Saver(tf.compat.v1.global_variables())
-    if 'old_model_checkpoint_path' in globals():
-        print("continuing from previous trained model: ",old_model_checkpoint_path, "...")
-        saver.restore(sess, old_model_checkpoint_path)
+    #saver.restore(sess, "./model/model.ckpt-10000.meta")
+    #if 'old_model_checkpoint_path' in globals():
+    #    print("continuing from previous trained model: ",old_model_checkpoint_path, "...")
+    #    saver.restore(sess, old_model_checkpoint_path)
     step_time, loss = 0.0, 0.0
     current_step = 0
     start = 0
     end = batch_size
-    while current_step < 10001:
+    while current_step < 1000:
             
         if end > len(title):
             start = 0

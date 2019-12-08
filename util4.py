@@ -6,6 +6,8 @@ import pandas as pd
 import operator
 from collections import defaultdict
 from normalizing import normalize
+import pickle
+import os
 
 #-*- coding: utf-8 -*-
 def loading_data(data_path, eng=True, num=True, punc=False):
@@ -27,6 +29,7 @@ def loading_data(data_path, eng=True, num=True, punc=False):
             title.append(tmptitle)
             contents.append(tmpcontents)
             count += 1
+    
     return title, contents
 
 # word_to_ix, ix_to_word 생성
@@ -60,11 +63,15 @@ def make_dict(contents, minlength, maxlength, jamo_delete=False):
     words.append(['<UNK>'])
     # word_to_ix, ix_to_word 생성
     ix_to_word = {i: ch[0] for i, ch in enumerate(words)}
+    with open("ix_to_word.pickle", "wb") as f:
+        pickle.dump(ix_to_word, f)
+    
     word_to_ix = {}
     for idx, words in enumerate(words):
         for word in words:
             word_to_ix[word] = idx
-
+    with open("word_to_ix.pickle", "wb") as t:
+        pickle.dump(word_to_ix, t)
     print("len ix_to_word",len(ix_to_word),"len word_to_ix",len(word_to_ix))
     
 

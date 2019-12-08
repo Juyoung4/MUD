@@ -18,15 +18,15 @@ class Model(object):
         else:
             self.keep_prob = 1.0
         self.cell = tf.nn.rnn_cell.BasicLSTMCell
-        with tf.variable_scope("decoder/projection"):
-            self.projection_layer = tf.layers.Dense(self.vocabulary_size, use_bias=False)
+        with tf.compat.v1.variable_scope("decoder/projection"):
+            self.projection_layer = tf.compat.v1.layers.Dense(self.vocabulary_size, use_bias=False)
 
-        self.batch_size = tf.placeholder(tf.int32, (), name="batch_size")
-        self.X = tf.placeholder(tf.int32, [None, article_max_len])
-        self.X_len = tf.placeholder(tf.int32, [None])
-        self.decoder_input = tf.placeholder(tf.int32, [None, summary_max_len])
-        self.decoder_len = tf.placeholder(tf.int32, [None])
-        self.decoder_target = tf.placeholder(tf.int32, [None, summary_max_len])
+        self.batch_size = tf.compat.v1.placeholder(tf.int32, (), name="batch_size")
+        self.X = tf.compat.v1.placeholder(tf.int32, [None, article_max_len])
+        self.X_len = tf.compat.v1.placeholder(tf.int32, [None])
+        self.decoder_input = tf.compat.v1.placeholder(tf.int32, [None, summary_max_len])
+        self.decoder_len = tf.compat.v1.placeholder(tf.int32, [None])
+        self.decoder_target = tf.compat.v1.placeholder(tf.int32, [None, summary_max_len])
         self.global_step = tf.Variable(0, trainable=False)
 
         with tf.name_scope("embedding"):

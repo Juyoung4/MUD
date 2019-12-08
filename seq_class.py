@@ -48,7 +48,7 @@ def make_batch(encoder_inputs, decoder_inputs, targets, target_weights):
     return result_encoder_inputs, result_decoder_inputs, result_targets, result_target_weights
 
 
-class seq2seq(object):
+class seq2seq_attention(object):
 
     def __init__(self, multi, hidden_size, num_layers, forward_only,learning_rate, batch_size,vocab_size, encoder_size, decoder_size):
 
@@ -154,14 +154,14 @@ if __name__ == '__main__':
     encoder_size = 100
     decoder_size = 18
     
-    content="지난달 일 중국 베이징 국립 경기장 에서 열린 리그 오브 레전드 월드 챔피언십 에서 삼성 갤럭시 가 을 꺾 고 우승 했 다 갤럭시 팀 이 환호 하 는 모습 이 대형 화면 을 통해 생 중계 되 고 있 다 라이엇 게임즈 제공 삼성 이 스포츠 사업 에서 손 을 뗀다 글로벌 스포츠 기업 는 스포츠 인기 종목 리그 오브 레전드 롤 팀 인 삼성 갤럭시 를 삼성그룹 계열 광고 업체 제일기획 으로부터 인수 했 다고 일 밝혔 다 리그 오브 레전드 는 세계 최대 규모 의 스포츠 종목 이 다 삼성 갤럭시 는 지난달 중국 베이징 국립 경기장 에서 열린 리그 오브 레전드 월드 챔피언십 롤 드 컵 에서 텔레콤 을 꺾 고 우승 한 강자 팀 이 다 측 은 이번 인수 로 오버 워치 히어로즈 오브 더 스톰 배틀 그라운드 에 이어 리그 오브 레전드 까지 총 개 주요 게임 우승 전력 이 있 는 팀 들 을 보유 하 게 됐 다고 밝혔 다 케빈 추 대표 는 삼성 갤럭시 의 뛰어난 실력 과 팀워크 를 인수 의 이유 로 꼽 았 다 그 는 리그 오브 레전드 는 스포츠 정점 에 있 는 종목 이 기 때문 에 지난 여름 부터 이 종목 에 뛰어들 기회 를 기다리 고 있 었 다고 말 했 다 제일기획 측 은 기존 사업 과 시너지 가 약하 다고 판단 했 다며 게임 단의 성장 을 위해 스포츠 에 적극 투자 하 고 있 는 전문 기업 에 매각 하 게 된 것 이 라고 덧붙였 다 현재 제일기획 은 프로야구단 삼성 라이온스 와 프로 축구단 수원 삼성 등 삼성 계열 스포츠 단 을 운영 하 고 있 다"
+    content="박근혜 정부 시절 우병우 전 청와대 민정수석비서관과 함께 국가정보원의 불법사찰에 관여한 혐의를 받는 최윤수 50 전 국정원 2차장의 구속 여부가 이르면 1일 밤 결정된다. 우 전 수석은 30일 새벽 검찰 소환 조사를 마치고 나오는 길에 최 전 차장의 구속영장 청구 소식과 관련한 질문을 받고 가슴이 아프다 며 잘되기를 바란다 고 말하기도 했다. 한편 검찰은 최 전 차장의 구속 여부가 판가름나는 대로 조만간 우 전 수석의 혐의 내용을 보강 조사해 이르면 내주 초 우 전 수석의 구속영장을 청구한다는 방침이다."
     end = 1
     encoderinputs=make_suffle(content,word_to_ix) # padding 
     print(encoderinputs)
     print(type(encoderinputs))
     with tf.compat.v1.Session() as sess:
         print("Loading saved model")
-        model = seq2seq(multi=True, hidden_size=300, num_layers=3,learning_rate=0.001, batch_size=1,vocab_size=vocab_size,encoder_size=100,decoder_size=15,forward_only=True)
+        model = seq2seq_attention(multi=True, hidden_size=300, num_layers=3,learning_rate=0.001, batch_size=1,vocab_size=vocab_size,encoder_size=100,decoder_size=15,forward_only=True)
         sess.run(tf.compat.v1.global_variables_initializer())
         saver = tf.train.Saver()
         ckpt = tf.train.get_checkpoint_state("./model/")
