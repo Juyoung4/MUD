@@ -86,7 +86,7 @@ class _BookmarksPageState extends State<BookmarksPage> {
                               Navigator.pop(context);
                             },
                           ),
-                          Text('Today\'s News', style: kTitleStyleMain,),
+                          Text('NewSum', style: kTitleStyleMain,),
                           IconButton(
                             color: Colors.transparent,
                             icon: Icon(Icons.search, size: 36,),

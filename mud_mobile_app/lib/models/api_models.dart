@@ -124,13 +124,22 @@ class Clusters {
   String clusterId;
   String clusterHeadline;
   String clusterSummary;
+  int clusterSize;
+  String clusterCategory;
 
-  Clusters({this.clusterId, this.clusterHeadline, this.clusterSummary});
+  Clusters(
+      {this.clusterId,
+      this.clusterHeadline,
+      this.clusterSummary,
+      this.clusterSize,
+      this.clusterCategory});
 
   Clusters.fromJson(Map<String, dynamic> json) {
     clusterId = json['cluster_id'];
     clusterHeadline = json['cluster_headline'];
     clusterSummary = json['cluster_summary'];
+    clusterSize = json['cluster_size'];
+    clusterCategory = json['cluster_category'];
   }
 
   Map<String, dynamic> toJson() {
@@ -138,6 +147,8 @@ class Clusters {
     data['cluster_id'] = this.clusterId;
     data['cluster_headline'] = this.clusterHeadline;
     data['cluster_summary'] = this.clusterSummary;
+    data['cluster_size'] = this.clusterSize;
+    data['cluster_category'] = this.clusterCategory;
     return data;
   }
 }

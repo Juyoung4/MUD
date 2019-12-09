@@ -6,6 +6,7 @@ import 'package:mud_mobile_app/services/auth_service.dart';
 
 class ApiService {
   static final initialurl = "http://34.84.147.192:8000/news/";
+  static final defaultClusterId = '07f269a8-3ae6-4994-abfd-e2cb2d4633f3';
 
   static Future<List<Clusters>> getRecommends() async {
     List<Recommends> recommends = List();
@@ -103,19 +104,51 @@ class ApiService {
   static Future getAllClusters() async {
     List<Clusters> clusters = List();
     final response = await http.get(
-      Uri.encodeFull(initialurl + "clusters/?format=json"), 
+      Uri.encodeFull(initialurl + "clusters/?format=json&ordering=cluster_size"), 
       headers: {"Accept" : "application/json"}
     );
     if (response.statusCode == 200) {     
       clusters = (json.decode(utf8.decode(response.bodyBytes)) as List)
         .map((data) => new Clusters.fromJson(data))
         .toList();
+      if (clusters.length <= 1){
+        return null;
+      }
+      return removeDefaultCluster(clusters);
     } else {
-      Clusters error = Clusters();
-      error.clusterId = "Status Code : " + response.statusCode.toString();
-      error.clusterHeadline = "Error Loading Data";
-      error.clusterSummary = "News may have deleted from database";
-      clusters.add(error);
+      return null;
+    }
+  }
+
+  static Future getAllClustersByCategory(category) async {
+    List<Clusters> clusters = List();
+    final response = await http.get(
+      Uri.encodeFull(initialurl + "clusters/?format=json&ordering=cluster_size&cluster_category=" + category), 
+      headers: {"Accept" : "application/json"}
+    );
+    if (response.statusCode == 200) {     
+      clusters = (json.decode(utf8.decode(response.bodyBytes)) as List)
+        .map((data) => new Clusters.fromJson(data))
+        .toList();
+      if (clusters.length <= 1){
+        return null;
+      }
+      return clusters;
+    } else {
+      return null;
+    }
+  }
+
+  static List<Clusters> removeDefaultCluster(clusters){
+    var index;
+    for (var i = 0; i < clusters.length; i++){
+      if (clusters[i].clusterId == defaultClusterId){
+        index = i;
+      }
+    }
+    if (index != null){
+      clusters.removeAt(index);
+      return clusters;
     }
     return clusters;
   }

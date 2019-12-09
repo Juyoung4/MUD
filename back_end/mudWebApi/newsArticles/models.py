@@ -6,6 +6,8 @@ class Cluster(models.Model):
     cluster_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     cluster_headline = models.CharField(max_length=250, blank=True, null=True)
     cluster_summary = models.TextField(blank=True, null=True)
+    cluster_size = models.IntegerField(default=20, blank=True, null=True)
+    cluster_category = models.CharField(max_length=20, default='')
 
     def __str__(self):
         return self.cluster_headline

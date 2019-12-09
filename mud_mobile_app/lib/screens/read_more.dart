@@ -185,7 +185,7 @@ class _ReadMoreNewsState extends State<ReadMoreNews> {
                                 Navigator.pop(context);
                               },
                             ),
-                            Text('Today\'s News', style: kTitleStyleMain,),
+                            Text('NewSum', style: kTitleStyleMain,),
                             IconButton(
                               color: Colors.transparent,
                               icon: Icon(Icons.search, size: 36,),
@@ -243,6 +243,16 @@ class _ReadMoreNewsState extends State<ReadMoreNews> {
                               fontSize: 28.0,
                               fontWeight: FontWeight.bold,
                             ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        Container(
+                          height: 1,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(50)),
+                            color: Color(0xFF398AE5)
                           ),
                         ),
                         SizedBox(

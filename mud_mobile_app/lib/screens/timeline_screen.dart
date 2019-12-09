@@ -4,7 +4,6 @@ import 'package:mud_mobile_app/models/Conection_error.dart';
 import 'package:mud_mobile_app/models/api_models.dart';
 import 'package:mud_mobile_app/models/button_models.dart';
 import 'package:mud_mobile_app/screens/cluster_more.dart';
-import 'package:mud_mobile_app/screens/read_more.dart';
 import 'package:mud_mobile_app/services/api_service.dart';
 import 'package:mud_mobile_app/services/tts_service.dart';
 import 'package:mud_mobile_app/utilities/constants.dart';
@@ -18,71 +17,24 @@ class TimelineScreen extends StatefulWidget {
 class _TimelineScreenState extends State<TimelineScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   Future _futureCluster;
-  Future _futureArticles;
+  Future _futureAllCluster;
   bool isSwitched = false;
   List<Clusters> clusters;
+  List<Clusters> allClusters;
   ArticlePagination articlePagination;
-  List<AllUserBookmarks> allUserBookmarks = List();
-  List<String> bookmarkNewsIds = List();
 
   getData() async {
-    await checkBookmarks();
     return await ApiService.getRecommends();
   }
-
-  getArticles() async {
-    await checkBookmarks();
-    return await ApiService.getArticles(null);
-  }
-
-  void createbookmark(newsId, headline, summary) async {
-    bool result = await ApiService.creatBookmark(newsId, headline, summary);
-    if (result){
-      setState(() {
-        bookmarkNewsIds.add(newsId);
-      });
-      print('Done');
-      _scaffoldKey.currentState.showSnackBar(
-      SnackBar(
-        content: Row(
-          children: <Widget>[
-            Icon(Icons.save_alt),
-            SizedBox(width: 5,),
-            Text('Saved'),
-          ],
-        ),
-        duration: Duration(seconds: 2),
-      ));
-    } else {
-      print('Not Done');
-      _scaffoldKey.currentState.showSnackBar(
-      SnackBar(
-        content: Row(
-          children: <Widget>[
-            Icon(Icons.error),
-            SizedBox(width: 5,),
-            Text('Opps Not saved'),
-          ],
-        ),
-        duration: Duration(seconds: 2),
-      ));
-    }
-  }
-
-  Future checkBookmarks() async {
-    allUserBookmarks = await ApiService.getBookmarksByUser();
-    if (allUserBookmarks?.isNotEmpty ?? false){
-      for (var i = 0; i < allUserBookmarks.length; i++){
-        bookmarkNewsIds.add(allUserBookmarks[i].newsId);
-      }
-    }
+  getAllClusters() async {
+    return await ApiService.getAllClusters();
   }
 
   @override
   void initState(){
     super.initState();
     this._futureCluster = getData();
-    this._futureArticles = getArticles();
+    this._futureAllCluster = getAllClusters();
   }
 
   @override
@@ -119,7 +71,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
                             icon: Icon(Icons.arrow_back_ios, size: 36,),
                             onPressed: (){},
                           ),
-                          Text('Today\'s News', style: kTitleStyleMain,),
+                          Text('NewSum', style: kTitleStyleMain,),
                           IconButton(
                             color: Colors.white,
                             icon: Icon(Icons.search, size: 36,),
@@ -164,15 +116,11 @@ class _TimelineScreenState extends State<TimelineScreen> {
                   );
                 } else if (snapshot.hasError) {
                   return SliverToBoxAdapter(
-                    child: Container(
-                      child: ErrorDisplay(errorDisplay: 'Opps Somthing is not okay!', error: true,),
-                    ),
+                    child: Container(),
                   );
                 } else if (!snapshot.hasData) {
                   return SliverToBoxAdapter(
-                    child: Container(
-                      child: ErrorDisplay(errorDisplay: 'You Dont Have Recommends News Yet', error: false,),
-                    ),
+                    child: Container(),
                   );
                 }
                 clusters = snapshot.data;
@@ -234,35 +182,8 @@ class _TimelineScreenState extends State<TimelineScreen> {
                             Padding(
                               padding: const EdgeInsets.only(top: 5.0),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
-                                  RaisedGradientButton(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      children: <Widget>[
-                                        Icon(Icons.bookmark, color: Colors.white,),
-                                        Text('Bookmark', style: TextStyle(color: Colors.white),)
-                                      ],
-                                    ),
-                                    onPressed: !bookmarkNewsIds.contains(clusters[index].clusterId) ? (){
-                                      createbookmark(
-                                        clusters[index].clusterId,
-                                        clusters[index].clusterHeadline,
-                                        clusters[index].clusterSummary,
-                                      );
-                                    } : (){},
-                                    gradient: LinearGradient(
-                                      colors: !bookmarkNewsIds.contains(clusters[index].clusterId) ? [
-                                        Color(0xFF398AE5),
-                                        Color(0xFF73AEF5),
-                                      ] : [
-                                        Colors.grey,
-                                        Colors.grey
-                                      ],
-                                      begin: Alignment.bottomLeft,
-                                      end: Alignment.topRight
-                                    ),
-                                  ),
                                   RaisedGradientButton(
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -300,25 +221,30 @@ class _TimelineScreenState extends State<TimelineScreen> {
               },
             ),
             FutureBuilder(
-              future: _futureArticles,
+              future: _futureAllCluster,
               builder: (BuildContext context, AsyncSnapshot snapshot){
                 if (snapshot.connectionState == ConnectionState.waiting){
                   return SliverToBoxAdapter(
                     child: Container(
-                      height: 100.0,
-                      child: CircularProgressIndicator(),
-                      alignment: Alignment.bottomCenter,
+                      child: LinearProgressIndicator(),
+                      alignment: Alignment.topCenter,
                     ),
                   );
-                } else if (snapshot.hasError || !snapshot.hasData) {
+                } else if (snapshot.hasError) {
+                  return SliverToBoxAdapter(
+                    child: Container(
+                      child: ErrorDisplay(errorDisplay: 'Opps Somthing is not okay!', error: true,),
+                    ),
+                  );
+                } else if (!snapshot.hasData) {
                   return SliverToBoxAdapter(
                     child: Container(
                       child: ErrorDisplay(errorDisplay: 'Opps Somthing is not okay!', error: true,),
                     ),
                   );
                 }
-                articlePagination = snapshot.data;
-                var childCount = articlePagination.results.length;
+                allClusters = snapshot.data;
+                var childCount = allClusters.length;
                 return SliverList(
                   delegate: SliverChildBuilderDelegate((BuildContext contex, int index) {
                     return Container(
@@ -330,14 +256,15 @@ class _TimelineScreenState extends State<TimelineScreen> {
                             width: 1.0,
                             color: Color(0xFF398AE5),
                           ),
-                          borderRadius: BorderRadius.all(Radius.circular(5.0))
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                          color: Color(0xFFDBF8FF)
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Container(
                               child: Text(
-                                articlePagination.results[index].headline ?? 'Not Found',
+                                allClusters[index].clusterHeadline ?? 'Not Found',
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 18.0,
@@ -352,7 +279,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
                             ),
                             Container(
                               child: Text(
-                                articlePagination.results[index].summary ?? 'Not Found',
+                                allClusters[index].clusterSummary ?? 'Not Found',
                                 style: TextStyle(
                                   color: Colors.black87,
                                   fontSize: 16.0,
@@ -366,19 +293,6 @@ class _TimelineScreenState extends State<TimelineScreen> {
                               height: 5.0,
                             ),
                             Container(
-                                child: Text(
-                                  'Publication Date : ' + articlePagination.results[index].pubDate.split("T")[0] ?? 'Not Found',
-                                  style: TextStyle(
-                                    color: Colors.black54,
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ),
-                            SizedBox(
-                              height: 5.0,
-                            ),
-                            Container(
                               height: 1,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.all(Radius.circular(50)),
@@ -388,35 +302,8 @@ class _TimelineScreenState extends State<TimelineScreen> {
                             Padding(
                               padding: const EdgeInsets.only(top: 5.0),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
-                                  RaisedGradientButton(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      children: <Widget>[
-                                        Icon(Icons.bookmark, color: Colors.white,),
-                                        Text('Bookmark', style: TextStyle(color: Colors.white),)
-                                      ],
-                                    ),
-                                    onPressed: !bookmarkNewsIds.contains(articlePagination.results[index].newsId) ? (){
-                                      createbookmark(
-                                        articlePagination.results[index].newsId,
-                                        articlePagination.results[index].headline,
-                                        articlePagination.results[index].summary,
-                                      );
-                                    } : (){},
-                                    gradient: LinearGradient(
-                                      colors: !bookmarkNewsIds.contains(articlePagination.results[index].newsId) ? [
-                                        Color(0xFF398AE5),
-                                        Color(0xFF73AEF5),
-                                      ] : [
-                                        Colors.grey,
-                                        Colors.grey
-                                      ],
-                                      begin: Alignment.bottomLeft,
-                                      end: Alignment.topRight
-                                    ),
-                                  ),
                                   RaisedGradientButton(
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -429,7 +316,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => ReadMoreNews(articlePagination.results[index])),
+                                          builder: (context) => ClusterMoreNews(allClusters[index])),
                                       );
                                     },
                                     gradient: LinearGradient(
@@ -452,7 +339,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
                   childCount: childCount),
                 );
               },
-            )
+            ),
           ],
         )
       ),

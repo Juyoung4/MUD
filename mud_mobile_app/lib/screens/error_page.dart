@@ -80,7 +80,7 @@ class _ErrorScreenState extends State<ErrorScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       FadeIn(1.0, Text(
-                        'News App',
+                        'NewSum',
                         style: kTitleStyle
                       )),
                       SizedBox(height: 20.0),

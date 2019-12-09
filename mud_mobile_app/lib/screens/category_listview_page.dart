@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:mud_mobile_app/models/Conection_error.dart';
 import 'package:mud_mobile_app/models/api_models.dart';
 import 'package:mud_mobile_app/models/button_models.dart';
+import 'package:mud_mobile_app/screens/cluster_more.dart';
 import 'package:mud_mobile_app/screens/read_more.dart';
 import 'package:mud_mobile_app/services/api_service.dart';
 import 'package:mud_mobile_app/utilities/constants.dart';
@@ -24,10 +25,16 @@ class _CategoryListViewState extends State<CategoryListView> {
   List<AllUserBookmarks> allUserBookmarks = List();
   List<String> bookmarkNewsIds = List();
   Future getArticlesFuture;
+  Future _futureAllCluster;
+  List<Clusters> allClusters;
 
   Future getArticles() async {
     await checkBookmarks();
     return await ApiService.getArticlesByCategory(widget.category);
+  }
+
+  getAllClusters() async {
+    return await ApiService.getAllClustersByCategory(widget.category);
   }
 
   void createbookmark(newsId, headline, summary) async {
@@ -74,7 +81,8 @@ class _CategoryListViewState extends State<CategoryListView> {
   @override
   void initState() {
     super.initState();
-    getArticlesFuture = getArticles();
+    this.getArticlesFuture = getArticles();
+    this._futureAllCluster = getAllClusters();
   }
 
   @override
@@ -114,7 +122,7 @@ class _CategoryListViewState extends State<CategoryListView> {
                               Navigator.pop(context);
                             },
                           ),
-                          Text('Today\'s News', style: kTitleStyleMain,),
+                          Text('NewSum', style: kTitleStyleMain,),
                           IconButton(
                             color: Colors.white,
                             icon: Icon(Icons.search, size: 36,),
@@ -148,6 +156,124 @@ class _CategoryListViewState extends State<CategoryListView> {
                   ),
                 ),
               ),
+            ),
+            FutureBuilder(
+              future: _futureAllCluster,
+              builder: (BuildContext context, AsyncSnapshot snapshot){
+                if (snapshot.connectionState == ConnectionState.waiting){
+                  return SliverToBoxAdapter(
+                    child: Container(
+                      child: LinearProgressIndicator(),
+                      alignment: Alignment.topCenter,
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return SliverToBoxAdapter(
+                    child: Container(
+                      child: ErrorDisplay(errorDisplay: 'Opps Somthing is not okay!', error: true,),
+                    ),
+                  );
+                } else if (!snapshot.hasData) {
+                  return SliverToBoxAdapter(
+                    child: Container(),
+                  );
+                }
+                allClusters = snapshot.data;
+                var childCount = allClusters.length;
+                return SliverList(
+                  delegate: SliverChildBuilderDelegate((BuildContext contex, int index) {
+                    return Container(
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                        padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 1.0,
+                            color: Color(0xFF398AE5),
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                          color: Color(0xFFDBF8FF)
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              child: Text(
+                                allClusters[index].clusterHeadline ?? 'Not Found',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5.0,
+                            ),
+                            Container(
+                              child: Text(
+                                allClusters[index].clusterSummary ?? 'Not Found',
+                                style: TextStyle(
+                                  color: Colors.black87,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 3,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5.0,
+                            ),
+                            Container(
+                              height: 1,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(50)),
+                                color: Color(0xFF398AE5)
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  RaisedGradientButton(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: <Widget>[
+                                        Icon(Icons.chrome_reader_mode, color: Colors.white,),
+                                        Text('Read More', style: TextStyle(color: Colors.white),)
+                                      ],
+                                    ),
+                                    onPressed: (){
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ClusterMoreNews(allClusters[index])),
+                                      );
+                                    },
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xFF398AE5),
+                                        Color(0xFF73AEF5),
+                                      ],
+                                      begin: Alignment.bottomLeft,
+                                      end: Alignment.topRight
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        )
+                      ),
+                    );
+                  },
+                  childCount: childCount),
+                );
+              },
             ),
             FutureBuilder(
               future: getArticlesFuture,
@@ -217,7 +343,7 @@ class _CategoryListViewState extends State<CategoryListView> {
                             ),
                             Container(
                                 child: Text(
-                                  'Publication Date : ' + articlePagination.results[index].pubDate.split("T")[0],
+                                  'Publication Date : ' + articlePagination.results[index].pubDate.split("T")[0] ?? 'Not Found',
                                   style: TextStyle(
                                     color: Colors.black54,
                                     fontSize: 14.0,

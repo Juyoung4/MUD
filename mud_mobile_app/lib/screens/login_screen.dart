@@ -231,7 +231,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       FadeIn(
                         1.0,
                         Text(
-                          'News App',
+                          'NewSum',
                           style: kTitleStyle
                         ),
                       ),

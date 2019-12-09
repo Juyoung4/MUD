@@ -28,9 +28,10 @@ class RegisterdUsers(viewsets.ModelViewSet):
 class NewsCluster(viewsets.ModelViewSet):
     queryset = Cluster.objects.all()
     serializer_class = ClusterSerializer
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ['cluster_id']
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['cluster_id', 'cluster_size', 'cluster_category']
     search_fields = ['cluster_headline']
+    ordering = ['cluster_size']
 
 class RatingList(viewsets.ModelViewSet):
     queryset = UserRating.objects.all()

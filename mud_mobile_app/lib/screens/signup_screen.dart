@@ -259,7 +259,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       FadeIn(
                         1.0,
                         Text(
-                          'News App',
+                          'NewSum',
                           style: kTitleStyle
                         ),
                       ),

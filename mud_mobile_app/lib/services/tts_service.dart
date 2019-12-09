@@ -21,9 +21,13 @@ class _TtsServiceState extends State<TtsService> {
 
   Future getData() async {
     List<Clusters> response = await ApiService.getAllClusters();
-    setState(() {
-      clusters = response;
-    });
+    if (response != null){
+      if (this.mounted){
+        setState(() {
+          clusters = response;
+        });
+      }
+    }
   }
 
   Future _speak(speek) async{

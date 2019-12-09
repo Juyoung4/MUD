@@ -18,58 +18,11 @@ class _ClusterMoreNewsState extends State<ClusterMoreNews> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final Clusters cluster;
   _ClusterMoreNewsState(this.cluster);
-  List<AllUserBookmarks> allUserBookmarks = List();
-  List<String> bookmarkNewsIds = List();
   Future _futureArticles;
   ArticlePagination articlePagination;
 
   getArticles() async {
-    await checkBookmarks();
     return await ApiService.getArticlesByClusterId(cluster.clusterId);
-  }
-
-
-  void createbookmark(newsId, headline, summary) async {
-    bool result = await ApiService.creatBookmark(newsId, headline, summary);
-    if (result){
-      setState(() {
-        bookmarkNewsIds.add(newsId);
-      });
-      print('Done');
-      _scaffoldKey.currentState.showSnackBar(
-      SnackBar(
-        content: Row(
-          children: <Widget>[
-            Icon(Icons.save_alt),
-            SizedBox(width: 5,),
-            Text('Saved'),
-          ],
-        ),
-        duration: Duration(seconds: 2),
-      ));
-    } else {
-      print('Not Done');
-      _scaffoldKey.currentState.showSnackBar(
-      SnackBar(
-        content: Row(
-          children: <Widget>[
-            Icon(Icons.error),
-            SizedBox(width: 5,),
-            Text('Opps Not saved'),
-          ],
-        ),
-        duration: Duration(seconds: 2),
-      ));
-    }
-  }
-
-  Future checkBookmarks() async {
-    allUserBookmarks = await ApiService.getBookmarksByUser();
-    if (allUserBookmarks?.isNotEmpty ?? false){
-      for (var i = 0; i < allUserBookmarks.length; i++){
-        bookmarkNewsIds.add(allUserBookmarks[i].newsId);
-      }
-    }
   }
 
   @override
@@ -115,7 +68,7 @@ class _ClusterMoreNewsState extends State<ClusterMoreNews> {
                               Navigator.pop(context);
                             },
                           ),
-                          Text('Today\'s News', style: kTitleStyleMain,),
+                          Text('NewSum', style: kTitleStyleMain,),
                           IconButton(
                             color: Colors.transparent,
                             icon: Icon(Icons.search, size: 36,),
@@ -133,9 +86,18 @@ class _ClusterMoreNewsState extends State<ClusterMoreNews> {
                           ),
                           color: Colors.white
                         ),
-                        padding: EdgeInsets.symmetric(vertical: 10),
+                        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                         margin: EdgeInsets.only(top: 10),
-                        child: Text('Read More', style: TextStyle(fontFamily: 'Pacifico', fontSize: 36, color: Color(0xFF398AE5), fontWeight: FontWeight.bold,))
+                        child: cluster.clusterHeadline != null ? Text(
+                          cluster.clusterHeadline, 
+                          style: TextStyle( 
+                            fontSize: 26, 
+                            color: Color(0xFF398AE5), 
+                            fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                        ) : Text('Cluster Headline')
                       )
                     ],
                   ),
@@ -191,26 +153,11 @@ class _ClusterMoreNewsState extends State<ClusterMoreNews> {
                                 articlePagination.results[index].headline,
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 18.0,
+                                  fontSize: 26.0,
                                   fontWeight: FontWeight.w600,
                                 ),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5.0,
-                            ),
-                            Container(
-                              child: Text(
-                                articlePagination.results[index].summary,
-                                style: TextStyle(
-                                  color: Colors.black87,
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 3,
                               ),
                             ),
                             SizedBox(
@@ -239,35 +186,8 @@ class _ClusterMoreNewsState extends State<ClusterMoreNews> {
                             Padding(
                               padding: const EdgeInsets.only(top: 5.0),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
-                                  RaisedGradientButton(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      children: <Widget>[
-                                        Icon(Icons.bookmark, color: Colors.white,),
-                                        Text('Bookmark', style: TextStyle(color: Colors.white),)
-                                      ],
-                                    ),
-                                    onPressed: !bookmarkNewsIds.contains(articlePagination.results[index].newsId) ? (){
-                                      createbookmark(
-                                        articlePagination.results[index].newsId,
-                                        articlePagination.results[index].headline,
-                                        articlePagination.results[index].summary,
-                                      );
-                                    } : (){},
-                                    gradient: LinearGradient(
-                                      colors: !bookmarkNewsIds.contains(articlePagination.results[index].newsId) ? [
-                                        Color(0xFF398AE5),
-                                        Color(0xFF73AEF5),
-                                      ] : [
-                                        Colors.grey,
-                                        Colors.grey
-                                      ],
-                                      begin: Alignment.bottomLeft,
-                                      end: Alignment.topRight
-                                    ),
-                                  ),
                                   RaisedGradientButton(
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceAround,
