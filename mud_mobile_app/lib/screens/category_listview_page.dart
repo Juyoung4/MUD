@@ -22,14 +22,11 @@ class _CategoryListViewState extends State<CategoryListView> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
  bool isSwitched = false;
  ArticlePagination articlePagination;
-  List<AllUserBookmarks> allUserBookmarks = List();
-  List<String> bookmarkNewsIds = List();
   Future getArticlesFuture;
   Future _futureAllCluster;
   List<Clusters> allClusters;
 
   Future getArticles() async {
-    await checkBookmarks();
     return await ApiService.getArticlesByCategory(widget.category);
   }
 
@@ -37,46 +34,7 @@ class _CategoryListViewState extends State<CategoryListView> {
     return await ApiService.getAllClustersByCategory(widget.category);
   }
 
-  void createbookmark(newsId, headline, summary) async {
-    bool result = await ApiService.creatBookmark(newsId, headline, summary);
-    if (result){
-      bookmarkNewsIds.add(newsId);
-      print('Done');
-      _scaffoldKey.currentState.showSnackBar(
-      SnackBar(
-        content: Row(
-          children: <Widget>[
-            Icon(Icons.save_alt),
-            SizedBox(width: 5,),
-            Text('Saved'),
-          ],
-        ),
-        duration: Duration(seconds: 2),
-      ));
-    } else {
-      print('Not Done');
-      _scaffoldKey.currentState.showSnackBar(
-      SnackBar(
-        content: Row(
-          children: <Widget>[
-            Icon(Icons.error),
-            SizedBox(width: 5,),
-            Text('Opps Not saved'),
-          ],
-        ),
-        duration: Duration(seconds: 2),
-      ));
-    }
-  }
 
-  Future checkBookmarks() async {
-    allUserBookmarks = await ApiService.getBookmarksByUser();
-    if (allUserBookmarks?.isNotEmpty ?? false){
-      for (var i = 0; i < allUserBookmarks.length; i++){
-        bookmarkNewsIds.add(allUserBookmarks[i].newsId);
-      }
-    }
-  }
 
   @override
   void initState() {
@@ -202,11 +160,9 @@ class _CategoryListViewState extends State<CategoryListView> {
                                 allClusters[index].clusterHeadline ?? 'Not Found',
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 18.0,
+                                  fontSize: 22.0,
                                   fontWeight: FontWeight.w600,
                                 ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 2,
                               ),
                             ),
                             SizedBox(
@@ -220,8 +176,6 @@ class _CategoryListViewState extends State<CategoryListView> {
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w400,
                                 ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 3,
                               ),
                             ),
                             SizedBox(
@@ -237,8 +191,18 @@ class _CategoryListViewState extends State<CategoryListView> {
                             Padding(
                               padding: const EdgeInsets.only(top: 5.0),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
+                                  Container(
+                                    child: Text(
+                                      'Category : ' + allClusters[index].clusterCategory ?? 'Not Found',
+                                      style: TextStyle(
+                                        color: Colors.black87,
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
                                   RaisedGradientButton(
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -316,7 +280,7 @@ class _CategoryListViewState extends State<CategoryListView> {
                                 articlePagination.results[index].headline,
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 18.0,
+                                  fontSize: 22.0,
                                   fontWeight: FontWeight.w600,
                                 ),
                                 overflow: TextOverflow.ellipsis,
@@ -364,35 +328,8 @@ class _CategoryListViewState extends State<CategoryListView> {
                             Padding(
                               padding: const EdgeInsets.only(top: 5.0),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
-                                  RaisedGradientButton(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      children: <Widget>[
-                                        Icon(Icons.bookmark, color: Colors.white,),
-                                        Text('Bookmark', style: TextStyle(color: Colors.white),)
-                                      ],
-                                    ),
-                                    onPressed: !bookmarkNewsIds.contains(articlePagination.results[index].newsId) ? (){
-                                      createbookmark(
-                                        articlePagination.results[index].newsId,
-                                        articlePagination.results[index].headline,
-                                        articlePagination.results[index].summary,
-                                      );
-                                    } : (){},
-                                    gradient: LinearGradient(
-                                      colors: !bookmarkNewsIds.contains(articlePagination.results[index].newsId) ? [
-                                        Color(0xFF398AE5),
-                                        Color(0xFF73AEF5),
-                                      ] : [
-                                        Colors.grey,
-                                        Colors.grey
-                                      ],
-                                      begin: Alignment.bottomLeft,
-                                      end: Alignment.topRight
-                                    ),
-                                  ),
                                   RaisedGradientButton(
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceAround,

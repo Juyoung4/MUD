@@ -417,12 +417,11 @@ class _ReadMoreNewsState extends State<ReadMoreNews> {
                                 )
                               ),
                               RaisedGradientButton(
-                                width: 150,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: <Widget>[
                                     Icon(Icons.chrome_reader_mode, color: Colors.white,),
-                                    Text('Read Article', style: TextStyle(color: Colors.white),)
+                                    Text('Article', style: TextStyle(color: Colors.white),)
                                   ],
                                 ),
                                 onPressed: (){

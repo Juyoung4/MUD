@@ -147,11 +147,9 @@ class _TimelineScreenState extends State<TimelineScreen> {
                                 clusters[index].clusterHeadline ?? 'Not Found',
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 18.0,
+                                  fontSize: 22.0,
                                   fontWeight: FontWeight.w600,
                                 ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 2,
                               ),
                             ),
                             SizedBox(
@@ -165,8 +163,6 @@ class _TimelineScreenState extends State<TimelineScreen> {
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w400,
                                 ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 3,
                               ),
                             ),
                             SizedBox(
@@ -182,8 +178,18 @@ class _TimelineScreenState extends State<TimelineScreen> {
                             Padding(
                               padding: const EdgeInsets.only(top: 5.0),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
+                                  Container(
+                                    child: Text(
+                                      'Category : ' + clusters[index].clusterCategory ?? 'Not Found',
+                                      style: TextStyle(
+                                        color: Colors.black87,
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
                                   RaisedGradientButton(
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -267,11 +273,9 @@ class _TimelineScreenState extends State<TimelineScreen> {
                                 allClusters[index].clusterHeadline ?? 'Not Found',
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 18.0,
+                                  fontSize: 22.0,
                                   fontWeight: FontWeight.w600,
                                 ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 2,
                               ),
                             ),
                             SizedBox(
@@ -285,8 +289,6 @@ class _TimelineScreenState extends State<TimelineScreen> {
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w400,
                                 ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 3,
                               ),
                             ),
                             SizedBox(
@@ -302,8 +304,18 @@ class _TimelineScreenState extends State<TimelineScreen> {
                             Padding(
                               padding: const EdgeInsets.only(top: 5.0),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
+                                  Container(
+                                    child: Text(
+                                      'Category : ' + allClusters[index].clusterCategory ?? 'Not Found',
+                                      style: TextStyle(
+                                        color: Colors.black87,
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
                                   RaisedGradientButton(
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceAround,

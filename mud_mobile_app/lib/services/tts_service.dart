@@ -32,7 +32,7 @@ class _TtsServiceState extends State<TtsService> {
 
   Future _speak(speek) async{
     await flutterTts.setLanguage("ko-KR");
-    await flutterTts.setPitch(0.6);
+    await flutterTts.setPitch(0.8);
     var result = await flutterTts.speak(speek);
     if (result == 1) setState(() => ttsState = TtsState.playing);
   }

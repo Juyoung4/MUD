@@ -1,14 +1,20 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:mud_mobile_app/models/api_models.dart';
+import 'package:mud_mobile_app/models/url_model.dart';
 import 'package:mud_mobile_app/services/auth_service.dart';
 
 class ApiService {
-  static final initialurl = "http://34.84.147.192:8000/news/";
+  static String initialurl = "http://34.84.147.192:8000/news/";
+  static bool gotUrl = false;
   static final defaultClusterId = '07f269a8-3ae6-4994-abfd-e2cb2d4633f3';
 
   static Future<List<Clusters>> getRecommends() async {
+    if (!gotUrl){
+      getInitialurl();
+    }
     List<Recommends> recommends = List();
     FirebaseUser user = await AuthService.getCurrentUser();
     final response = await http.get(
@@ -29,6 +35,9 @@ class ApiService {
   }
 
   static Future<List<Clusters>> getClustersByRecommends(recommendsList) async {
+    if (!gotUrl){
+      getInitialurl();
+    }
     List<Clusters> clusters = List();
     for (var i = 0; i < recommendsList.length; i++){
       final response = await http.get(
@@ -46,6 +55,9 @@ class ApiService {
   }
 
   static Future<ArticlePagination> getArticles(nextUrl) async {
+    if (!gotUrl){
+      getInitialurl();
+    }
     var url = initialurl + "articles/?format=json&limit=100";
     if (nextUrl != null) {
       url = nextUrl;
@@ -67,6 +79,9 @@ class ApiService {
   }
 
   static Future<ArticlePagination> getArticlesByClusterId(clusterId) async {
+    if (!gotUrl){
+      getInitialurl();
+    }
     var url = initialurl + "articles/?cluster_id=" + clusterId + "&format=json&limit=10";
     ArticlePagination articles;
     final response = await http.get(
@@ -85,6 +100,9 @@ class ApiService {
   }
 
   static Future<ArticlePagination> getArticlesByCategory(category) async {
+    if (!gotUrl){
+      getInitialurl();
+    }
     ArticlePagination articles;
     final response = await http.get(
       Uri.encodeFull(initialurl + "articles/?format=json&limit=100&category=" + category), 
@@ -102,6 +120,9 @@ class ApiService {
   }
 
   static Future getAllClusters() async {
+    if (!gotUrl){
+      getInitialurl();
+    }
     List<Clusters> clusters = List();
     final response = await http.get(
       Uri.encodeFull(initialurl + "clusters/?format=json&ordering=cluster_size"), 
@@ -121,6 +142,9 @@ class ApiService {
   }
 
   static Future getAllClustersByCategory(category) async {
+    if (!gotUrl){
+      getInitialurl();
+    }
     List<Clusters> clusters = List();
     final response = await http.get(
       Uri.encodeFull(initialurl + "clusters/?format=json&ordering=cluster_size&cluster_category=" + category), 
@@ -154,6 +178,9 @@ class ApiService {
   }
 
   static Future creatUser(uid) async {
+    if (!gotUrl){
+      getInitialurl();
+    }
     var jsonData = {"user_id" : uid};
     final response = await http.post(
       Uri.encodeFull(initialurl + "users/"), 
@@ -166,6 +193,9 @@ class ApiService {
   }
 
   static Future<List<UserRating>> getUserRating() async {
+    if (!gotUrl){
+      getInitialurl();
+    }
     List<UserRating> userRating = List();
     FirebaseUser user = await AuthService.getCurrentUser();
     final response = await http.get(
@@ -186,6 +216,9 @@ class ApiService {
   }
 
   static Future creatRating(score, newsId) async {
+    if (!gotUrl){
+      getInitialurl();
+    }
     FirebaseUser user = await AuthService.getCurrentUser();
     var jsonData = {
         "score": score,
@@ -204,6 +237,9 @@ class ApiService {
   }
 
   static Future updateRating(score, newsId, ratingId) async {
+    if (!gotUrl){
+      getInitialurl();
+    }
     FirebaseUser user = await AuthService.getCurrentUser();
     var jsonData = {
         "score": score,
@@ -222,6 +258,9 @@ class ApiService {
   }
 
   static Future<List<AllUserBookmarks>> getBookmarksByUser() async {
+    if (!gotUrl){
+      getInitialurl();
+    }
     List<Bookmarks> bookmarks = List();
     FirebaseUser user = await AuthService.getCurrentUser();
     final response = await http.get(
@@ -242,6 +281,9 @@ class ApiService {
   }
 
   static Future<List<AllUserBookmarks>> getBookmarks(bookmarks) async {
+    if (!gotUrl){
+      getInitialurl();
+    }
     List<AllUserBookmarks> allUserBookmarks = List();
     for (var i = 0; i < bookmarks.length; i++){
       final response = await http.get(
@@ -259,6 +301,9 @@ class ApiService {
   }
 
   static Future creatBookmark(newsId, headline, summary) async {
+    if (!gotUrl){
+      getInitialurl();
+    }
     AllUserBookmarks bookmark;
     var jsonData = {
         "headline": headline,
@@ -293,6 +338,9 @@ class ApiService {
   }
 
   static Future delBookmark(bookmarkId) async {
+    if (!gotUrl){
+      getInitialurl();
+    }
     final response = await http.delete(Uri.encodeFull(initialurl + "allbookmarks/" + bookmarkId + "/"));
     if (response.statusCode == 204){
       return true;
@@ -300,4 +348,11 @@ class ApiService {
     return false;
   }
 
+  static Future getInitialurl() async {
+    var snapshot = await Firestore.instance.collection('users').document('U7YjedM3diBYoOOAbUjG').get();
+    Url _url = snapshot.data as Url;
+    print(_url.url);
+    initialurl = _url.url;
+    gotUrl = true;
+  }
 }
