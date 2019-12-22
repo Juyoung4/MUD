@@ -1,5 +1,5 @@
-# DeepLearning을 이용한 뉴스 요약 서비스
-# NEWSSUM MOBILE APPLICATION
+# MachineLearning을 이용한 인공지능 뉴스 요약 서비스
+# NEWSUM MOBILE APPLICATION
 
 [![GitHub issues](https://img.shields.io/github/issues/Juyoung4/MUD)](https://github.com/Juyoung4/MUD/issues) [![GitHub forks](https://img.shields.io/github/forks/Juyoung4/MUD)](https://github.com/Juyoung4/MUD/network) [![GitHub stars](https://img.shields.io/github/stars/Juyoung4/MUD)](https://github.com/Juyoung4/MUD/stargazers) [![GitHub license](https://img.shields.io/github/license/Juyoung4/MUD)](https://github.com/Juyoung4/MUD/blob/master/LICENSE)
 
