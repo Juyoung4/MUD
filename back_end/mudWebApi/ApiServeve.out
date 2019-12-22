@@ -1,0 +1,480 @@
+Watching for file changes with StatReloader
+[17/Nov/2019 21:22:47] "GET /admin/ HTTP/1.1" 200 6081
+[17/Nov/2019 21:22:50] "GET /admin/newsArticles/userrating/ HTTP/1.1" 200 6535
+[17/Nov/2019 21:22:50] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:22:52] "GET /admin/newsArticles/userrating/f54d5958-ed03-42e0-af22-1907639d8a7c/change/ HTTP/1.1" 200 9952
+[17/Nov/2019 21:22:52] "GET /static/admin/css/forms.css HTTP/1.1" 200 8518
+[17/Nov/2019 21:22:52] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:22:52] "GET /static/admin/js/change_form.js HTTP/1.1" 200 712
+[17/Nov/2019 21:22:52] "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 495
+[17/Nov/2019 21:22:52] "GET /static/admin/css/widgets.css HTTP/1.1" 200 10340
+[17/Nov/2019 21:22:56] "GET /admin/newsArticles/userrating/ HTTP/1.1" 200 6535
+[17/Nov/2019 21:22:57] "GET /admin/newsArticles/userrating/95374699-2e1b-46d2-9e94-b3aa4b175a1c/change/ HTTP/1.1" 200 9952
+[17/Nov/2019 21:22:57] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:22:59] "GET /admin/newsArticles/userrating/ HTTP/1.1" 200 6535
+[17/Nov/2019 21:23:02] "GET /admin/newsArticles/ HTTP/1.1" 200 4826
+[17/Nov/2019 21:23:04] "GET /admin/newsArticles/recommend/ HTTP/1.1" 200 5211
+[17/Nov/2019 21:23:04] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+Internal Server Error: /admin/newsArticles/recommend/efcb85d1-b390-4c15-9624-0cf6efbe2cfb/change/
+Traceback (most recent call last):
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/core/handlers/base.py", line 145, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/core/handlers/base.py", line 143, in _get_response
+    response = response.render()
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/response.py", line 106, in render
+    self.content = self.rendered_content
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/response.py", line 83, in rendered_content
+    content = template.render(context, self._request)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 937, in render
+    bit = node.render_annotated(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 904, in render_annotated
+    return self.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 937, in render
+    bit = node.render_annotated(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 904, in render_annotated
+    return self.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 937, in render
+    bit = node.render_annotated(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 904, in render_annotated
+    return self.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/defaulttags.py", line 309, in render
+    return nodelist.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 937, in render
+    bit = node.render_annotated(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 904, in render_annotated
+    return self.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 937, in render
+    bit = node.render_annotated(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 904, in render_annotated
+    return self.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/defaulttags.py", line 309, in render
+    return nodelist.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 937, in render
+    bit = node.render_annotated(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 904, in render_annotated
+    return self.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 987, in render
+    output = self.filter_expression.resolve(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 698, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/defaultfilters.py", line 42, in _dec
+    args[0] = str(args[0])
+TypeError: __str__ returned non-string (type Cluster)
+[17/Nov/2019 21:23:05] "GET /admin/newsArticles/recommend/efcb85d1-b390-4c15-9624-0cf6efbe2cfb/change/ HTTP/1.1" 500 194207
+[17/Nov/2019 21:23:37] "GET /admin/ HTTP/1.1" 200 6081
+[17/Nov/2019 21:23:43] "GET /admin/newsArticles/recommend/ HTTP/1.1" 200 5211
+[17/Nov/2019 21:23:43] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+Internal Server Error: /admin/newsArticles/recommend/db5035bc-7dab-49e1-86da-83d8feb1b243/change/
+Traceback (most recent call last):
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/core/handlers/base.py", line 145, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/core/handlers/base.py", line 143, in _get_response
+    response = response.render()
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/response.py", line 106, in render
+    self.content = self.rendered_content
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/response.py", line 83, in rendered_content
+    content = template.render(context, self._request)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 937, in render
+    bit = node.render_annotated(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 904, in render_annotated
+    return self.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 937, in render
+    bit = node.render_annotated(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 904, in render_annotated
+    return self.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 937, in render
+    bit = node.render_annotated(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 904, in render_annotated
+    return self.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/defaulttags.py", line 309, in render
+    return nodelist.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 937, in render
+    bit = node.render_annotated(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 904, in render_annotated
+    return self.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 937, in render
+    bit = node.render_annotated(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 904, in render_annotated
+    return self.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/defaulttags.py", line 309, in render
+    return nodelist.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 937, in render
+    bit = node.render_annotated(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 904, in render_annotated
+    return self.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 987, in render
+    output = self.filter_expression.resolve(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 698, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/defaultfilters.py", line 42, in _dec
+    args[0] = str(args[0])
+TypeError: __str__ returned non-string (type Cluster)
+[17/Nov/2019 21:23:44] "GET /admin/newsArticles/recommend/db5035bc-7dab-49e1-86da-83d8feb1b243/change/ HTTP/1.1" 500 194207
+/home/ishangavidusha/MUD/back_end/mudWebApi/newsArticles/models.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+November 17, 2019 - 21:22:35
+Django version 2.2.7, using settings 'mudWebApi.settings'
+Starting development server at http://10.146.0.3:8000/
+Quit the server with CONTROL-C.
+Watching for file changes with StatReloader
+[17/Nov/2019 21:24:53] "GET /admin/newsArticles/recommend/db5035bc-7dab-49e1-86da-83d8feb1b243/change/ HTTP/1.1" 200 6655
+[17/Nov/2019 21:24:53] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:25:04] "GET /admin/newsArticles/recommend/ HTTP/1.1" 200 5211
+[17/Nov/2019 21:25:04] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:25:05] "GET /admin/newsArticles/recommend/db5035bc-7dab-49e1-86da-83d8feb1b243/change/ HTTP/1.1" 200 6655
+[17/Nov/2019 21:25:05] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:25:07] "GET /admin/newsArticles/recommend/ HTTP/1.1" 200 5211
+[17/Nov/2019 21:25:07] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:25:08] "GET /admin/newsArticles/ HTTP/1.1" 200 4826
+[17/Nov/2019 21:25:10] "GET /admin/newsArticles/user/ HTTP/1.1" 200 4720
+[17/Nov/2019 21:25:10] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:25:11] "GET /admin/newsArticles/user/aFbDe7m55DYtXMgcarlBFfEFhY21/change/ HTTP/1.1" 200 4334
+[17/Nov/2019 21:25:11] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:25:13] "GET /admin/newsArticles/ HTTP/1.1" 200 4826
+[17/Nov/2019 21:25:15] "GET /admin/newsArticles/userrating/ HTTP/1.1" 200 6535
+[17/Nov/2019 21:25:15] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:25:16] "GET /admin/newsArticles/userrating/f54d5958-ed03-42e0-af22-1907639d8a7c/change/ HTTP/1.1" 200 9952
+[17/Nov/2019 21:25:16] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:25:18] "GET /admin/newsArticles/ HTTP/1.1" 200 4826
+[17/Nov/2019 21:25:19] "GET /admin/newsArticles/recommend/ HTTP/1.1" 200 5211
+[17/Nov/2019 21:25:19] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:25:20] "GET /admin/newsArticles/recommend/efcb85d1-b390-4c15-9624-0cf6efbe2cfb/change/ HTTP/1.1" 200 6688
+[17/Nov/2019 21:25:20] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:25:22] "GET /admin/newsArticles/ HTTP/1.1" 200 4826
+[17/Nov/2019 21:25:23] "GET /admin/newsArticles/newssummary/ HTTP/1.1" 200 13305
+[17/Nov/2019 21:25:23] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:25:25] "GET /admin/newsArticles/newssummary/fc17670a-eb97-4c29-81b9-1327b30f9659/change/ HTTP/1.1" 200 8882
+[17/Nov/2019 21:25:25] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:25:25] "GET /static/admin/js/calendar.js HTTP/1.1" 200 7777
+[17/Nov/2019 21:25:25] "GET /static/admin/js/admin/DateTimeShortcuts.js HTTP/1.1" 200 20218
+[17/Nov/2019 21:25:25] "GET /static/admin/img/icon-deletelink.svg HTTP/1.1" 200 392
+[17/Nov/2019 21:25:25] "GET /static/admin/img/icon-clock.svg HTTP/1.1" 200 677
+[17/Nov/2019 21:25:25] "GET /static/admin/img/icon-calendar.svg HTTP/1.1" 200 1086
+[17/Nov/2019 21:25:28] "GET /admin/newsArticles/newssummary/ HTTP/1.1" 200 13305
+[17/Nov/2019 21:25:28] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:25:31] "GET /admin/newsArticles/ HTTP/1.1" 200 4826
+[17/Nov/2019 21:25:32] "GET /admin/newsArticles/favorite/ HTTP/1.1" 200 4530
+[17/Nov/2019 21:25:32] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+Internal Server Error: /admin/newsArticles/favorite/bc449e32-4da7-4493-b89a-671e8183c34f/change/
+Traceback (most recent call last):
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/core/handlers/base.py", line 145, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/core/handlers/base.py", line 143, in _get_response
+    response = response.render()
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/response.py", line 106, in render
+    self.content = self.rendered_content
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/response.py", line 83, in rendered_content
+    content = template.render(context, self._request)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 937, in render
+    bit = node.render_annotated(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 904, in render_annotated
+    return self.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 937, in render
+    bit = node.render_annotated(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 904, in render_annotated
+    return self.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 937, in render
+    bit = node.render_annotated(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 904, in render_annotated
+    return self.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/defaulttags.py", line 309, in render
+    return nodelist.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 937, in render
+    bit = node.render_annotated(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 904, in render_annotated
+    return self.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 937, in render
+    bit = node.render_annotated(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 904, in render_annotated
+    return self.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/defaulttags.py", line 309, in render
+    return nodelist.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 937, in render
+    bit = node.render_annotated(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 904, in render_annotated
+    return self.render(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 987, in render
+    output = self.filter_expression.resolve(context)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/base.py", line 698, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "/home/ishangavidusha/.local/lib/python3.6/site-packages/django/template/defaultfilters.py", line 42, in _dec
+    args[0] = str(args[0])
+TypeError: __str__ returned non-string (type NewsSummary)
+[17/Nov/2019 21:25:33] "GET /admin/newsArticles/favorite/bc449e32-4da7-4493-b89a-671e8183c34f/change/ HTTP/1.1" 500 194319
+/home/ishangavidusha/MUD/back_end/mudWebApi/newsArticles/models.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+November 17, 2019 - 21:24:52
+Django version 2.2.7, using settings 'mudWebApi.settings'
+Starting development server at http://10.146.0.3:8000/
+Quit the server with CONTROL-C.
+Watching for file changes with StatReloader
+[17/Nov/2019 21:26:00] "GET /admin/newsArticles/favorite/bc449e32-4da7-4493-b89a-671e8183c34f/change/ HTTP/1.1" 200 9536
+[17/Nov/2019 21:26:00] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:26:06] "GET /admin/newsArticles/favorite/ HTTP/1.1" 200 4530
+[17/Nov/2019 21:26:06] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:26:08] "GET /admin/newsArticles/ HTTP/1.1" 200 4826
+[17/Nov/2019 21:26:10] "GET /admin/newsArticles/cluster/ HTTP/1.1" 200 5187
+[17/Nov/2019 21:26:10] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:26:11] "GET /admin/newsArticles/cluster/4fd12a95-bb14-408b-b453-2d83d071da83/change/ HTTP/1.1" 200 5037
+[17/Nov/2019 21:26:11] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:26:13] "GET /admin/newsArticles/cluster/ HTTP/1.1" 200 5187
+[17/Nov/2019 21:26:13] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:26:13] "GET /admin/newsArticles/cluster/4fd12a95-bb14-408b-b453-2d83d071da83/change/ HTTP/1.1" 200 5037
+[17/Nov/2019 21:26:14] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:26:14] "GET /admin/newsArticles/cluster/ HTTP/1.1" 200 5187
+[17/Nov/2019 21:26:14] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:26:15] "GET /admin/newsArticles/cluster/01873b9c-244d-4744-afb9-3a2dc34dbfd1/change/ HTTP/1.1" 200 4953
+[17/Nov/2019 21:26:16] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:26:17] "GET /admin/newsArticles/cluster/ HTTP/1.1" 200 5187
+[17/Nov/2019 21:26:17] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:26:18] "GET /admin/newsArticles/cluster/0df0722f-4fe8-4cb5-a63a-4d404f1b2d8f/change/ HTTP/1.1" 200 5037
+[17/Nov/2019 21:26:18] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:26:19] "GET /admin/newsArticles/cluster/ HTTP/1.1" 200 5187
+[17/Nov/2019 21:26:19] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:26:20] "GET /admin/newsArticles/ HTTP/1.1" 200 4826
+[17/Nov/2019 21:26:44] "GET /news/rating/ HTTP/1.1" 200 20335
+[17/Nov/2019 21:27:08] "GET /admin/ HTTP/1.1" 302 0
+[17/Nov/2019 21:27:08] "GET /admin/login/?next=/admin/ HTTP/1.1" 200 1823
+[17/Nov/2019 21:27:37] "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+[17/Nov/2019 21:27:37] "GET /admin/ HTTP/1.1" 200 6081
+[17/Nov/2019 21:27:41] "GET /admin/newsArticles/userrating/ HTTP/1.1" 200 6535
+[17/Nov/2019 21:27:41] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:27:50] "POST /admin/newsArticles/userrating/ HTTP/1.1" 200 3677
+[17/Nov/2019 21:27:50] "GET /static/admin/js/cancel.js HTTP/1.1" 200 409
+[17/Nov/2019 21:27:56] "POST /admin/newsArticles/userrating/ HTTP/1.1" 302 0
+[17/Nov/2019 21:27:56] "GET /admin/newsArticles/userrating/ HTTP/1.1" 200 6075
+[17/Nov/2019 21:27:56] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:27:56] "GET /static/admin/img/icon-yes.svg HTTP/1.1" 200 436
+[17/Nov/2019 21:28:00] "GET /news/rating/ HTTP/1.1" 200 19813
+[17/Nov/2019 21:28:03] "GET /news/rating/ HTTP/1.1" 200 19813
+[17/Nov/2019 21:28:04] "GET /news/rating/ HTTP/1.1" 200 19813
+[17/Nov/2019 21:28:04] "GET /news/rating/ HTTP/1.1" 200 19813
+[17/Nov/2019 21:28:04] "GET /news/rating/ HTTP/1.1" 200 19813
+[17/Nov/2019 21:28:04] "GET /news/rating/ HTTP/1.1" 200 19813
+[17/Nov/2019 21:28:04] "GET /news/rating/ HTTP/1.1" 200 19813
+[17/Nov/2019 21:28:05] "GET /news/rating/ HTTP/1.1" 200 19813
+[17/Nov/2019 21:28:05] "GET /news/rating/ HTTP/1.1" 200 19813
+[17/Nov/2019 21:28:05] "GET /news/rating/ HTTP/1.1" 200 19813
+[17/Nov/2019 21:28:06] "GET /news/rating/ HTTP/1.1" 200 19813
+[17/Nov/2019 21:28:06] "GET /news/rating/ HTTP/1.1" 200 19813
+[17/Nov/2019 21:28:06] "GET /news/rating/ HTTP/1.1" 200 19813
+[17/Nov/2019 21:28:07] "GET /news/rating/ HTTP/1.1" 200 19813
+[17/Nov/2019 21:28:07] "GET /news/rating/ HTTP/1.1" 200 19813
+[17/Nov/2019 21:28:07] "GET /news/rating/ HTTP/1.1" 200 19813
+[17/Nov/2019 21:28:37] "GET /admin/ HTTP/1.1" 200 6598
+[17/Nov/2019 21:28:39] "POST /admin/newsArticles/userrating/ HTTP/1.1" 200 3677
+[17/Nov/2019 21:28:40] "POST /admin/newsArticles/userrating/ HTTP/1.1" 302 0
+[17/Nov/2019 21:28:40] "GET /admin/newsArticles/userrating/ HTTP/1.1" 200 5487
+[17/Nov/2019 21:28:41] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:28:44] "GET /admin/newsArticles/userrating/ HTTP/1.1" 200 5359
+[17/Nov/2019 21:28:44] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:28:45] "GET /news/rating/ HTTP/1.1" 200 19257
+[17/Nov/2019 21:29:00] "POST /admin/newsArticles/userrating/ HTTP/1.1" 200 3677
+[17/Nov/2019 21:29:01] "POST /admin/newsArticles/userrating/ HTTP/1.1" 302 0
+[17/Nov/2019 21:29:01] "GET /admin/newsArticles/userrating/ HTTP/1.1" 200 4899
+[17/Nov/2019 21:29:01] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:29:05] "GET /news/rating/ HTTP/1.1" 200 18701
+[17/Nov/2019 21:30:06] "GET /news/articles/ HTTP/1.1" 200 44291
+[17/Nov/2019 21:30:11] "GET /news/articles/ HTTP/1.1" 200 44291
+[17/Nov/2019 21:30:34] "GET /news/rating/ HTTP/1.1" 200 18701
+[17/Nov/2019 21:31:01] "POST /news/rating/ HTTP/1.1" 201 157
+[17/Nov/2019 21:31:04] "GET /news/rating/ HTTP/1.1" 200 18979
+[17/Nov/2019 21:31:15] "GET /news/articles/ HTTP/1.1" 200 44291
+Bad Request: /news/rating/
+[17/Nov/2019 21:31:37] "POST /news/rating/ HTTP/1.1" 400 92
+[17/Nov/2019 21:31:38] "GET /admin/newsArticles/userrating/ HTTP/1.1" 200 5065
+[17/Nov/2019 21:31:38] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:31:39] "GET /admin/newsArticles/userrating/ HTTP/1.1" 200 5065
+[17/Nov/2019 21:31:39] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:31:41] "GET /admin/newsArticles/userrating/f54d5958-ed03-42e0-af22-1907639d8a7c/change/ HTTP/1.1" 200 9952
+[17/Nov/2019 21:31:42] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:31:49] "GET /admin/newsArticles/ HTTP/1.1" 200 4826
+[17/Nov/2019 21:31:52] "GET /admin/ HTTP/1.1" 200 7566
+[17/Nov/2019 21:31:59] "POST /news/rating/ HTTP/1.1" 201 157
+[17/Nov/2019 21:32:02] "GET /news/rating/ HTTP/1.1" 200 19257
+[17/Nov/2019 21:32:33] "POST /news/rating/ HTTP/1.1" 201 157
+[17/Nov/2019 21:32:57] "POST /news/rating/ HTTP/1.1" 201 157
+[17/Nov/2019 21:33:13] "POST /news/rating/ HTTP/1.1" 201 157
+[17/Nov/2019 21:33:13] "GET /admin/newsArticles/userrating/ HTTP/1.1" 200 6241
+[17/Nov/2019 21:33:13] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:33:17] "GET /news/rating/ HTTP/1.1" 200 20091
+[17/Nov/2019 21:33:24] "GET /admin/newsArticles/ HTTP/1.1" 200 4826
+[17/Nov/2019 21:33:26] "GET /admin/ HTTP/1.1" 200 7566
+[17/Nov/2019 21:33:28] "GET /admin/auth/user/ HTTP/1.1" 200 6622
+[17/Nov/2019 21:33:28] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:33:29] "GET /static/admin/img/search.svg HTTP/1.1" 200 458
+[17/Nov/2019 21:33:29] "GET /static/admin/img/icon-yes.svg HTTP/1.1" 200 436
+[17/Nov/2019 21:33:29] "GET /static/admin/img/sorting-icons.svg HTTP/1.1" 200 1097
+[17/Nov/2019 21:33:40] "GET /news/rating/ HTTP/1.1" 200 1107
+[17/Nov/2019 21:33:40] "GET /news/articles/ HTTP/1.1" 200 20210
+[17/Nov/2019 21:33:45] "GET /admin/auth/ HTTP/1.1" 200 2972
+[17/Nov/2019 21:33:54] "GET /news/rating/ HTTP/1.1" 200 1107
+[17/Nov/2019 21:33:54] "GET /news/articles/ HTTP/1.1" 200 20210
+[17/Nov/2019 21:34:13] "GET /news/rating/ HTTP/1.1" 200 1107
+[17/Nov/2019 21:34:13] "GET /news/articles/ HTTP/1.1" 200 20210
+[17/Nov/2019 21:35:04] "GET /admin/ HTTP/1.1" 200 7566
+[17/Nov/2019 21:35:08] "GET /admin/newsArticles/userrating/ HTTP/1.1" 200 6241
+[17/Nov/2019 21:35:08] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:35:12] "GET /admin/ HTTP/1.1" 200 7566
+[17/Nov/2019 21:35:14] "GET /admin/newsArticles/user/ HTTP/1.1" 200 4720
+[17/Nov/2019 21:35:14] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 21:35:23] "GET /admin/ HTTP/1.1" 200 7566
+Not Found: /
+[17/Nov/2019 21:35:41] "GET / HTTP/1.1" 404 2033
+[17/Nov/2019 21:35:49] "GET /news HTTP/1.1" 301 0
+[17/Nov/2019 21:35:49] "GET /news/ HTTP/1.1" 200 17
+[17/Nov/2019 21:35:57] "POST /news/rating/ HTTP/1.1" 201 157
+[17/Nov/2019 21:36:11] "GET /news/rating/ HTTP/1.1" 200 1265
+[17/Nov/2019 21:36:35] "GET /news/ HTTP/1.1" 200 17
+[17/Nov/2019 21:36:40] "GET /news/clusters HTTP/1.1" 301 0
+[17/Nov/2019 21:36:40] "GET /news/clusters/ HTTP/1.1" 200 11245
+[17/Nov/2019 21:36:41] "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3385
+[17/Nov/2019 21:36:41] "GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
+[17/Nov/2019 21:36:41] "GET /static/rest_framework/css/default.css HTTP/1.1" 200 1131
+[17/Nov/2019 21:36:41] "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3597
+[17/Nov/2019 21:36:41] "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+[17/Nov/2019 21:36:41] "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1719
+[17/Nov/2019 21:36:41] "GET /static/rest_framework/js/jquery-3.4.1.min.js HTTP/1.1" 200 88145
+[17/Nov/2019 21:36:41] "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 37608
+[17/Nov/2019 21:36:41] "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+[17/Nov/2019 21:36:41] "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+[17/Nov/2019 21:36:41] "GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
+[17/Nov/2019 21:36:41] "GET /static/rest_framework/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 200 18028
+[17/Nov/2019 21:36:58] "GET /news/rating/ HTTP/1.1" 200 1265
+[17/Nov/2019 21:37:23] "GET /news/rating HTTP/1.1" 301 0
+[17/Nov/2019 21:37:23] "GET /news/rating/ HTTP/1.1" 200 20369
+[17/Nov/2019 21:37:32] "GET /news/rating/ HTTP/1.1" 200 1265
+[17/Nov/2019 21:37:44] "GET /news/rating/ HTTP/1.1" 200 1265
+[17/Nov/2019 21:38:07] "GET /news/rating/ HTTP/1.1" 200 1265
+[17/Nov/2019 21:39:24] "GET /news/rating/ HTTP/1.1" 200 1265
+[17/Nov/2019 21:40:14] "GET /news/rating/ HTTP/1.1" 200 1265
+[17/Nov/2019 21:41:24] "GET /news/rating/ HTTP/1.1" 200 1265
+[17/Nov/2019 21:41:51] "GET /news/rating/ HTTP/1.1" 200 1265
+[17/Nov/2019 21:42:10] "GET /news/rating/ HTTP/1.1" 200 1265
+[17/Nov/2019 21:42:34] "GET /news/rating/ HTTP/1.1" 200 1265
+[17/Nov/2019 21:44:01] "GET /news/rating/ HTTP/1.1" 200 1265
+[17/Nov/2019 21:49:50] "GET /news/rating/ HTTP/1.1" 200 20369
+[17/Nov/2019 22:39:15] "GET /admin HTTP/1.1" 301 0
+[17/Nov/2019 22:39:16] "GET /admin/ HTTP/1.1" 302 0
+[17/Nov/2019 22:39:16] "GET /admin/login/?next=/admin/ HTTP/1.1" 200 1823
+[17/Nov/2019 22:39:19] "GET /admin HTTP/1.1" 301 0
+[17/Nov/2019 22:39:19] "GET /admin/ HTTP/1.1" 302 0
+[17/Nov/2019 22:39:19] "GET /admin/login/?next=/admin/ HTTP/1.1" 200 1823
+[17/Nov/2019 22:39:19] "GET /static/admin/css/base.css HTTP/1.1" 200 16378
+[17/Nov/2019 22:39:19] "GET /static/admin/css/login.css HTTP/1.1" 200 1233
+[17/Nov/2019 22:39:19] "GET /static/admin/css/responsive.css HTTP/1.1" 200 17944
+[17/Nov/2019 22:39:19] "GET /static/admin/css/fonts.css HTTP/1.1" 200 423
+Not Found: /favicon.ico
+[17/Nov/2019 22:39:20] "GET /favicon.ico HTTP/1.1" 404 2084
+[17/Nov/2019 22:39:20] "GET /static/admin/fonts/Roboto-Light-webfont.woff HTTP/1.1" 200 85692
+[17/Nov/2019 22:39:20] "GET /static/admin/fonts/Roboto-Regular-webfont.woff HTTP/1.1" 200 85876
+[17/Nov/2019 22:39:26] "GET /admin HTTP/1.1" 301 0
+[17/Nov/2019 22:39:26] "GET /admin/ HTTP/1.1" 302 0
+[17/Nov/2019 22:39:27] "GET /admin/login/?next=/admin/ HTTP/1.1" 200 1823
+[17/Nov/2019 22:39:27] "GET /static/admin/css/base.css HTTP/1.1" 200 16378
+[17/Nov/2019 22:39:27] "GET /static/admin/css/login.css HTTP/1.1" 200 1233
+[17/Nov/2019 22:39:27] "GET /static/admin/css/responsive.css HTTP/1.1" 200 17944
+[17/Nov/2019 22:39:27] "GET /static/admin/css/fonts.css HTTP/1.1" 200 423
+[17/Nov/2019 22:39:27] "GET /static/admin/fonts/Roboto-Light-webfont.woff HTTP/1.1" 200 85692
+Not Found: /favicon.ico
+[17/Nov/2019 22:39:27] "GET /favicon.ico HTTP/1.1" 404 2084
+[17/Nov/2019 22:39:27] "GET /static/admin/fonts/Roboto-Regular-webfont.woff HTTP/1.1" 200 85876
+[17/Nov/2019 22:39:40] "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+[17/Nov/2019 22:39:41] "GET /admin/ HTTP/1.1" 200 7566
+[17/Nov/2019 22:39:41] "GET /static/admin/css/dashboard.css HTTP/1.1" 200 412
+[17/Nov/2019 22:39:41] "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+[17/Nov/2019 22:39:41] "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+[17/Nov/2019 22:39:41] "GET /static/admin/img/icon-deletelink.svg HTTP/1.1" 200 392
+[17/Nov/2019 22:39:41] "GET /static/admin/fonts/Roboto-Bold-webfont.woff HTTP/1.1" 200 86184
+[17/Nov/2019 22:39:49] "GET /admin/newsArticles/newssummary/ HTTP/1.1" 200 13305
+[17/Nov/2019 22:39:49] "GET /static/admin/css/changelists.css HTTP/1.1" 200 6170
+[17/Nov/2019 22:39:49] "GET /static/admin/js/core.js HTTP/1.1" 200 7099
+[17/Nov/2019 22:39:49] "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 363
+[17/Nov/2019 22:39:49] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+[17/Nov/2019 22:39:49] "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 6918
+[17/Nov/2019 22:39:49] "GET /static/admin/js/actions.js HTTP/1.1" 200 6766
+[17/Nov/2019 22:39:49] "GET /static/admin/js/urlify.js HTTP/1.1" 200 8941
+[17/Nov/2019 22:39:49] "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1530
+[17/Nov/2019 22:39:49] "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 271817
+[17/Nov/2019 22:39:49] "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 128820
+[17/Nov/2019 22:39:50] "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 200 331
+[17/Nov/2019 22:39:58] "GET /admin/ HTTP/1.1" 200 7566
+[17/Nov/2019 22:39:59] "GET /admin/login/?next=/admin/ HTTP/1.1" 302 0
+[17/Nov/2019 22:40:00] "GET /admin/ HTTP/1.1" 200 7566
+Not Found: /favicon.ico
+[17/Nov/2019 23:42:07] "GET /favicon.ico HTTP/1.1" 404 2084
+[18/Nov/2019 00:13:36] "GET /news/articles/ HTTP/1.1" 200 44257
+[18/Nov/2019 00:13:36] "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+[18/Nov/2019 00:13:36] "GET /static/rest_framework/css/prettify.css HTTP/1.1" 304 0
+[18/Nov/2019 00:13:36] "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 304 0
+[18/Nov/2019 00:13:36] "GET /static/rest_framework/css/default.css HTTP/1.1" 304 0
+[18/Nov/2019 00:13:36] "GET /static/rest_framework/js/jquery-3.4.1.min.js HTTP/1.1" 200 88145
+[18/Nov/2019 00:13:36] "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 304 0
+[18/Nov/2019 00:13:36] "GET /static/rest_framework/js/csrf.js HTTP/1.1" 304 0
+[18/Nov/2019 00:13:36] "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 37608
+[18/Nov/2019 00:13:36] "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 304 0
+[18/Nov/2019 00:13:36] "GET /static/rest_framework/js/default.js HTTP/1.1" 304 0
+[18/Nov/2019 00:13:42] "GET /news/clusters/ HTTP/1.1" 200 11211
+[18/Nov/2019 00:13:44] "GET /static/rest_framework/img/grid.png HTTP/1.1" 304 0
+[18/Nov/2019 00:13:45] "GET /static/rest_framework/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 304 0
+Not Found: /favicon.ico
+[18/Nov/2019 00:13:46] "GET /favicon.ico HTTP/1.1" 404 2084
+[18/Nov/2019 00:13:58] "GET /news/recommend/ HTTP/1.1" 200 12075
