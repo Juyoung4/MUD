@@ -3,7 +3,7 @@
 
 [![GitHub issues](https://img.shields.io/github/issues/Juyoung4/MUD)](https://github.com/Juyoung4/MUD/issues) [![GitHub forks](https://img.shields.io/github/forks/Juyoung4/MUD)](https://github.com/Juyoung4/MUD/network) [![GitHub stars](https://img.shields.io/github/stars/Juyoung4/MUD)](https://github.com/Juyoung4/MUD/stargazers) [![GitHub license](https://img.shields.io/github/license/Juyoung4/MUD)](https://github.com/Juyoung4/MUD/blob/master/LICENSE)
 
-#### HUFS 2019 정보통신기초종합설계 프로젝트
+#### [HUFS 2019 정보통신기초종합설계 프로젝트](http://mclab.hufs.ac.kr/wiki/Lectures/CAP/2019/Results/Team_MUD)
 
 본 문서는 묶음 뉴스 요약 본 제공 서비스인 Newsum Application시스템의 요구사항정의서에 대한 상세 설계를 기술한 것이다. 시스템의 인터페이스와 서비스 측면에서 Deep Learning을 이용한 헤드라인 생성 서비스, Lexrank 알고리즘을 이용한 컨텐츠 생성 서비스 개인화 맞춤 뉴스 추천 서비스 등에 대한 상세 설계 방법을 기술하고 있다.
 
