@@ -1,0 +1,41 @@
+제일 먼저 텍스트 마이닝 이란?
+텍스트 마이닝은 텍스트로부터 유의미한 정보를 추출하는 과정을 말합니다.
+텍스트분석 + 데이터마이닝 = 텍스트 마이닝 입니다.
+
+정확히는 연관성, 참신성, 흥미성이 있는 정보를 텍스트에서 추출하여 정보의 속성을 얻는 과정입니다.
+텍스트 마이닝의 핵심은 자연어처리 기술과 다양한 분석 기법을 이용하여 텍스트를 분석 가능한 데이터로 변화하는 것이라고 할 수 있습니다.
+
+
+텍스트마이닝을 활용한 대표적인 작업은 다음과 같습니다.
+
+(x)감성 분석 : 텍스트에 표현된 긍부정 감성을 인식하는 일로 오피니언 마이닝이라고도 불립니다.
+개념 추출 : 텍스트의 내용 혹은 의미를 요약하거나 대표할 수 있는 개체명을 인식하고 추출합니다.
+텍스트 분류 : 주어진 학습 자료로부터 기계학습을 통해 분류 모델을 구축하여 Labeling 합니다.
+텍스트 군집 : 학습 자료 없이 텍스트에서 속성을 추출하여 비슷한 텍스트 끼리 묶습니다.
+텍스트 요약 : 긴 텍스트를 짧은 텍스트로 요약
+개체 관계 모델링 : 텍스트에서 추출한 개체관의 관계를 인식
+
+
+1. 텍스트 마이닝(영화 리뷰 요약)
+ https://m.blog.naver.com/PostView.nhn?blogId=imsam77&logNo=221260229647&proxyReferer=https%3A%2F%2Fwww.google.com%2F
+
+2. 형태소 분석 개념
+https://www.stechstar.com/user/zbxe/index.php?mid=AlgorithmPython&category=11781&document_srl=51460
+
+**텍스트 마이닝 개념
+http://intothedata.com/02.scholar_category/text_mining/
+https://www.ibm.com/support/knowledgecenter/ko/SS3RA7_sub/ta_guide_ddita/textmining/shared_entities/tm_intro_tm_defined.html
+
+3. 텍스트 마이닝을 위한 튜토리얼
+->https://github.com/lovit/textmining-tutorial
+->https://replet.tistory.com/19?category=667742
+->https://brunch.co.kr/@castlefive/6
+->https://imyeonn.github.io/blog/blog/169/
+
+4. 한국어 자연어 처리를 위한 파이썬 라이브러리
+https://github.com/lovit/soynlp
+
+5. 자연어처리 입문(딥러닝)
+https://wikidocs.net/22530
+
+
