@@ -16,7 +16,7 @@
   - NEWSUM APP - Google Flutter 이용한 Android/iOS APP은 User가 service를 제공받기 위한 User Interface이다 
   - APPLICATION SERVER - Linux Server는 Django rest framework를 통해 User Interface, Newsum server와 HTTP 통신하여 DB에 대해 CRUD 할 수 있다
 
-### NewsSum uses a number of Aplications to work properly:
+### NewSum uses a number of Aplications to work properly:
 
 * [Flutter](https://github.com/flutter/flutter/blob/master/README.md) - Mobile Application
 * [Django](https://www.djangoproject.com/) - Backend Server
