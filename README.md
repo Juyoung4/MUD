@@ -1,7 +1,7 @@
 # MachineLearning을 이용한 인공지능 뉴스 요약 서비스
 # NEWSUM MOBILE APPLICATION
 
-[![GitHub issues](https://img.shields.io/github/issues/Juyoung4/MUD)](https://github.com/Juyoung4/MUD/issues) [![GitHub forks](https://img.shields.io/github/forks/Juyoung4/MUD)](https://github.com/Juyoung4/MUD/network) [![GitHub stars](https://img.shields.io/github/stars/Juyoung4/MUD)](https://github.com/Juyoung4/MUD/stargazers) [![GitHub license](https://img.shields.io/github/license/Juyoung4/MUD)](https://github.com/Juyoung4/MUD/blob/master/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/Juyoung4/MUD)](https://github.com/Juyoung4/MUD/issues) [![GitHub forks](https://img.shields.io/github/forks/Juyoung4/MUD)](https://github.com/Juyoung4/MUD/network) [![GitHub stars](https://img.shields.io/github/stars/Juyoung4/MUD)](https://github.com/Juyoung4/MUD/stargazers) [![GitHub license](https://img.shields.io/github/license/Juyoung4/MUD)](https://github.com/Juyoung4/MUD/blob/master/LICENSE) [![Django](https://img.shields.io/badge/Django-Python-orange?logo=Django)](https://www.djangoproject.com/) [![Flutter](https://img.shields.io/badge/Flutter-mobile-blue?logo=Flutter)](https://flutter.dev/) [![Google](https://img.shields.io/badge/Google-Cloude%20Server-yellow?logo=google)](https://cloud.google.com/) 
 
 #### [HUFS 2019 정보통신기초종합설계 프로젝트](http://mclab.hufs.ac.kr/wiki/Lectures/CAP/2019/Results/Team_MUD)
 
