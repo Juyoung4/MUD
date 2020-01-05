@@ -1,0 +1,36 @@
+# import random
+# import requests
+# import json
+#
+# import pandas as pd
+# recommend = requests.get(url="http://34.84.147.192:8000/news/recommend/").json()
+# # count = articles['count']
+# # print(count)
+#
+# #articles = requests.get(url="http://34.84.147.192:8000/news/articles/?format=json&limit=" + str(count)).json()
+# #d = pd.DataFrame(articles['results'])
+# #news=d['news_id'].to_list()
+# #print(len(news))
+#
+# reco = pd.DataFrame(recommend)
+# user = reco['user_id'].to_list()
+# for userid in user:
+#     res = requests.delete(url='http://34.84.147.192:8000/news/' + 'recommend/' + userid + '/')
+import random
+import requests
+import json
+
+import pandas as pd
+articles = requests.get(url="http://34.84.147.192:8000/news/users/?format=json").json()
+#count = articles['count']
+print(articles)
+
+# articles = requests.get(url="http://34.84.147.192:8000/news/articles/?format=json&limit=" + str(count)).json()
+#d = pd.DataFrame(articles['results'])
+d = pd.DataFrame(articles)
+news=d['user_id'].to_list()
+print(news)
+# print(len(news))
+for newsId in news:
+    res = requests.delete(url='http://34.84.147.192:8000/news/' + 'users/' + newsId + '/')
+print(news)
